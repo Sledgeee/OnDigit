@@ -1,0 +1,38 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using OnDigit.Core.Models.OrderEditionModel;
+
+namespace OnDigit.Core.Models.OrderModel
+{
+    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    {
+        public void Configure(EntityTypeBuilder<Order> builder)
+        {
+            builder.HasKey(o => o.Id);
+
+            builder
+                .Property(o => o.TotalPrice)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
+
+            builder
+                .Property(o => o.DateOrder)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder
+                .HasMany(e => e.Editions)
+                .WithMany(o => o.Orders)
+                .UsingEntity<OrderEdition>(
+                j => j
+                    .HasOne(oe => oe.Edition)
+                    .WithMany(e => e.OrdersEditions)
+                    .HasForeignKey(oe => oe.EditionId)
+                    .OnDelete(DeleteBehavior.ClientCascade),
+                j => j
+                    .HasOne(oe => oe.Order)
+                    .WithMany(o => o.OrdersEditions)
+                    .HasForeignKey(oe => oe.OrderId)
+                    .OnDelete(DeleteBehavior.ClientCascade));
+        }
+    }
+}

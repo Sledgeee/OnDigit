@@ -1,0 +1,34 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace OnDigit.Core.Models.ReviewModel
+{
+    public class ReviewConfiguration : IEntityTypeConfiguration<Review>
+    {
+        public void Configure(EntityTypeBuilder<Review> builder)
+        {
+            builder.HasKey(r => r.Id);
+
+            builder
+                .Property(r => r.Text)
+                .IsRequired();
+
+            builder
+                .Property(r => r.Stars)
+                .IsRequired();
+
+            builder
+                .Property(r => r.DateCreated)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .IsRequired();
+
+            builder
+                .Property(r => r.UserId)
+                .IsRequired();
+
+            builder
+                .Property(r => r.EditionId)
+                .IsRequired();
+        }
+    }
+}
