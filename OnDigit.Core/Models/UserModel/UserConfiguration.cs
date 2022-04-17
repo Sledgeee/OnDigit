@@ -57,9 +57,9 @@ namespace OnDigit.Core.Models.UserModel
                 .IsRequired();
 
             builder
-                .HasOne(s => s.Session)
+                .HasMany(s => s.Sessions)
                 .WithOne(u => u.User)
-                .HasForeignKey<Session>(s => s.UserId)
+                .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.ClientCascade);
         }
     }

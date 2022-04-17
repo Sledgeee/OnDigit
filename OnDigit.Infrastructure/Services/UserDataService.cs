@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using OnDigit.Core.Models.UserModel;
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Infrastructure.Data;
-using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.UserFavoritesModel;
 using OnDigit.Core.Models.UserLoginHistoryModel;
+using OnDigit.Core.Models.SessionModel;
+using Microsoft.Win32;
+using System;
 
 namespace OnDigit.Infrastructure.Services
 {
@@ -89,6 +91,46 @@ namespace OnDigit.Infrastructure.Services
             using (OnDigitDbContext context = _contextFactory.CreateDbContext())
             {
                 return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
+            }
+        }
+
+        public async Task SetRememberMeStatus(string userId)
+        {
+            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
+            {
+                var pcId = Guid.NewGuid().ToString();
+
+                using var key = Registry.CurrentUser.CreateSubKey("OnDigitSession");
+                key.SetValue("pcId", pcId);
+                key.SetValue("userId", userId);
+                key.Close();
+                
+                await context.Sessions.AddAsync(new Session()
+                {
+                    UserId = userId,
+                    MACHINE_KEY = pcId,
+                    StartDate = DateTime.UtcNow,
+                    EndDate = DateTime.UtcNow.AddDays(1),
+                    IsCanceledInAdvance = false
+                });
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Session> GetSessionInfo(string pcId, string userId)
+        {
+            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
+            {
+                return await context.Sessions.Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).FirstOrDefaultAsync();
+            }
+        }
+
+        public async Task UpdateSessionInfo(Session session)
+        {
+            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
+            {
+                context.Sessions.Update(session);
+                await context.SaveChangesAsync();
             }
         }
     }

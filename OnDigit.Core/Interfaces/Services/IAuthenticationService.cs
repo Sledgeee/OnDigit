@@ -15,6 +15,6 @@ namespace OnDigit.Core.Interfaces.Services
     public interface IAuthenticationService
     {
         Task<RegistrationResult> Register(string email, string password, string confirmPassword, string name, string surname, string gender);
-        Task<User> Login(string email, string password);
+        Task<User> Login(string email, string password, bool? rememberMe);
     }
 }

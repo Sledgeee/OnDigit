@@ -27,7 +27,7 @@ namespace OnDigit.Client.Windows.Auth
             this.Close();
         }
 
-        public Task SpawnTextBlock(string message)
+        public Task SetError(string message)
         {
             ExceptionsPanel.Children.Add(new TextBlock()
             {
@@ -36,7 +36,8 @@ namespace OnDigit.Client.Windows.Auth
                 FontWeight = FontWeights.SemiBold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Foreground = Brushes.DarkRed,
-                Text = message
+                Text = message,
+                TextWrapping = TextWrapping.Wrap
             });
             return Task.CompletedTask;
         }
@@ -46,7 +47,7 @@ namespace OnDigit.Client.Windows.Auth
             ExceptionsPanel.Children.Clear();
             try
             {
-                var user = await _authenticationService.Login(txtEmail.Text, txtPassword.Password);
+                var user = await _authenticationService.Login(txtEmail.Text, txtPassword.Password, RememberMeCheck.IsChecked);
                 _mainWindow.CurrentUser = user;
                 this.Close();
             }
@@ -54,12 +55,12 @@ namespace OnDigit.Client.Windows.Auth
             {
                 foreach (Exception innerException in ex.InnerExceptions)
                 {
-                    await SpawnTextBlock(innerException.Message);
+                    await SetError(innerException.Message);
                 }
             }
             catch (Exception ex)
             {
-                await SpawnTextBlock(ex.Message);
+                await SetError(ex.Message);
             }
         }
 

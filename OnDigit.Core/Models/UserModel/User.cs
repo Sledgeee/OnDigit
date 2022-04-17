@@ -22,9 +22,9 @@ namespace OnDigit.Core.Models.UserModel
         public string Gender { get; set; }
         public bool SessionCreated { get; set; }
         public int RoleId { get; set; }
-        public Session Session { get; set; }
         public DateTimeOffset DateCreated { get; set; }
         public Role Role { get; set; }
+        public ICollection<Session> Sessions { get; set; } = new List<Session>();
         public ICollection<UserLoginHistory> UserLogins { get; set; } = new List<UserLoginHistory>();
         public ICollection<ResetToken> ResetTokens { get; set; } = new List<ResetToken>();
         public ICollection<Cart> Baskets { get; set; } = new List<Cart>();

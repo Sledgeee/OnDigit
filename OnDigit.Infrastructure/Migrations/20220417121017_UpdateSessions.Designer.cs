@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnDigit.Infrastructure.Data;
 
 namespace OnDigit.Infrastructure.Migrations
 {
     [DbContext(typeof(OnDigitDbContext))]
-    partial class VividBooksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220417121017_UpdateSessions")]
+    partial class UpdateSessions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,7 +97,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "28c04436-0bbe-4974-9a00-199ef8372e93",
+                            Id = "fe5e8f68-7c36-4274-9d94-a7f2c286d29c",
                             AverageStars = 5f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book1",
@@ -105,7 +107,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "7a3388b1-e75f-42c9-ac09-2e4a1f7f475e",
+                            Id = "85f65f5e-5ed5-4293-adae-e6c8de1581a9",
                             AverageStars = 4.4f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book2",
@@ -115,7 +117,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "312cf01c-4f98-425f-9332-c3b022407670",
+                            Id = "0247839d-3f31-4962-9d5e-75f5f8632469",
                             AverageStars = 3.2f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book3",
@@ -125,7 +127,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "2d7ec608-54db-4a71-a741-bcd3cccd468d",
+                            Id = "c5487be7-490c-400c-8cf1-fd58517becca",
                             AverageStars = 3f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book4",
@@ -135,7 +137,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "d7f37df5-9058-4862-aedb-032e6842dd32",
+                            Id = "fdbff924-da69-4c4a-aa11-762d8b049b5d",
                             AverageStars = 2f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book5",
@@ -145,7 +147,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "00ff68b5-6b62-4064-ae86-efa2b6637f55",
+                            Id = "c93c208f-378a-475f-bd40-2a04d2d02ef8",
                             AverageStars = 1f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book6",
@@ -155,7 +157,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "2db6e9e2-e500-4036-9dc8-a0f54e8ac562",
+                            Id = "f6c61ea2-9492-47b5-8bd7-4cd5ffcec760",
                             AverageStars = 0.6f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book7",
@@ -165,7 +167,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "da0b2053-fb21-40a8-a78b-b771cce26590",
+                            Id = "435ac46d-de3d-4d99-88d7-bffa5dbc4c8b",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book8",
@@ -175,7 +177,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "51e0de5e-12cf-483c-810e-0fa87ef6cee3",
+                            Id = "f70f6d1f-b852-479a-99ef-a340a09f7f70",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book9",
@@ -185,7 +187,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "802cd5b6-3a0e-45d0-9b5f-a6888d23f0f8",
+                            Id = "a0565ab4-92c0-45de-ae85-f2808a3bd05a",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book10",
@@ -195,7 +197,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "e68b1a07-e57e-46ff-9f0a-d1b6b2566935",
+                            Id = "330d596d-720a-41e5-b8e1-689f67fbb862",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book11",
@@ -205,7 +207,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "3ffd2363-272f-4219-9a74-2cb6e843d1d9",
+                            Id = "2a753e15-4b22-4bde-a7b9-aaa809ed4a3c",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book12",
@@ -215,7 +217,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "88f5b3a8-584e-4bad-9278-825fcebb844d",
+                            Id = "c517b890-457f-449c-9f86-0e5729721883",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book13",
@@ -225,7 +227,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c5722fd7-2a01-4ef2-a23e-d7d0cd5901b5",
+                            Id = "7c15864e-a9fc-41e6-9a21-0fbdbb3c4f48",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book14",
@@ -235,7 +237,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "bbcb76c3-27a1-4563-a823-4f9beced223d",
+                            Id = "399d1619-5310-491d-a78f-58c59a4b8dca",
                             AverageStars = 0f,
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book15",
@@ -464,7 +466,7 @@ namespace OnDigit.Infrastructure.Migrations
 
             modelBuilder.Entity("OnDigit.Core.Models.SessionModel.Session", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("EndDate")
@@ -474,19 +476,16 @@ namespace OnDigit.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("MACHINE_KEY")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("StartDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("UserId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("MACHINE_KEY")
+                        .IsUnique()
+                        .HasFilter("[MACHINE_KEY] IS NOT NULL");
 
                     b.ToTable("Sessions");
                 });

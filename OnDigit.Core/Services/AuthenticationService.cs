@@ -21,7 +21,7 @@ namespace OnDigit.Core.Services
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<User> Login(string email, string password)
+        public async Task<User> Login(string email, string password, bool? rememberMe)
         {
             List<Exception> exceptions = new List<Exception>();
             if (string.IsNullOrEmpty(email))
@@ -51,6 +51,11 @@ namespace OnDigit.Core.Services
             if (passwordResult != PasswordVerificationResult.Success)
             {
                 throw new InvalidPasswordException("Incorrect password", email, password);
+            }
+
+            if (rememberMe.Value)
+            {
+                await _userService.SetRememberMeStatus(storedUser.Id);
             }
 
             await _userService.AddLoginToHistory(storedUser.Id);

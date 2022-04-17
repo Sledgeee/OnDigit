@@ -6,6 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:OnDigit.Client"
         xmlns:spin="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Icon="/Images/logo.png"
         Title="Shop" Width="1725" Height="950"
@@ -42,18 +43,17 @@
         <Grid.Effect>
             <DropShadowEffect Color="#121212" ShadowDepth="1"/>
         </Grid.Effect>
-        
-        <spin:LoadingSpinner x:Name="Spinner" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Thickness="3" Diameter="75" Color="Orange"/>
+
         <!-- Shop panel -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <WrapPanel x:Name="ShopMain" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="130 70 45 0"/>
         </ScrollViewer>
         <!-- End shop panel -->
+        
+        <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerBooks_1" SpinDuration="1" Height="90" Width="90" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Orange" Visibility="Collapsed"/>
+        <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerBooks_2" SpinDuration="2" Height="50" Width="50" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Orange" Visibility="Collapsed"/>
+        <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerBooks_3" SpinDuration="3" Height="20" Width="20" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Orange" Visibility="Collapsed"/>
 
-        <!-- colors
-        #FF31577E
-        #FFACACAC
-        #FF5C99D6 -->
         <Grid Height="25" VerticalAlignment="Top" Background="#212121" Panel.ZIndex="1" Margin="0,-24,0,0">
             <Grid.Effect>
                 <DropShadowEffect Color="#121212" ShadowDepth="0"/>
@@ -71,7 +71,11 @@
             <Grid.Effect>
                 <DropShadowEffect Color="#121212" ShadowDepth="0"/>
             </Grid.Effect>
-            <StackPanel x:Name="UnloginedState" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Visible">
+            <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerSession_1" Spin="True" SpinDuration="1" Height="34" Width="34" Margin="0 0 43 0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange"/>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerSession_2" Spin="True" SpinDuration="2" Height="20" Width="20" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange"/>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerSession_3" Spin="True" SpinDuration="3" Height="10" Width="10" Margin="0 0 55 0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange"/>
+
+            <StackPanel x:Name="UnloginedState" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden">
                 <Button Content="Sign in" FontSize="16" Margin="0 0 10 0" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ButtonAssist.CornerRadius="5"
                         Click="SignInDialog_Click"/>
                 <Button Content="Sign up" FontSize="16" Margin="0 0 20 0" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="5"
@@ -91,7 +95,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="450 0 0 0">
                 <TextBox x:Name="SearchBox" FontSize="16" Width="600" Height="32" TextAlignment="Left" Padding="15 5 0 0" Foreground="Black" Background="White" materialDesign:HintAssist.Hint="Search..." VerticalAlignment="Center" HorizontalAlignment="Center"  Style="{StaticResource MaterialDesignTextBox}"/>
-                <Button x:Name="ActivateSearch" FontSize="16" Content="Search" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ButtonAssist.CornerRadius="0 10 10 0" Style="{StaticResource MaterialDesignFlatMidBgButton}"/>
+                <Button x:Name="ActivateSearch" FontSize="16" Content="Search" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ButtonAssist.CornerRadius="0 10 10 0" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="ActivateSearch_Click"/>
             </StackPanel>
         </Grid>
         <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#242424">
