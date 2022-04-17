@@ -23,15 +23,10 @@ namespace OnDigit.Infrastructure.Services
             _dbSet = _contextFactory.CreateDbContext().Set<T>();
         }
 
-        public async Task<T> AddAsync(T entity)
-        {
-            return await _nonQueryDataService.Add(entity);
-        }
+        public async Task<T> AddAsync(T entity) => await _nonQueryDataService.Add(entity);
 
-        public async Task<bool> DeleteAsync(string id)
-        {
-            return await _nonQueryDataService.Delete(id);
-        }
+        public async Task<bool> DeleteAsync(string id) => await _nonQueryDataService.Delete(id);
+
 
         public async Task<T> GetByIdAsync(string id)
         {
@@ -49,19 +44,12 @@ namespace OnDigit.Infrastructure.Services
             }
         }
 
-        public async Task<T> UpdateAsync(string id, T entity)
-        {
-            return await _nonQueryDataService.Update(id, entity);
-        }
+        public async Task<T> UpdateAsync(string id, T entity) => await _nonQueryDataService.Update(id, entity);
 
-        private IQueryable<T> ApplySpecification(ISpecification<T> specification)
-        {
-            return new SpecificationEvaluator().GetQuery(_dbSet, specification);
-        }
+        private IQueryable<T> ApplySpecification(ISpecification<T> specification) => 
+            new SpecificationEvaluator().GetQuery(_dbSet, specification);
 
-        public async Task<ICollection<T>> GetListBySpecAsync(ISpecification<T> specification)
-        {
-            return await ApplySpecification(specification).ToListAsync();
-        }
+        public async Task<ICollection<T>> GetListBySpecAsync(ISpecification<T> specification) =>
+            await ApplySpecification(specification).ToListAsync();
     }
 }

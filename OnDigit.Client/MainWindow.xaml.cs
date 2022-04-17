@@ -73,20 +73,20 @@ namespace OnDigit.Client
         {
             await Task.Delay(1000);
             var key = Registry.CurrentUser.OpenSubKey("OnDigitSession");
-            if (key == null)
+            if (key is null)
                 return;
 
             var pcId = key.GetValue("pcId").ToString();
             var userId = key.GetValue("userId").ToString();
 
-            if (!string.IsNullOrEmpty(pcId))
+            if (string.IsNullOrEmpty(pcId) is false)
             {
                 _currentSession = await _userService.GetSessionInfo(pcId, userId);
 
                 if (DateTime.UtcNow >= _currentSession.EndDate && !_currentSession.IsCanceledInAdvance)
                 {
                     _currentUser = await _userService.GetByIdAsync(userId);
-                    if (_currentUser != null)
+                    if (_currentUser is not null)
                     {
                         UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
                         UnloginedState.Visibility = Visibility.Collapsed;
@@ -107,20 +107,25 @@ namespace OnDigit.Client
             await Task.Delay(1000);
 
             ShopMain.Children.Clear();
+
             ICollection<UserFavorites> userFavorites = null;
-            if (_currentUser != null)
+
+            if (_currentUser is not null)
                 userFavorites = await _userService.GetFavoriteEditionsAsync(_currentUser.Id);
 
             bool isFavorite = false;
+
             foreach (var edition in editionList)
             {
-                if (userFavorites != null)
-                    if (userFavorites.Contains(new UserFavorites() { UserId = _currentUser?.Id, EditionId = edition.Id }))
+                if (userFavorites is not null)
+                    if (userFavorites.Contains(new UserFavorites() { UserId = _currentUser?.Id, EditionId = edition.Id }) is true)
                         isFavorite = true;
 
                 ShopMain.Children.Add(new ShopEditionCard(edition, isFavorite));
+
                 isFavorite = false;
             }
+
             editionList.Clear();
             this.ShopMain.Effect = null;
             SpinnersPropsChange("SpinnerBooks", false, Visibility.Collapsed);
@@ -144,10 +149,8 @@ namespace OnDigit.Client
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if(handler != null)
-            {
+            if(handler is not null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -207,7 +210,7 @@ namespace OnDigit.Client
             }.ShowDialog();
             this.Effect = null;
 
-            if (_currentUser != null)
+            if (_currentUser is not null)
             {
                 UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
                 UnloginedState.Visibility = Visibility.Collapsed;
@@ -220,7 +223,7 @@ namespace OnDigit.Client
             this.Effect = new BlurEffect();
             new SignUp(this, _authenticationService).ShowDialog();
             this.Effect = null;
-            if (_currentUser != null)
+            if (_currentUser is not null)
             {
                 UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
                 UnloginedState.Visibility = Visibility.Collapsed;
@@ -228,28 +231,20 @@ namespace OnDigit.Client
             }
         }
 
-        private void Minimize_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
+        private void Minimize_Click(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
 
-        private void ShutdownApp_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
+        private void ShutdownApp_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
 
         private async void ActivateSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(SearchBox.Text))
+            if (string.IsNullOrEmpty(SearchBox.Text) is true)
                 return;
-
 
             ICollection<Edition> searchedEditions = await _shopService.SearchEditionsAsync(SearchBox.Text);
 
-            if (searchedEditions != null)
-            {
+            if (searchedEditions is not null)
                 LoadBooks(searchedEditions);
-            }
+
         }
     }
 }

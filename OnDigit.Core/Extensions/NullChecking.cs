@@ -9,26 +9,20 @@ namespace OnDigit.Core.Extensions
     {
         public static void UserNullChecking(this User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException($"{nameof(user)} not found");
-            }
+            if (user is null)
+                throw new ArgumentNullException($"{nameof(user)} not found"); 
         }
 
         public static void ReviewNullChecking(this Review review)
         {
-            if (review == null)
-            {
+            if (review is null)
                 throw new ArgumentNullException($"{nameof(review)} not found");
-            }
         }
 
         public static void EditionNullChecking(this Edition edition)
         {
-            if (edition == null)
-            {
+            if (edition is null)
                 throw new ArgumentNullException($"{nameof(edition)} not found");
-            }
         }
     }
 }

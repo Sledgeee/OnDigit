@@ -22,11 +22,8 @@ namespace OnDigit.Client.Windows.Auth
             _authenticationService = authenticationService;
         }
 
-        private void exitDialog_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
+        private void exitDialog_Click(object sender, RoutedEventArgs e) => this.Close();
+        
         public Task SetError(string message)
         {
             ExceptionsPanel.Children.Add(new TextBlock()
@@ -64,17 +61,13 @@ namespace OnDigit.Client.Windows.Auth
             }
         }
 
-        private void SignInBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Login();
-        }
+        private void SignInBtn_Click(object sender, RoutedEventArgs e) => Login();
 
         private void SignUpBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
             new SignUp(_mainWindow, _authenticationService).ShowDialog();
         }
-
         private void ResetBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

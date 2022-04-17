@@ -10,15 +10,10 @@ namespace OnDigit.Core.Services
     {
         private readonly IDataService<Edition> _editionService;
 
-        public ShopService(IDataService<Edition> editionService)
-        {
-            _editionService = editionService;
-        }
+        public ShopService(IDataService<Edition> editionService) => _editionService = editionService;
 
-        public async Task<ICollection<Edition>> GetAllEditionsAsync()
-        {
-            return await _editionService.GetAllAsync();
-        }
+        public async Task<ICollection<Edition>> GetAllEditionsAsync() => await _editionService.GetAllAsync();
+       
 
         public async Task DeleteEditionAsync(string id)
         {
@@ -26,9 +21,7 @@ namespace OnDigit.Core.Services
             await _editionService.DeleteAsync(id);
         } 
 
-        public async Task<ICollection<Edition>> SearchEditionsAsync(string searchRow)
-        {
-            return await _editionService.GetListBySpecAsync(new Editions.EditionSearch(searchRow));
-        }
+        public async Task<ICollection<Edition>> SearchEditionsAsync(string searchRow) =>
+            await _editionService.GetListBySpecAsync(new Editions.EditionSearch(searchRow));
     }
 }
