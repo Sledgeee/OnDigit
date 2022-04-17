@@ -9,5 +9,11 @@ namespace OnDigit.Core.Models.UserLoginHistoryModel
         public string UserId { get; set; }
         public User User { get; set; }
         public DateTimeOffset DateLogined { get; set; }
+
+        public override void Dispose()
+        {
+            GC.Collect();
+            base.Dispose();
+        }
     }
 }

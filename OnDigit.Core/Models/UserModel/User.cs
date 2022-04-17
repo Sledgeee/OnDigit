@@ -31,5 +31,11 @@ namespace OnDigit.Core.Models.UserModel
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public List<UserFavorites> UserFavorites { get; set; } = new List<UserFavorites>();
+
+        public override void Dispose()
+        {
+            GC.Collect();
+            base.Dispose();
+        }
     }
 }
