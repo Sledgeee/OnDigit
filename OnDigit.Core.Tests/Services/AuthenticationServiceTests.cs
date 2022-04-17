@@ -37,7 +37,7 @@ namespace OnDigit.Core.Tests.Services
                 .VerifyHashedPassword(It.IsAny<string>(), password))
                 .Returns(PasswordVerificationResult.Success);
 
-            User user = await _authenticationService.Login(expectedEmail, password);
+            User user = await _authenticationService.Login(expectedEmail, password, false);
 
             string actualEmail = user.Email;
             Assert.AreEqual(expectedEmail, actualEmail);
@@ -57,7 +57,7 @@ namespace OnDigit.Core.Tests.Services
                 .Returns(PasswordVerificationResult.Failed);
 
             InvalidPasswordException exception = Assert.ThrowsAsync<InvalidPasswordException>(
-                () => _authenticationService.Login(expectedEmail, password));
+                () => _authenticationService.Login(expectedEmail, password, false));
 
             string actualEmail = exception.Email;
             Assert.AreEqual(expectedEmail, actualEmail);
@@ -73,7 +73,7 @@ namespace OnDigit.Core.Tests.Services
                 .Returns(PasswordVerificationResult.Failed);
 
             UserNotFoundException exception = Assert.ThrowsAsync<UserNotFoundException>(
-                () => _authenticationService.Login(expectedEmail, password));
+                () => _authenticationService.Login(expectedEmail, password, false));
 
             string actualEmail = exception.Email;
             Assert.AreEqual(expectedEmail, actualEmail);

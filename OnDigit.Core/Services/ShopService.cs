@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using OnDigit.Core.Extensions;
-using OnDigit.Core.Filters;
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.EditionModel;
-using OnDigit.Core.Models.UserFavoritesModel;
 
 namespace OnDigit.Core.Services
 {
@@ -17,11 +15,6 @@ namespace OnDigit.Core.Services
             _editionService = editionService;
         }
 
-        public async Task<ICollection<Edition>> GetEditionsByFilterAsync(Filter filter)
-        {
-            return await _editionService.GetListBySpecAsync(new Editions.FilterEdition(filter));
-        }
-
         public async Task<ICollection<Edition>> GetAllEditionsAsync()
         {
             return await _editionService.GetAllAsync();
@@ -32,5 +25,10 @@ namespace OnDigit.Core.Services
             (await _editionService.GetByIdAsync(id)).EditionNullChecking();
             await _editionService.DeleteAsync(id);
         } 
+
+        public async Task<ICollection<Edition>> SearchEditionsAsync(string searchRow)
+        {
+            return await _editionService.GetListBySpecAsync(new Editions.EditionSearch(searchRow));
+        }
     }
 }

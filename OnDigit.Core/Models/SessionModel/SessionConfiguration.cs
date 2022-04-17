@@ -10,6 +10,10 @@ namespace OnDigit.Core.Models.SessionModel
             builder.HasKey(s => s.Id);
 
             builder
+                .Property(s => s.UserId)
+                .IsRequired();
+
+            builder
                 .Property(s => s.MACHINE_KEY)
                 .IsRequired();
 

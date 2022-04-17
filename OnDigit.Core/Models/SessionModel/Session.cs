@@ -11,5 +11,11 @@ namespace OnDigit.Core.Models.SessionModel
         public string MACHINE_KEY { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
+        public bool IsCanceledInAdvance { get; set; }
+
+        public override void Dispose()
+        {
+            GC.Collect();
+        }
     }
 }

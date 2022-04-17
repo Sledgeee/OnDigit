@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
     <PackageReference Include="LoadingSpinner.WPF" Version="1.0.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.0.5" />
@@ -41,6 +42,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
