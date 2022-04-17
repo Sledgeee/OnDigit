@@ -21,10 +21,8 @@ namespace OnDigit.Client.Windows.Reset.Steps
             _authenticationService = authenticationService;
         }
 
-        private void verifyBtn_Click(object sender, RoutedEventArgs e)
-        {
+        private void verifyBtn_Click(object sender, RoutedEventArgs e) =>
             NavigationService.Navigate(new SetPassword(_mainWindow, _authenticationService));
-        }
 
         private void cancelBtn_Click(object sender, RoutedEventArgs e)
         {

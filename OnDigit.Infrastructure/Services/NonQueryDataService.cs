@@ -10,10 +10,7 @@ namespace OnDigit.Infrastructure.Services
     {
         private readonly OnDigitDbContextFactory _contextFactory;
 
-        public NonQueryDataService(OnDigitDbContextFactory contextFactory)
-        {
-            _contextFactory = contextFactory;
-        }
+        public NonQueryDataService(OnDigitDbContextFactory contextFactory) => _contextFactory = contextFactory;
 
         public async Task<T> Add(T entity)
         {

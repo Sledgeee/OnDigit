@@ -24,39 +24,27 @@ namespace OnDigit.Core.Services
         public async Task<User> Login(string email, string password, bool? rememberMe)
         {
             List<Exception> exceptions = new List<Exception>();
-            if (string.IsNullOrEmpty(email))
-            {
+            if (string.IsNullOrEmpty(email) is true)
                 exceptions.Add(new EmptyFieldException("Email field is empty"));
-            }
 
-            if (string.IsNullOrEmpty(password))
-            {
+            if (string.IsNullOrEmpty(password) is true)
                 exceptions.Add(new EmptyFieldException("Password field is empty"));
-            }
 
             if (exceptions.Count > 0)
-            {
                 throw new AggregateException(exceptions);
-            }
 
             User storedUser = await _userService.GetByEmailAsync(email);
             
-            if (storedUser == null)
-            {
+            if (storedUser is null)
                 throw new UserNotFoundException("Email not found", email);
-            }
 
             PasswordVerificationResult passwordResult = _passwordHasher.VerifyHashedPassword(storedUser.PasswordHash, password);
 
             if (passwordResult != PasswordVerificationResult.Success)
-            {
                 throw new InvalidPasswordException("Incorrect password", email, password);
-            }
 
             if (rememberMe.Value)
-            {
                 await _userService.SetRememberMeStatus(storedUser.Id);
-            }
 
             await _userService.AddLoginToHistory(storedUser.Id);
 
@@ -65,17 +53,14 @@ namespace OnDigit.Core.Services
 
         private bool IsValidEmail(string email)
         {
-            if (email == null)
-            {
+            if (email is null)
                 return false;
-            }
 
             var trimmedEmail = email.Trim();
 
             if (trimmedEmail.EndsWith("."))
-            {
                 return false;
-            }
+
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);
@@ -91,30 +76,23 @@ namespace OnDigit.Core.Services
         {
             RegistrationResult result = RegistrationResult.Success;
 
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) ||
-                string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname) ||
-                string.IsNullOrEmpty(gender))
-            {
-                result = RegistrationResult.EmptyFields;
-            }
+            if (string.IsNullOrEmpty(email) is true || 
+                string.IsNullOrEmpty(password) is true || 
+                string.IsNullOrEmpty(name) is true || 
+                string.IsNullOrEmpty(surname) is true ||
+                string.IsNullOrEmpty(gender) is true) result = RegistrationResult.EmptyFields;
 
-            if (!IsValidEmail(email))
-            {
+            if (IsValidEmail(email) is false)
                 result = RegistrationResult.InvalidEmail;
-            }
 
             User emailUser = await _userService.GetByEmailAsync(email);
-            if (emailUser != null)
-            {
+            if (emailUser is not null)
                 result = RegistrationResult.EmailAlreadyExists;
-            }
 
             if (password != confirmPassword)
-            {
                 result = RegistrationResult.PasswordsDoNotMatch;
-            }  
 
-            if (result == RegistrationResult.Success)
+            if (result is RegistrationResult.Success)
             {
                 string hashedPassword = _passwordHasher.HashPassword(password);
 

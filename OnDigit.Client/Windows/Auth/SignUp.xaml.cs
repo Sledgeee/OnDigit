@@ -18,10 +18,7 @@ namespace OnDigit.Client.Windows.Auth
             _authenticationService = authenticationService;
         }  
 
-        private void ExitApp(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void ExitApp(object sender, RoutedEventArgs e) => this.Close();
 
         public async void Register()
         {
@@ -58,10 +55,7 @@ namespace OnDigit.Client.Windows.Auth
             }
         }
 
-        private void SignUpBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Register();
-        }
+        private void SignUpBtn_Click(object sender, RoutedEventArgs e) => Register();
 
         private void SignInBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -69,9 +63,6 @@ namespace OnDigit.Client.Windows.Auth
             new SignIn(_mainWindow, _authenticationService).ShowDialog();
         }
 
-        private void exitDialog_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void exitDialog_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

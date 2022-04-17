@@ -28,15 +28,9 @@ namespace OnDigit.Infrastructure.Services
             _dbSet = _contextFactory.CreateDbContext().Set<User>();
         }
 
-        public async Task<User> AddAsync(User entity)
-        {
-            return await _nonQueryDataService.Add(entity);
-        }
+        public async Task<User> AddAsync(User entity) => await _nonQueryDataService.Add(entity);
 
-        public async Task<bool> DeleteAsync(string id)
-        {
-            return await _nonQueryDataService.Delete(id);
-        }
+        public async Task<bool> DeleteAsync(string id) => await _nonQueryDataService.Delete(id);
 
         public async Task<User> GetByIdAsync(string id)
         {
@@ -71,20 +65,13 @@ namespace OnDigit.Infrastructure.Services
             }
         }
 
-        public async Task<User> UpdateAsync(string id, User entity)
-        {
-            return await _nonQueryDataService.Update(id, entity);
-        }
+        public async Task<User> UpdateAsync(string id, User entity) => await _nonQueryDataService.Update(id, entity);
 
-        private IQueryable<User> ApplySpecification(ISpecification<User> specification)
-        {
-            return new SpecificationEvaluator().GetQuery(_dbSet, specification);
-        }
+        private IQueryable<User> ApplySpecification(ISpecification<User> specification) => 
+            new SpecificationEvaluator().GetQuery(_dbSet, specification);
 
-        public async Task<ICollection<User>> GetListBySpecAsync(ISpecification<User> specification)
-        {
-            return await ApplySpecification(specification).ToListAsync();
-        }
+        public async Task<ICollection<User>> GetListBySpecAsync(ISpecification<User> specification) =>
+            await ApplySpecification(specification).ToListAsync();
 
         public async Task<ICollection<UserFavorites>> GetFavoriteEditionsAsync(string userId)
         {

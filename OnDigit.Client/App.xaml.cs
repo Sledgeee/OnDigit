@@ -19,14 +19,10 @@ namespace OnDigit.Client
     public partial class App : Application
     {
         private readonly IHost _host;
-        public App()
-        {
-            _host = CreateHostBuilder().Build();
-        }
+        public App() => _host = CreateHostBuilder().Build();
 
-        public static IHostBuilder CreateHostBuilder(string[] args = null)
-        {
-            return Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args = null) =>
+            Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(c =>
                 {
                     c.AddJsonFile("appsettings.json");
@@ -46,7 +42,6 @@ namespace OnDigit.Client
                     services.AddSingleton<IShopService, ShopService>();
                     services.AddSingleton(typeof(IDataService<>), typeof(GenericDataService<>));
                 });
-        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
