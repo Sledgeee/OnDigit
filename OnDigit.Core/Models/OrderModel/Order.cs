@@ -15,5 +15,11 @@ namespace OnDigit.Core.Models.OrderModel
         public User User { get; set; }
         public ICollection<Edition> Editions { get; set; } = new List<Edition>();
         public List<OrderEdition> OrdersEditions { get; set; } = new List<OrderEdition>();
+
+        public override void Dispose()
+        {
+            GC.Collect();
+            base.Dispose();
+        }
     }
 }

@@ -14,5 +14,11 @@ namespace OnDigit.Core.Models.ReviewModel
         public User User { get; set; }
         public string EditionId { get; set; }
         public Edition Edition { get; set; }
+
+        public override void Dispose()
+        {
+            GC.Collect();
+            base.Dispose();
+        }
     }
 }

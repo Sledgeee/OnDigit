@@ -25,5 +25,11 @@ namespace OnDigit.Core.Models.EditionModel
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public List<OrderEdition> OrdersEditions { get; set; } = new List<OrderEdition>();
         public List<UserFavorites> UserFavorites { get; set; } = new List<UserFavorites>();
+
+        public override void Dispose()
+        {
+            GC.Collect();
+            base.Dispose();
+        }
     }
 }
