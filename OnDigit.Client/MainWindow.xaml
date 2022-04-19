@@ -45,10 +45,14 @@
 
         <!-- Shop panel -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <WrapPanel x:Name="ShopMain" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100 70 45 0"/>
+            <StackPanel>
+                <WrapPanel x:Name="Shop" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100 70 45 0"/>
+                <WrapPanel x:Name="Favorites" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100 70 45 0"/>
+                <WrapPanel x:Name="Orders" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100 70 45 0"/>
+            </StackPanel>
         </ScrollViewer>
         <!-- End shop panel -->
-        
+
         <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerBooks_1" SpinDuration="1" Height="90" Width="90" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Orange" Visibility="Collapsed"/>
         <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerBooks_2" SpinDuration="2" Height="50" Width="50" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Orange" Visibility="Collapsed"/>
 
@@ -84,7 +88,7 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel x:Name="SearchBar" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBox x:Name="SearchBox" FontSize="16" Width="600" Height="32" TextAlignment="Left" Padding="15 5 0 0" Foreground="Black" Background="White" materialDesign:HintAssist.Hint="Search..." VerticalAlignment="Center" HorizontalAlignment="Center"  Style="{StaticResource MaterialDesignTextBox}"/>
                 <Button x:Name="ActivateSearch" FontSize="16" Content="Search" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ButtonAssist.CornerRadius="0 10 10 0" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="ActivateSearch_Click"/>
             </StackPanel>
@@ -111,22 +115,22 @@
                     </Button>
                 </Grid>
                 <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
-                    <ListViewItem x:Name="ItemFilterBooks" Height="60">
+                    <ListViewItem x:Name="ItemShop" Height="60">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="FilterOutline" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
-                            <TextBlock Text="Filter books" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
+                            <materialDesign:PackIcon x:Name="ItemShopIcon" Kind="Shop" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
+                            <TextBlock x:Name="ItemShopText" Text="Shop" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="ItemMyFavorites" Height="60">
+                    <ListViewItem x:Name="ItemFavorites" Height="60">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="FavoriteCheckOutline" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
-                            <TextBlock Text="My favorites" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
+                            <materialDesign:PackIcon x:Name="ItemFavoritesIcon" Kind="Heart" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
+                            <TextBlock x:Name="ItemFavoritesText" Text="My favorites" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="ItemMyOrders" Height="60">
+                    <ListViewItem x:Name="ItemOrders" Height="60">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="OrderNumericDescending" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
-                            <TextBlock Text="My orders" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
+                            <materialDesign:PackIcon x:Name="ItemOrdersIcon" Kind="OrderNumericDescending" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
+                            <TextBlock x:Name="ItemOrdersText" Text="My orders" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                         </StackPanel>
                     </ListViewItem>
                 </ListView>

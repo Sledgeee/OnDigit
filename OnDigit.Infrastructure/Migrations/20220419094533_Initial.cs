@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnDigit.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,10 +40,11 @@ namespace OnDigit.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AverageStars = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
+                    Rating = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
+                    RatingCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     GenreId = table.Column<int>(type: "int", nullable: false),
-                    ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
@@ -68,7 +69,6 @@ namespace OnDigit.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SessionCreated = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -174,10 +174,11 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MACHINE_KEY = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsCanceledInAdvance = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -191,12 +192,36 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserFavorites",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EditionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFavorites", x => new { x.UserId, x.EditionId });
+                    table.ForeignKey(
+                        name: "FK_UserFavorites_Editions_EditionId",
+                        column: x => x.EditionId,
+                        principalTable: "Editions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserFavorites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UsersLoginHistory",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateLogin = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateLogined = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -291,24 +316,31 @@ namespace OnDigit.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Editions",
-                columns: new[] { "Id", "Description", "GenreId", "ImageLink", "Name", "Price" },
+                columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price", "Rating" },
                 values: new object[,]
                 {
-                    { "edfb2820-8a69-4b28-824b-bd06f8eb454e", "Book1", 1, null, "Book1", 9.99m },
-                    { "676f1946-755e-461b-8821-9a7bcc96036a", "Book2", 2, null, "Book2", 9.99m },
-                    { "88bc5fb9-9e29-41cc-95fc-c68395d6b760", "Book3", 3, null, "Book3", 9.99m },
-                    { "5222199a-1ce5-4418-9023-882732eda11e", "Book4", 4, null, "Book4", 9.99m },
-                    { "ea018c02-77b3-4e13-9823-4346cd093ec6", "Book5", 5, null, "Book5", 9.99m },
-                    { "02c20983-3472-47f5-8c39-8be57c4828ea", "Book6", 6, null, "Book6", 9.99m },
-                    { "9ea744f4-13b5-4149-8476-d72ccb4e8329", "Book7", 7, null, "Book7", 9.99m },
-                    { "dae98619-931b-4485-89ea-7a5414277994", "Book8", 8, null, "Book8", 9.99m },
-                    { "b5e11470-e70f-40d9-b957-f9b004010f3b", "Book9", 9, null, "Book9", 9.99m },
-                    { "9972e4a9-af8a-4d9f-98fd-236f554fe97d", "Book10", 10, null, "Book10", 9.99m },
-                    { "9833a619-0ec1-4bd9-873d-f256a11d97dd", "Book11", 11, null, "Book11", 9.99m },
-                    { "79d8f265-3c95-4efd-8bcd-8fdcb1f27852", "Book12", 12, null, "Book12", 9.99m },
-                    { "e45794b7-5c47-4171-be1d-b0cd90ee1249", "Book13", 13, null, "Book13", 9.99m },
-                    { "82cbc862-f729-4838-b631-c1b9cac23bde", "Book14", 14, null, "Book14", 9.99m },
-                    { "3bdc50c5-831a-48b7-8b08-656d96b3bbda", "Book15", 15, null, "Book15", 9.99m }
+                    { "939ce2f4-d728-4b13-8526-c585d8bc748f", "Book1", 1, null, "Book1", 9.99m, 5f },
+                    { "f3ca30a5-16af-4567-a551-85f553c9b311", "Book2", 2, null, "Book2", 9.99m, 4.4f },
+                    { "d29dd343-4852-4e91-8056-282f9d619993", "Book3", 3, null, "Book3", 9.99m, 3.2f },
+                    { "b1e9f6ca-1d0e-4bd0-874f-85d56cca81d1", "Book4", 4, null, "Book4", 9.99m, 3f },
+                    { "97c588df-7921-43a6-918c-bfc274416f28", "Book5", 5, null, "Book5", 9.99m, 2f },
+                    { "aa2fa016-7ecb-4b0f-b0c9-f027c66aefa4", "Book6", 6, null, "Book6", 9.99m, 1f },
+                    { "3d210498-e9f8-4453-b7e0-7a1a38081fea", "Book7", 7, null, "Book7", 9.99m, 0.6f }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Editions",
+                columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price" },
+                values: new object[,]
+                {
+                    { "65cfe07b-47ff-40b0-9571-2a1448ef1143", "Book8", 8, null, "Book8", 9.99m },
+                    { "43b0383d-49c0-43db-ba20-e49b8058e8e6", "Book9", 9, null, "Book9", 9.99m },
+                    { "16308c41-07ba-48f7-b4d0-6044c6cfe81a", "Book10", 10, null, "Book10", 9.99m },
+                    { "124f0507-8fb9-4393-b61f-789bbfab5e4b", "Book11", 11, null, "Book11", 9.99m },
+                    { "ed8ff430-fa8d-4ad8-91de-2d9e3b81ac42", "Book12", 12, null, "Book12", 9.99m },
+                    { "abf186ce-40c0-4b90-9403-8c0009de8cd8", "Book13", 13, null, "Book13", 9.99m },
+                    { "233555e0-8d9b-497d-bac7-bb947eca5479", "Book14", 14, null, "Book14", 9.99m },
+                    { "430bc4b5-2848-4b1a-945c-6460c027eda1", "Book15", 15, null, "Book15", 9.99m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -354,9 +386,12 @@ namespace OnDigit.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Sessions_UserId",
                 table: "Sessions",
-                column: "UserId",
-                unique: true,
-                filter: "[UserId] IS NOT NULL");
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFavorites_EditionId",
+                table: "UserFavorites",
+                column: "EditionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
@@ -366,8 +401,7 @@ namespace OnDigit.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UsersLoginHistory_UserId",
                 table: "UsersLoginHistory",
-                column: "UserId",
-                unique: true);
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -386,6 +420,9 @@ namespace OnDigit.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sessions");
+
+            migrationBuilder.DropTable(
+                name: "UserFavorites");
 
             migrationBuilder.DropTable(
                 name: "UsersLoginHistory");

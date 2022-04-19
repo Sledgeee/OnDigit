@@ -34,7 +34,7 @@ namespace OnDigit.Client.Windows.Shop.Controls
             _editionName = edition.Name;
             _editionPrice = edition.Price.ToString() + "$";
             _ratingCount = edition.RatingCount;
-            _imageUri = edition.ImageLink;
+            _imageUri = edition.ImageUri;
 
             string trailer = "_" + _edition.Id.Replace("-", "");
             icon_favorites.Name += trailer;

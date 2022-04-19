@@ -35,7 +35,7 @@ namespace OnDigit.Client.Windows.Shop
             _bookName = _edition.Name;
             _description = _edition.Description;
             _price = _edition.Price + "$";
-            _imageUri = _edition.ImageLink;
+            _imageUri = _edition.ImageUri;
             _ratingCount = _edition.RatingCount;
             _genre = typeof(Genres).GetFields().Where(x => x.IsLiteral).Select(x => x.Name).ToArray()[_edition.GenreId].Replace("_", " ");
             ReviewsPanel.Children.Add(new BookReviewCard());

@@ -10,8 +10,8 @@ using OnDigit.Infrastructure.Data;
 namespace OnDigit.Infrastructure.Migrations
 {
     [DbContext(typeof(OnDigitDbContext))]
-    [Migration("20220417160719_UpdateEditionModel")]
-    partial class UpdateEditionModel
+    [Migration("20220419094533_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,7 +72,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageLink")
+                    b.Property<string>("ImageUri")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -102,7 +102,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8a22555e-a4c4-40bf-b112-217b1a252fe7",
+                            Id = "939ce2f4-d728-4b13-8526-c585d8bc748f",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book1",
                             GenreId = 1,
@@ -113,7 +113,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "8011c77e-c889-48db-a62f-8aaa40e56713",
+                            Id = "f3ca30a5-16af-4567-a551-85f553c9b311",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book2",
                             GenreId = 2,
@@ -124,7 +124,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "e0a1dd78-e4cb-4262-a8be-f2f6be7ea8a5",
+                            Id = "d29dd343-4852-4e91-8056-282f9d619993",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book3",
                             GenreId = 3,
@@ -135,7 +135,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "97bc4add-73e9-4049-b412-2d88848a77ae",
+                            Id = "b1e9f6ca-1d0e-4bd0-874f-85d56cca81d1",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book4",
                             GenreId = 4,
@@ -146,7 +146,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "1ce39d25-39ee-4170-9bb5-acd1fa2032d9",
+                            Id = "97c588df-7921-43a6-918c-bfc274416f28",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book5",
                             GenreId = 5,
@@ -157,7 +157,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "fb3ba684-3609-4ae6-ae1a-0897a75c8805",
+                            Id = "aa2fa016-7ecb-4b0f-b0c9-f027c66aefa4",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book6",
                             GenreId = 6,
@@ -168,7 +168,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "4b1b8187-e9f3-4415-ad2b-b198aed55d90",
+                            Id = "3d210498-e9f8-4453-b7e0-7a1a38081fea",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book7",
                             GenreId = 7,
@@ -179,7 +179,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "26a554b6-7d18-4ef7-9e8a-2b450cecc459",
+                            Id = "65cfe07b-47ff-40b0-9571-2a1448ef1143",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book8",
                             GenreId = 8,
@@ -190,7 +190,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "0d8bcbc0-52ec-494e-9047-db3692343be5",
+                            Id = "43b0383d-49c0-43db-ba20-e49b8058e8e6",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book9",
                             GenreId = 9,
@@ -201,7 +201,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "40188397-4998-458c-995f-6d738b9cffde",
+                            Id = "16308c41-07ba-48f7-b4d0-6044c6cfe81a",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book10",
                             GenreId = 10,
@@ -212,7 +212,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "592dee1f-e7b7-4058-abe0-fdd7de5d9def",
+                            Id = "124f0507-8fb9-4393-b61f-789bbfab5e4b",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book11",
                             GenreId = 11,
@@ -223,7 +223,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "8231c7ce-bb13-4f11-9bb5-8894ff1b72cf",
+                            Id = "ed8ff430-fa8d-4ad8-91de-2d9e3b81ac42",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book12",
                             GenreId = 12,
@@ -234,7 +234,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c447d421-640e-4f08-8e70-0a3c1e76645c",
+                            Id = "abf186ce-40c0-4b90-9403-8c0009de8cd8",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book13",
                             GenreId = 13,
@@ -245,7 +245,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "dee6fb46-fb37-47b2-84d5-1af33c22a548",
+                            Id = "233555e0-8d9b-497d-bac7-bb947eca5479",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book14",
                             GenreId = 14,
@@ -256,7 +256,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "73965ebe-6721-4c87-a466-3766ca16fa98",
+                            Id = "430bc4b5-2848-4b1a-945c-6460c027eda1",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book15",
                             GenreId = 15,
@@ -513,7 +513,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.UserFavoritesModel.UserFavorites", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.UserFavoriteModel.UserFavorite", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -584,11 +584,6 @@ namespace OnDigit.Infrastructure.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("SessionCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -707,7 +702,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.UserFavoritesModel.UserFavorites", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.UserFavoriteModel.UserFavorite", b =>
                 {
                     b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
                         .WithMany("UserFavorites")
