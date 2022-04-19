@@ -22,7 +22,7 @@ namespace OnDigit.Client.Windows.Auth
             _authenticationService = authenticationService;
         }
 
-        private void exitDialog_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void exitDialog_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
         
         public Task SetError(string message)
         {

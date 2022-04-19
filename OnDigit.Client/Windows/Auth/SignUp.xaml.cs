@@ -63,6 +63,6 @@ namespace OnDigit.Client.Windows.Auth
             new SignIn(_mainWindow, _authenticationService).ShowDialog();
         }
 
-        private void exitDialog_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void exitDialog_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
     }
 }

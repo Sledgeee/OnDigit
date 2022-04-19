@@ -9,7 +9,7 @@ using OnDigit.Core.Models.SessionModel;
 using OnDigit.Core.Models.UserModel;
 using OnDigit.Core.Models.UserLoginHistoryModel;
 using OnDigit.Core.Models.RoleModel;
-using OnDigit.Core.Models.UserFavoritesModel;
+using OnDigit.Core.Models.UserFavoriteModel;
 
 namespace OnDigit.Infrastructure.Data
 {
@@ -30,7 +30,7 @@ namespace OnDigit.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new OrderEditionConfiguration());
             modelBuilder.ApplyConfiguration(new SessionConfiguration());
-            modelBuilder.ApplyConfiguration(new UserFavoritesConfiguration());
+            modelBuilder.ApplyConfiguration(new UserFavoriteConfiguration());
             modelBuilder.Seed();
         }
 
@@ -44,6 +44,6 @@ namespace OnDigit.Infrastructure.Data
         public DbSet<Session> Sessions { get; set; }
         public DbSet<UserLoginHistory> UsersLoginHistory { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserFavorites> UserFavorites { get; set; }
+        public DbSet<UserFavorite> UserFavorites { get; set; }
     }
 }

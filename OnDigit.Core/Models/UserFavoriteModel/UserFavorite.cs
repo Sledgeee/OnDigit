@@ -3,9 +3,9 @@ using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.UserModel;
 using System;
 
-namespace OnDigit.Core.Models.UserFavoritesModel
+namespace OnDigit.Core.Models.UserFavoriteModel
 {
-    public class UserFavorites : IBaseEntity, IDisposable
+    public class UserFavorite : IBaseEntity, IDisposable
     {
         public string UserId { get; set; }
         public User User { get; set; }

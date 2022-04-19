@@ -11,7 +11,7 @@ using System.Windows.Media.Effects;
 using OnDigit.Client.Windows.Auth;
 using OnDigit.Client.Windows.Shop.Controls;
 using OnDigit.Core.Interfaces.Services;
-using OnDigit.Core.Models.UserFavoritesModel;
+using OnDigit.Core.Models.UserFavoriteModel;
 using OnDigit.Core.Models.UserModel;
 using Microsoft.Win32;
 using OnDigit.Core.Models.SessionModel;
@@ -26,15 +26,17 @@ namespace OnDigit.Client
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IShopService _shopService;
-        private readonly IUserService _userService;
+        private readonly IUserService _userService; 
+        private readonly IReviewService _reviewService;
         private Session _currentSession;
 
-        public MainWindow(IAuthenticationService authenticationService, IShopService shopService, IUserService userService)
+        public MainWindow(IAuthenticationService authenticationService, IShopService shopService, IUserService userService, IReviewService reviewService)
         {
             InitializeComponent();
             _authenticationService = authenticationService;
             _shopService = shopService;
             _userService = userService;
+            _reviewService = reviewService;
             Initialize();
         }
 
@@ -42,8 +44,12 @@ namespace OnDigit.Client
         {
             _currentUser = null;
             UserFullname.Text = string.Empty;
-            LoadBooks(await _shopService.GetAllEditionsAsync());
-            CheckOnSession();
+            if (await CheckOnSession())
+                LoadBooks(await _shopService.GetAllEditionsAsync());
+            else
+            {
+                SignInDialog();
+            }
         }
 
         private void SpinnersPropsChange(string spinner, bool spin, Visibility visibility)
@@ -53,28 +59,27 @@ namespace OnDigit.Client
                 case "SpinnerBooks":
                     SpinnerBooks_1.Spin = spin;
                     SpinnerBooks_2.Spin = spin;
-                    SpinnerBooks_3.Spin = spin;
                     SpinnerBooks_1.Visibility = visibility;
                     SpinnerBooks_2.Visibility = visibility;
-                    SpinnerBooks_3.Visibility = visibility;
                     break;
                 case "SpinnerSession":
                     SpinnerSession_1.Spin = spin;
                     SpinnerSession_2.Spin = spin;
-                    SpinnerSession_3.Spin = spin;
                     SpinnerSession_1.Visibility = visibility;
                     SpinnerSession_2.Visibility = visibility;
-                    SpinnerSession_3.Visibility = visibility;
                     break;
             }
         }
 
-        private async void CheckOnSession()
+        private async Task<bool> CheckOnSession()
         {
             await Task.Delay(1000);
             var key = Registry.CurrentUser.OpenSubKey("OnDigitSession");
             if (key is null)
-                return;
+            {
+                SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
+                return false;
+            }
 
             var pcId = key.GetValue("pcId").ToString();
             var userId = key.GetValue("userId").ToString();
@@ -83,19 +88,21 @@ namespace OnDigit.Client
             {
                 _currentSession = await _userService.GetSessionInfo(pcId, userId);
 
-                if (DateTime.UtcNow >= _currentSession.EndDate && !_currentSession.IsCanceledInAdvance)
+                if (DateTime.UtcNow <= _currentSession.EndDate && _currentSession.IsCanceledInAdvance is false)
                 {
                     _currentUser = await _userService.GetByIdAsync(userId);
                     if (_currentUser is not null)
                     {
                         UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
-                        UnloginedState.Visibility = Visibility.Collapsed;
-                        LoginedState.Visibility = Visibility.Visible;
+                        LoginedState.Visibility = Visibility.Visible; 
+                        SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
+                        return true;
                     }
                 }
             }
 
             SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
+            return false;
         }
 
         private async void LoadBooks(ICollection<Edition> editionList)
@@ -108,22 +115,21 @@ namespace OnDigit.Client
 
             ShopMain.Children.Clear();
 
-            ICollection<UserFavorites> userFavorites = null;
+            List<string> favoriteEditionsId = new List<string>();
 
             if (_currentUser is not null)
-                userFavorites = await _userService.GetFavoriteEditionsAsync(_currentUser.Id);
-
-            bool isFavorite = false;
+            {
+                var userFavorites = await _userService.GetFavoriteEditionsAsync(_currentUser.Id); 
+                foreach (UserFavorite edition in userFavorites)
+                {
+                    favoriteEditionsId.Add(edition.EditionId);
+                }
+            }
 
             foreach (var edition in editionList)
             {
-                if (userFavorites is not null)
-                    if (userFavorites.Contains(new UserFavorites() { UserId = _currentUser?.Id, EditionId = edition.Id }) is true)
-                        isFavorite = true;
-
-                ShopMain.Children.Add(new ShopEditionCard(edition, isFavorite));
-
-                isFavorite = false;
+                edition.ImageLink = "/Images/willbook.jpg";
+                ShopMain.Children.Add(new ShopEditionCard(this, edition, favoriteEditionsId.Contains(edition.Id), _currentUser.Id, _reviewService, _userService));
             }
 
             editionList.Clear();
@@ -151,12 +157,6 @@ namespace OnDigit.Client
             PropertyChangedEventHandler handler = PropertyChanged;
             if(handler is not null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            DragMove();
         }
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
@@ -197,11 +197,12 @@ namespace OnDigit.Client
             await _userService.UpdateSessionInfo(_currentSession);
             Registry.CurrentUser.DeleteSubKey("OnDigitSession");
             LoginedState.Visibility = Visibility.Collapsed;
-            UnloginedState.Visibility = Visibility.Visible;
             UserFullname.Text = string.Empty;
+            ShopMain.Children.Clear();
+            SignInDialog();
         }
 
-        private void SignInDialog_Click(object sender, RoutedEventArgs e)
+        private async void SignInDialog()
         {
             this.Effect = new BlurEffect();
             new SignIn(this, _authenticationService)
@@ -213,21 +214,8 @@ namespace OnDigit.Client
             if (_currentUser is not null)
             {
                 UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
-                UnloginedState.Visibility = Visibility.Collapsed;
                 LoginedState.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void SignUpDialog_Click(object sender, RoutedEventArgs e)
-        {
-            this.Effect = new BlurEffect();
-            new SignUp(this, _authenticationService).ShowDialog();
-            this.Effect = null;
-            if (_currentUser is not null)
-            {
-                UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
-                UnloginedState.Visibility = Visibility.Collapsed;
-                LoginedState.Visibility = Visibility.Visible;
+                LoadBooks(await _shopService.GetAllEditionsAsync());
             }
         }
 

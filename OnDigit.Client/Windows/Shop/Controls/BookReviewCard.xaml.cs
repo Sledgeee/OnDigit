@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OnDigit.Client.Windows.Shop.Menu
+namespace OnDigit.Client.Windows.Shop.Controls
 {
     /// <summary>
-    /// Interaction logic for Orders.xaml
+    /// Interaction logic for BookReviewCard.xaml
     /// </summary>
-    public partial class Orders : Page
+    public partial class BookReviewCard : UserControl
     {
-        public Orders()
+        public BookReviewCard()
         {
             InitializeComponent();
         }

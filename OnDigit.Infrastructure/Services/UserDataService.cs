@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using OnDigit.Core.Models.UserModel;
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Infrastructure.Data;
-using OnDigit.Core.Models.UserFavoritesModel;
+using OnDigit.Core.Models.UserFavoriteModel;
 using OnDigit.Core.Models.UserLoginHistoryModel;
 using OnDigit.Core.Models.SessionModel;
 using Microsoft.Win32;
@@ -73,11 +73,37 @@ namespace OnDigit.Infrastructure.Services
         public async Task<ICollection<User>> GetListBySpecAsync(ISpecification<User> specification) =>
             await ApplySpecification(specification).ToListAsync();
 
-        public async Task<ICollection<UserFavorites>> GetFavoriteEditionsAsync(string userId)
+        public async Task<ICollection<UserFavorite>> GetFavoriteEditionsAsync(string userId)
         {
             using (OnDigitDbContext context = _contextFactory.CreateDbContext())
             {
                 return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
+            }
+        }
+
+        public async Task SetFavoriteEditionAsync(string userId, string editionId)
+        {
+            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
+            {
+                await context.UserFavorites.AddAsync(new UserFavorite()
+                {
+                    UserId = userId,
+                    EditionId = editionId
+                });
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteFavoriteEditionAsync(string userId, string editionId)
+        {
+            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
+            {
+                context.UserFavorites.Remove(new UserFavorite()
+                {
+                    UserId = userId,
+                    EditionId = editionId
+                });
+                await context.SaveChangesAsync();
             }
         }
 

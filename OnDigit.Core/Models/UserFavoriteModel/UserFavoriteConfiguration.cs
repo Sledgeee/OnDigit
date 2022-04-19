@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace OnDigit.Core.Models.UserFavoritesModel
+namespace OnDigit.Core.Models.UserFavoriteModel
 {
-    public class UserFavoritesConfiguration : IEntityTypeConfiguration<UserFavorites>
+    public class UserFavoriteConfiguration : IEntityTypeConfiguration<UserFavorite>
     {
-        public void Configure(EntityTypeBuilder<UserFavorites> builder)
+        public void Configure(EntityTypeBuilder<UserFavorite> builder)
         {
             builder.HasKey(x => new { x.UserId, x.EditionId });
 

@@ -13,15 +13,15 @@
             <Button x:Name="button_favorites" Background="Transparent" BorderThickness="0" Width="25" HorizontalAlignment="Right" Margin="0 8 17 0"  ToolTip="Add to favorites">
                 <materialDesign:PackIcon x:Name="icon_favorites" Margin="-16 0" Kind="HeartOutline" Height="25" Width="25" Foreground="Orange"/>
             </Button>
-            <Image Source="/Images/willbook.jpg" Margin="0 5 0 0" Height="216"/>
-            <TextBlock Text="{Binding EditionName}" TextAlignment="Center" Margin="0 5 0 -5" FontSize="21"/>
+            <Image Source="{Binding ImageUri}" Margin="0 5 0 0" Height="216" MouseLeftButtonDown="ShowBookInfoWindow_MouseLeftButtonDown" ToolTip="Open a book page"/>
+            <TextBlock Text="{Binding EditionName}" TextAlignment="Center" Margin="0 5 0 -5" FontSize="21" MouseLeftButtonDown="ShowBookInfoWindow_MouseLeftButtonDown" ToolTip="Open a book page"/>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0 10 0 0">
                 <materialDesign:PackIcon x:Name="star_1" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                 <materialDesign:PackIcon x:Name="star_2" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                 <materialDesign:PackIcon x:Name="star_3" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                 <materialDesign:PackIcon x:Name="star_4" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                 <materialDesign:PackIcon x:Name="star_5" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
-                <TextBlock Margin="10 -1 0 0" Text="14,666 ratings" FontSize="16"/>
+                <TextBlock Margin="10 -1 0 0" Text="{Binding RatingCount}" FontSize="16" Foreground="White"/>
             </StackPanel>
             <StackPanel Margin="0 10 0 0">
                 <TextBlock Text="{Binding EditionPrice}" FontSize="21" TextAlignment="Center"/>

@@ -9,7 +9,7 @@ namespace OnDigit.Core.Models.EditionModel
         {
             public EditionSearch(string searchRow)
             {
-                Query.Where(x => x.Name.StartsWith(searchRow));
+                Query.Where(x => x.Name.Contains(searchRow));
             }
         }
     }
