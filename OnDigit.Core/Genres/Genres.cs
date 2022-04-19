@@ -2,20 +2,20 @@
 {
     public enum Genres : int
     {
-        DetectiveId = 1,
-        FantasyId = 2,
-        AdventuresId = 3,
-        NovelId = 4,
-        ScientificBookId = 5,
-        FolkloreId = 6,
-        HumorId = 7,
-        PoetryId = 8,
-        ProseId = 9,
-        ChildrensBooksId = 10,
-        DocumentaryLiteratureId = 11,
-        EducationBookId = 12,
-        EquipmentId = 13,
-        BusinessLiteratureId = 14,
-        ReligiousLiteratureId = 15
+        Detective = 1,
+        Fantasy = 2,
+        Adventures = 3,
+        Novel = 4,
+        Scientific_book = 5,
+        Folklore = 6,
+        Humor = 7,
+        Poetry = 8,
+        Prose = 9,
+        Childrens_book = 10,
+        Documentary_literature = 11,
+        Education_book = 12,
+        Equipment = 13,
+        Business_literature = 14,
+        Religious_literature = 15
     }
 }

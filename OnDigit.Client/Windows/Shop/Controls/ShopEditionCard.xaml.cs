@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using OnDigit.Core.Models.EditionModel;
 using MaterialDesignThemes.Wpf;
+using OnDigit.Core.Interfaces.Services;
+using System.Windows.Media.Effects;
 
 namespace OnDigit.Client.Windows.Shop.Controls
 {
@@ -15,37 +17,122 @@ namespace OnDigit.Client.Windows.Shop.Controls
     public partial class ShopEditionCard : UserControl
     {
         private readonly Edition _edition;
+        private readonly MainWindow _mainWindow;
+        private readonly string _userId;
+        private readonly IReviewService _reviewService;
+        private readonly IUserService _userService;
 
-        public ShopEditionCard(Edition edition, bool IsFavorite)
+        public ShopEditionCard(MainWindow reference, Edition edition, bool isFavorite, string userId, IReviewService reviewService, IUserService userService)
         {
             InitializeComponent();
             this.DataContext = this;
+            _mainWindow = reference;
+            _userId = userId;
+            _reviewService = reviewService;
+            _userService = userService;
             _edition = edition;
             _editionName = edition.Name;
             _editionPrice = edition.Price.ToString() + "$";
+            _ratingCount = edition.RatingCount;
+            _imageUri = edition.ImageLink;
 
-            // controls setings
-            string trailer = "_" + edition.Id.Replace("-", "");
+            string trailer = "_" + _edition.Id.Replace("-", "");
             icon_favorites.Name += trailer;
-            
-            if (IsFavorite is true)
+            if (isFavorite is true)
                 icon_favorites.Kind = PackIconKind.Heart;
 
             button_favorites.Name += trailer;
             button_favorites.Click += ButtonOnClick;
-
             SetStars();
-        }        
+        }
 
-        private void ButtonOnClick(object sender, EventArgs e)
+        private void SetStars()
+        {
+            if (_edition.Rating == 0)
+                return;
+
+            else if (_edition.Rating == 1)
+                star_1.Kind = PackIconKind.Star;
+
+            else if (_edition.Rating == 2)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+            }
+
+            else if (_edition.Rating == 3)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+
+            }
+
+            else if (_edition.Rating == 4)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.Star;
+            }
+
+            else if (_edition.Rating == 5)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.Star;
+                star_5.Kind = PackIconKind.Star;
+            }
+
+            else if (_edition.Rating > 0 && _edition.Rating < 1)
+                star_1.Kind = PackIconKind.StarHalfFull;
+
+            else if (_edition.Rating > 1 && _edition.Rating < 2)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.StarHalfFull;
+            }
+
+            else if (_edition.Rating > 2 && _edition.Rating < 3)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.StarHalfFull;
+            }
+
+            else if (_edition.Rating > 3 && _edition.Rating < 4)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.StarHalfFull;
+            }
+
+            else if (_edition.Rating > 4 && _edition.Rating < 5)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.Star;
+                star_5.Kind = PackIconKind.StarHalfFull;
+            }
+        }
+
+        private async void ButtonOnClick(object sender, EventArgs e)
         {
             var button = (Button)sender;
             if (button is not null)
                 if (icon_favorites.Kind == PackIconKind.HeartOutline)
+                {
+                    await _userService.SetFavoriteEditionAsync(_userId, _edition.Id);
                     icon_favorites.Kind = PackIconKind.Heart;
- 
+                }
                 else
+                {
+                    await _userService.DeleteFavoriteEditionAsync(_userId, _edition.Id);
                     icon_favorites.Kind = PackIconKind.HeartOutline;
+                }
         }
 
         private string _editionName;
@@ -55,7 +142,7 @@ namespace OnDigit.Client.Windows.Shop.Controls
             set
             {
                 _editionName = value;
-                OnPropertyChanged("EditionName");
+                OnPropertyChanged(nameof(EditionName));
             }
         }
 
@@ -66,9 +153,32 @@ namespace OnDigit.Client.Windows.Shop.Controls
             set
             {
                 _editionPrice = value;
-                OnPropertyChanged("EditionPrice");
+                OnPropertyChanged(nameof(EditionPrice));
             }
         }
+
+        private string _imageUri;
+        public string ImageUri
+        {
+            get { return _imageUri; }
+            set
+            {
+                _imageUri = value;
+                OnPropertyChanged(nameof(ImageUri));
+            }
+        }
+
+        private int _ratingCount;
+        public int RatingCount
+        {
+            get { return _ratingCount; }
+            set 
+            {
+                _ratingCount = value; 
+                OnPropertyChanged(nameof(RatingCount));
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -80,77 +190,11 @@ namespace OnDigit.Client.Windows.Shop.Controls
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void SetStars()
+        private void ShowBookInfoWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (_edition.AverageStars == 0)
-                return;
-
-            else if (_edition.AverageStars == 1)
-                star_1.Kind = PackIconKind.Star;
-
-            else if (_edition.AverageStars == 2)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.Star;
-            }
-
-            else if (_edition.AverageStars == 3)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.Star;
-                star_3.Kind = PackIconKind.Star;
-
-            }
-
-            else if (_edition.AverageStars == 4)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.Star;
-                star_3.Kind = PackIconKind.Star;
-                star_4.Kind = PackIconKind.Star;
-            }
-
-            else if (_edition.AverageStars == 5)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.Star;
-                star_3.Kind = PackIconKind.Star;
-                star_4.Kind = PackIconKind.Star;
-                star_5.Kind = PackIconKind.Star;
-            }
-
-            else if (_edition.AverageStars > 0 && _edition.AverageStars < 1)
-                star_1.Kind = PackIconKind.StarHalfFull;
-
-            else if (_edition.AverageStars > 1 && _edition.AverageStars < 2)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.StarHalfFull;
-            }
-
-            else if (_edition.AverageStars > 2 && _edition.AverageStars < 3)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.Star;
-                star_3.Kind = PackIconKind.StarHalfFull;
-            }
-
-            else if (_edition.AverageStars > 3 && _edition.AverageStars < 4)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.Star;
-                star_3.Kind = PackIconKind.Star;
-                star_4.Kind = PackIconKind.StarHalfFull;
-            }
-
-            else if (_edition.AverageStars > 4 && _edition.AverageStars < 5)
-            {
-                star_1.Kind = PackIconKind.Star;
-                star_2.Kind = PackIconKind.Star;
-                star_3.Kind = PackIconKind.Star;
-                star_4.Kind = PackIconKind.Star;
-                star_5.Kind = PackIconKind.StarHalfFull;
-            }
+            _mainWindow.Effect = new BlurEffect();
+            new BookInfoWindow(_edition, _userId, _reviewService).ShowDialog();
+            _mainWindow.Effect = null;
         }
     }
 }

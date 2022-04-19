@@ -10,6 +10,7 @@ using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Services;
 using OnDigit.Infrastructure.Data;
 using OnDigit.Infrastructure.Services;
+using System.Windows.Media.Animation;
 
 namespace OnDigit.Client
 {
@@ -37,6 +38,7 @@ namespace OnDigit.Client
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<IPasswordHasher, PasswordHasher>();
                     services.AddSingleton<IAuthenticationService, AuthenticationService>();
+                    services.AddSingleton<IReviewService, ReviewService>();
                     services.AddSingleton<IDataService<User>, UserDataService>();
                     services.AddSingleton<IUserService, UserDataService>();
                     services.AddSingleton<IShopService, ShopService>();
@@ -50,7 +52,7 @@ namespace OnDigit.Client
             {
                 context.Database.Migrate();
             }
-          
+
             MainWindow window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();
             base.OnStartup(e);

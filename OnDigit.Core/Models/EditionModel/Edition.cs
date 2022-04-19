@@ -6,7 +6,7 @@ using OnDigit.Core.Interfaces;
 using OnDigit.Core.Models.CartModel;
 using OnDigit.Core.Models.OrderEditionModel;
 using System;
-using OnDigit.Core.Models.UserFavoritesModel;
+using OnDigit.Core.Models.UserFavoriteModel;
 
 namespace OnDigit.Core.Models.EditionModel
 {
@@ -14,7 +14,8 @@ namespace OnDigit.Core.Models.EditionModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public float AverageStars { get; set; }
+        public float Rating { get; set; }
+        public int RatingCount { get; set; }
         public decimal Price { get; set; }
         public int GenreId { get; set; }
         public string ImageLink { get; set; }
@@ -24,7 +25,7 @@ namespace OnDigit.Core.Models.EditionModel
         public ICollection<Cart> Baskets { get; set; } = new List<Cart>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public List<OrderEdition> OrdersEditions { get; set; } = new List<OrderEdition>();
-        public List<UserFavorites> UserFavorites { get; set; } = new List<UserFavorites>();
+        public List<UserFavorite> UserFavorites { get; set; } = new List<UserFavorite>();
 
         public override void Dispose()
         {

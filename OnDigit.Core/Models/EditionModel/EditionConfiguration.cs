@@ -19,8 +19,13 @@ namespace OnDigit.Core.Models.EditionModel
                 .IsRequired();
 
             builder
-                .Property(e => e.AverageStars)
+                .Property(e => e.Rating)
                 .HasDefaultValue(0f)
+                .IsRequired();
+
+            builder
+                .Property(e => e.RatingCount)
+                .HasDefaultValue(0)
                 .IsRequired();
 
             builder

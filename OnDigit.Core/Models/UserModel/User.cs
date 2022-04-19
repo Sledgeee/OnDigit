@@ -8,7 +8,7 @@ using OnDigit.Core.Models.SessionModel;
 using OnDigit.Core.Models.UserLoginHistoryModel;
 using OnDigit.Core.Interfaces;
 using OnDigit.Core.Models.RoleModel;
-using OnDigit.Core.Models.UserFavoritesModel;
+using OnDigit.Core.Models.UserFavoriteModel;
 
 namespace OnDigit.Core.Models.UserModel
 {
@@ -30,7 +30,7 @@ namespace OnDigit.Core.Models.UserModel
         public ICollection<Cart> Baskets { get; set; } = new List<Cart>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
-        public List<UserFavorites> UserFavorites { get; set; } = new List<UserFavorites>();
+        public List<UserFavorite> UserFavorites { get; set; } = new List<UserFavorite>();
 
         public override void Dispose()
         {

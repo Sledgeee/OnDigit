@@ -19,7 +19,7 @@
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 20 20 0">
-                    <Button Style="{StaticResource ResourceKey=MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Click="exitDialog_Click">
+                    <Button Style="{StaticResource ResourceKey=MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Click="exitDialog_Click" ToolTip="Close application">
                         <materialDesign:PackIcon Kind="Close" Foreground="White"/>
                     </Button>
                 </StackPanel>
