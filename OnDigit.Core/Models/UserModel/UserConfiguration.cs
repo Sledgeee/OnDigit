@@ -25,8 +25,6 @@ namespace OnDigit.Core.Models.UserModel
 
             builder.Property(u => u.DateCreated).HasDefaultValueSql("CURRENT_TIMESTAMP").IsRequired();
 
-            builder.Property(u => u.SessionCreated).HasDefaultValue(false);
-
             builder
                 .HasMany(o => o.Orders)
                 .WithOne(u => u.User)

@@ -4,6 +4,7 @@ using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.GenreModel;
 using OnDigit.Core.Models.RoleModel;
 using OnDigit.Core.Roles;
+using System;
 
 namespace OnDigit.Infrastructure.Data
 {
@@ -112,10 +113,10 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Religious Literature"
                 });
 
-        public static void SeedEditions(ModelBuilder builder) =>
-            builder.Entity<Edition>().HasData(
-                new Edition()
-                { 
+        public static void SeedEditions(ModelBuilder builder)
+        {
+            builder.Entity<Edition>().HasData(new Edition()
+                {
                     Name = "Book1",
                     Description = "Book1",
                     Price = 9.99m,
@@ -234,5 +235,6 @@ namespace OnDigit.Infrastructure.Data
                     Rating = 0,
                     GenreId = (int)Genres.Religious_literature
                 });
+        } 
     }
 }

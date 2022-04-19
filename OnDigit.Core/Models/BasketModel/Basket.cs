@@ -4,9 +4,9 @@ using OnDigit.Core.Interfaces;
 using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.UserModel;
 
-namespace OnDigit.Core.Models.CartModel
+namespace OnDigit.Core.Models.BasketModel
 {
-    public class Cart : EntityObject, IBaseEntity
+    public class Basket : EntityObject, IBaseEntity
     {
         public decimal TotalPrice { get; set; }
         public string UserId { get; set; }

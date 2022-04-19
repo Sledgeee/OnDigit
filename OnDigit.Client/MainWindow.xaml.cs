@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Linq;
 using System.Windows.Media.Effects;
 using OnDigit.Client.Windows.Auth;
 using OnDigit.Client.Windows.Shop.Controls;
@@ -16,6 +16,7 @@ using OnDigit.Core.Models.UserModel;
 using Microsoft.Win32;
 using OnDigit.Core.Models.SessionModel;
 using OnDigit.Core.Models.EditionModel;
+using System.Windows.Media;
 
 namespace OnDigit.Client
 {
@@ -45,7 +46,9 @@ namespace OnDigit.Client
             _currentUser = null;
             UserFullname.Text = string.Empty;
             if (await CheckOnSession())
-                LoadBooks(await _shopService.GetAllEditionsAsync());
+            {
+                ItemShop.IsSelected = true;
+            }
             else
             {
                 SignInDialog();
@@ -87,16 +90,18 @@ namespace OnDigit.Client
             if (string.IsNullOrEmpty(pcId) is false)
             {
                 _currentSession = await _userService.GetSessionInfo(pcId, userId);
-
-                if (DateTime.UtcNow <= _currentSession.EndDate && _currentSession.IsCanceledInAdvance is false)
+                if (_currentSession is not null)
                 {
-                    _currentUser = await _userService.GetByIdAsync(userId);
-                    if (_currentUser is not null)
+                    if (DateTime.UtcNow <= _currentSession.EndDate && _currentSession.IsCanceledInAdvance is false)
                     {
-                        UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
-                        LoginedState.Visibility = Visibility.Visible; 
-                        SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
-                        return true;
+                        _currentUser = await _userService.GetByIdAsync(userId);
+                        if (_currentUser is not null)
+                        {
+                            UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
+                            LoginedState.Visibility = Visibility.Visible;
+                            SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
+                            return true;
+                        }
                     }
                 }
             }
@@ -109,17 +114,17 @@ namespace OnDigit.Client
         {
             SpinnersPropsChange("SpinnerBooks", true, Visibility.Visible);
 
-            this.ShopMain.Effect = new BlurEffect(); 
+            this.Shop.Effect = new BlurEffect();
 
             await Task.Delay(1000);
 
-            ShopMain.Children.Clear();
+            Shop.Children.Clear();
 
             List<string> favoriteEditionsId = new List<string>();
 
             if (_currentUser is not null)
             {
-                var userFavorites = await _userService.GetFavoriteEditionsAsync(_currentUser.Id); 
+                var userFavorites = await _userService.GetFavoriteEditionsAsync(_currentUser.Id);
                 foreach (UserFavorite edition in userFavorites)
                 {
                     favoriteEditionsId.Add(edition.EditionId);
@@ -128,12 +133,16 @@ namespace OnDigit.Client
 
             foreach (var edition in editionList)
             {
-                edition.ImageLink = "/Images/willbook.jpg";
-                ShopMain.Children.Add(new ShopEditionCard(this, edition, favoriteEditionsId.Contains(edition.Id), _currentUser.Id, _reviewService, _userService));
+                edition.ImageUri = "/Images/willbook.jpg";
+                bool isFavorite = favoriteEditionsId.Contains(edition.Id);
+                Shop.Children.Add(new ShopEditionCard(this, edition, isFavorite, _currentUser.Id, _reviewService, _userService));
+                if (isFavorite is true)
+                    Favorites.Children.Add(new ShopEditionCard(this, edition, true, _currentUser.Id, _reviewService, _userService));
             }
 
+
             editionList.Clear();
-            this.ShopMain.Effect = null;
+            this.Shop.Effect = null;
             SpinnersPropsChange("SpinnerBooks", false, Visibility.Collapsed);
         }
 
@@ -171,24 +180,46 @@ namespace OnDigit.Client
             ButtonOpenMenu.Visibility = Visibility.Visible;
         }
 
-        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-        //    UserControl usc = null;
-        //    GridMain.Children.Clear();
+            switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
+            {
+                case "ItemShop":
+                    SwitchToOtherTab(Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Brushes.Orange, Brushes.White, Brushes.White);
+                    LoadBooks(await _shopService.GetAllEditionsAsync());
+                    break;
+                case "ItemFavorites":
+                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Brushes.White, Brushes.Orange, Brushes.White);
+                    LoadBooks(await _shopService.GetAllEditionsAsync());
+                    break;
+                case "ItemOrders":
+                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Brushes.White, Brushes.White, Brushes.Orange);
+                    // load orders
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        //    switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
-        //    {
-        //        case "ItemFilterBooks":
-        //            usc = new UserControlHome();
-        //            GridMain.Children.Add(usc);
-        //            break;
-        //        case "ItemMyOrders":
-        //            usc = new UserControlCreate();
-        //            GridMain.Children.Add(usc);
-        //            break;
-        //        default:
-        //            break;
-        //    }
+        private void SwitchToOtherTab(Visibility shopVisibility, Visibility favoritesVisibility, Visibility ordersVisibility,
+                                      Brush brushShop, Brush brushFavorites, Brush brushOrders)
+        {
+            Shop.Children.Clear();
+            Orders.Children.Clear();
+            Favorites.Children.Clear();
+            if (shopVisibility == Visibility.Visible)
+                SearchBar.Visibility = Visibility.Visible;
+            else
+                SearchBar.Visibility = Visibility.Collapsed;
+            Shop.Visibility = shopVisibility;
+            Favorites.Visibility = favoritesVisibility;
+            Orders.Visibility = ordersVisibility;
+            ItemShopIcon.Foreground = brushShop;
+            ItemShopText.Foreground = brushShop;
+            ItemFavoritesIcon.Foreground = brushFavorites;
+            ItemFavoritesText.Foreground = brushFavorites;
+            ItemOrdersIcon.Foreground = brushOrders;
+            ItemOrdersText.Foreground = brushOrders;
         }
 
         private async void Logout_Click(object sender, RoutedEventArgs e)
@@ -198,7 +229,7 @@ namespace OnDigit.Client
             Registry.CurrentUser.DeleteSubKey("OnDigitSession");
             LoginedState.Visibility = Visibility.Collapsed;
             UserFullname.Text = string.Empty;
-            ShopMain.Children.Clear();
+            Shop.Children.Clear();
             SignInDialog();
         }
 

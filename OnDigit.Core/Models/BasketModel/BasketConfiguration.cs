@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace OnDigit.Core.Models.CartModel
+namespace OnDigit.Core.Models.BasketModel
 {
-    public class CartConfiguration : IEntityTypeConfiguration<Cart>
+    public class BasketConfiguration : IEntityTypeConfiguration<Basket>
     {
-        public void Configure(EntityTypeBuilder<Cart> builder)
+        public void Configure(EntityTypeBuilder<Basket> builder)
         {
             builder.HasKey(b => b.Id);
 

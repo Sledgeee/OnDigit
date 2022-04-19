@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnDigit.Infrastructure.Data;
 
 namespace OnDigit.Infrastructure.Migrations
 {
     [DbContext(typeof(OnDigitDbContext))]
-    [Migration("20220414130158_init")]
-    partial class init
+    partial class OnDigitDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +19,7 @@ namespace OnDigit.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CartEdition", b =>
+            modelBuilder.Entity("BasketEdition", b =>
                 {
                     b.Property<string>("BasketsId")
                         .HasColumnType("nvarchar(450)");
@@ -33,10 +31,10 @@ namespace OnDigit.Infrastructure.Migrations
 
                     b.HasIndex("EditionsId");
 
-                    b.ToTable("CartEdition");
+                    b.ToTable("BasketEdition");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.CartModel.Cart", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.BasketModel.Basket", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -55,15 +53,10 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("Baskets");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.EditionModel.Edition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<float>("AverageStars")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("real")
-                        .HasDefaultValue(0f);
 
                     b.Property<DateTimeOffset>("DateCreated")
                         .ValueGeneratedOnAdd()
@@ -77,7 +70,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageLink")
+                    b.Property<string>("ImageUri")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -88,6 +81,16 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<float>("Rating")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("real")
+                        .HasDefaultValue(0f);
+
+                    b.Property<int>("RatingCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.HasKey("Id");
 
                     b.HasIndex("GenreId");
@@ -97,157 +100,172 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "edfb2820-8a69-4b28-824b-bd06f8eb454e",
-                            AverageStars = 0f,
+                            Id = "84c60ae1-7c0b-4dbd-b9f8-37c9d3206fac",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book1",
                             GenreId = 1,
                             Name = "Book1",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 5f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "676f1946-755e-461b-8821-9a7bcc96036a",
-                            AverageStars = 0f,
+                            Id = "0d72308f-34b1-470e-93c5-fa9cb524756b",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book2",
                             GenreId = 2,
                             Name = "Book2",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 4.4f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "88bc5fb9-9e29-41cc-95fc-c68395d6b760",
-                            AverageStars = 0f,
+                            Id = "310b6266-9c11-4cc6-8bc7-198f04c4f753",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book3",
                             GenreId = 3,
                             Name = "Book3",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 3.2f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "5222199a-1ce5-4418-9023-882732eda11e",
-                            AverageStars = 0f,
+                            Id = "14628a2f-287a-466c-81ff-8cb1e9dd25f9",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book4",
                             GenreId = 4,
                             Name = "Book4",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 3f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "ea018c02-77b3-4e13-9823-4346cd093ec6",
-                            AverageStars = 0f,
+                            Id = "5e816e35-2477-49b3-af96-5c5fa45b80c1",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book5",
                             GenreId = 5,
                             Name = "Book5",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 2f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "02c20983-3472-47f5-8c39-8be57c4828ea",
-                            AverageStars = 0f,
+                            Id = "c85b4e26-72cb-4c26-bb65-d79990523eb1",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book6",
                             GenreId = 6,
                             Name = "Book6",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 1f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "9ea744f4-13b5-4149-8476-d72ccb4e8329",
-                            AverageStars = 0f,
+                            Id = "91420ac4-3a51-4cd1-b287-e461dd88576f",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book7",
                             GenreId = 7,
                             Name = "Book7",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0.6f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "dae98619-931b-4485-89ea-7a5414277994",
-                            AverageStars = 0f,
+                            Id = "c93eec40-3469-4c8a-8c77-81f8b52aaf3b",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book8",
                             GenreId = 8,
                             Name = "Book8",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "b5e11470-e70f-40d9-b957-f9b004010f3b",
-                            AverageStars = 0f,
+                            Id = "2641dd3d-c8d7-4d0b-81df-451dec1288f9",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book9",
                             GenreId = 9,
                             Name = "Book9",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "9972e4a9-af8a-4d9f-98fd-236f554fe97d",
-                            AverageStars = 0f,
+                            Id = "bc3c52cd-2d79-4fe5-a3d8-1c6ecdf5cc67",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book10",
                             GenreId = 10,
                             Name = "Book10",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "9833a619-0ec1-4bd9-873d-f256a11d97dd",
-                            AverageStars = 0f,
+                            Id = "949d7c8e-eda7-4361-b827-0c5340a3d19c",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book11",
                             GenreId = 11,
                             Name = "Book11",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "79d8f265-3c95-4efd-8bcd-8fdcb1f27852",
-                            AverageStars = 0f,
+                            Id = "f37a1582-586f-418c-b3aa-b383e80f5f98",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book12",
                             GenreId = 12,
                             Name = "Book12",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "e45794b7-5c47-4171-be1d-b0cd90ee1249",
-                            AverageStars = 0f,
+                            Id = "b61db9ec-9164-4c51-94ad-2c56603e0bba",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book13",
                             GenreId = 13,
                             Name = "Book13",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "82cbc862-f729-4838-b631-c1b9cac23bde",
-                            AverageStars = 0f,
+                            Id = "c85ae46b-eb28-4915-86a4-abcd9aa72e79",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book14",
                             GenreId = 14,
                             Name = "Book14",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         },
                         new
                         {
-                            Id = "3bdc50c5-831a-48b7-8b08-656d96b3bbda",
-                            AverageStars = 0f,
+                            Id = "b1cd121e-de5b-4dd3-a15c-6806673b3b6d",
                             DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Book15",
                             GenreId = 15,
                             Name = "Book15",
-                            Price = 9.99m
+                            Price = 9.99m,
+                            Rating = 0f,
+                            RatingCount = 0
                         });
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.GenreModel.Genre", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.GenreModel.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,7 +359,7 @@ namespace OnDigit.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.OrderEditionModel.OrderEdition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.OrderEditionModel.OrderEdition", b =>
                 {
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
@@ -356,7 +374,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("OrderEditions");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.OrderModel.Order", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.OrderModel.Order", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -379,7 +397,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.ResetTokenModel.ResetToken", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.ResetTokenModel.ResetToken", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -397,7 +415,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("ResetToken");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.ReviewModel.Review", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.ReviewModel.Review", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -431,7 +449,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.RoleModel.Role", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.RoleModel.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -464,13 +482,16 @@ namespace OnDigit.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.SessionModel.Session", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.SessionModel.Session", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("EndDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsCanceledInAdvance")
+                        .HasColumnType("bit");
 
                     b.Property<string>("MACHINE_KEY")
                         .IsRequired()
@@ -480,23 +501,37 @@ namespace OnDigit.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.UserLoginHistoryModel.UserLoginHistory", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.UserFavoriteModel.UserFavorite", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EditionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "EditionId");
+
+                    b.HasIndex("EditionId");
+
+                    b.ToTable("UserFavorites");
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.UserLoginHistoryModel.UserLoginHistory", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTimeOffset>("DateLogin")
+                    b.Property<DateTimeOffset>("DateLogined")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -507,13 +542,12 @@ namespace OnDigit.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("UsersLoginHistory");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.UserModel.User", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.UserModel.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -549,11 +583,6 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("SessionCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -566,24 +595,24 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CartEdition", b =>
+            modelBuilder.Entity("BasketEdition", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.CartModel.Cart", null)
+                    b.HasOne("OnDigit.Core.Models.BasketModel.Basket", null)
                         .WithMany()
                         .HasForeignKey("BasketsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VividBooks.Core.Models.EditionModel.Edition", null)
+                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", null)
                         .WithMany()
                         .HasForeignKey("EditionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.CartModel.Cart", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.BasketModel.Basket", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.UserModel.User", "User")
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithMany("Baskets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -592,9 +621,9 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.EditionModel.Edition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.GenreModel.Genre", "Genre")
+                    b.HasOne("OnDigit.Core.Models.GenreModel.Genre", "Genre")
                         .WithMany("Editions")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -603,15 +632,15 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("Genre");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.OrderEditionModel.OrderEdition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.OrderEditionModel.OrderEdition", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.EditionModel.Edition", "Edition")
+                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
                         .WithMany("OrdersEditions")
                         .HasForeignKey("EditionId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("VividBooks.Core.Models.OrderModel.Order", "Order")
+                    b.HasOne("OnDigit.Core.Models.OrderModel.Order", "Order")
                         .WithMany("OrdersEditions")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -622,9 +651,9 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.OrderModel.Order", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.OrderModel.Order", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.UserModel.User", "User")
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientCascade);
@@ -632,24 +661,24 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.ResetTokenModel.ResetToken", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.ResetTokenModel.ResetToken", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.UserModel.User", "User")
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithMany("ResetTokens")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.ReviewModel.Review", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.ReviewModel.Review", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.EditionModel.Edition", "Edition")
+                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
                         .WithMany("Reviews")
                         .HasForeignKey("EditionId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("VividBooks.Core.Models.UserModel.User", "User")
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -660,30 +689,50 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.SessionModel.Session", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.SessionModel.Session", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.UserModel.User", "User")
-                        .WithOne("Session")
-                        .HasForeignKey("VividBooks.Core.Models.SessionModel.Session", "UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
+                        .WithMany("Sessions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.UserLoginHistoryModel.UserLoginHistory", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.UserFavoriteModel.UserFavorite", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.UserModel.User", "User")
-                        .WithOne("UserLoginHistory")
-                        .HasForeignKey("VividBooks.Core.Models.UserLoginHistoryModel.UserLoginHistory", "UserId")
+                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("EditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Edition");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.UserLoginHistoryModel.UserLoginHistory", b =>
+                {
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
+                        .WithMany("UserLogins")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.UserModel.User", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.UserModel.User", b =>
                 {
-                    b.HasOne("VividBooks.Core.Models.RoleModel.Role", "Role")
+                    b.HasOne("OnDigit.Core.Models.RoleModel.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -692,29 +741,31 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.EditionModel.Edition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
                 {
                     b.Navigation("OrdersEditions");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("UserFavorites");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.GenreModel.Genre", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.GenreModel.Genre", b =>
                 {
                     b.Navigation("Editions");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.OrderModel.Order", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.OrderModel.Order", b =>
                 {
                     b.Navigation("OrdersEditions");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.RoleModel.Role", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.RoleModel.Role", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("VividBooks.Core.Models.UserModel.User", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.UserModel.User", b =>
                 {
                     b.Navigation("Baskets");
 
@@ -724,9 +775,11 @@ namespace OnDigit.Infrastructure.Migrations
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("Session");
+                    b.Navigation("Sessions");
 
-                    b.Navigation("UserLoginHistory");
+                    b.Navigation("UserFavorites");
+
+                    b.Navigation("UserLogins");
                 });
 #pragma warning restore 612, 618
         }

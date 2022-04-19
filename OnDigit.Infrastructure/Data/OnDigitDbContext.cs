@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnDigit.Core.Models.CartModel;
+using OnDigit.Core.Models.BasketModel;
 using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.GenreModel;
 using OnDigit.Core.Models.OrderEditionModel;
@@ -20,7 +20,7 @@ namespace OnDigit.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new CartConfiguration());
+            modelBuilder.ApplyConfiguration(new BasketConfiguration());
             modelBuilder.ApplyConfiguration(new EditionConfiguration());
             modelBuilder.ApplyConfiguration(new GenreConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
@@ -34,7 +34,7 @@ namespace OnDigit.Infrastructure.Data
             modelBuilder.Seed();
         }
 
-        public DbSet<Cart> Baskets { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
         public DbSet<Edition> Editions { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Order> Orders { get; set; }
