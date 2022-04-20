@@ -9,7 +9,15 @@ namespace OnDigit.Core.Models.EditionModel
         {
             public EditionSearch(string searchRow)
             {
-                Query.Where(x => x.Name.Contains(searchRow));
+                Query.Include(x => x.Reviews).Include(x=>x.UserFavorites).Where(x => x.Name.Contains(searchRow)).OrderByDescending(x => x.Id);
+            }
+        }
+
+        internal class EditionLoad : Specification<Edition>
+        {
+            public EditionLoad()
+            {
+                Query.Include(x => x.Reviews).Include(x => x.UserFavorites).OrderByDescending(x => x.Id);
             }
         }
     }

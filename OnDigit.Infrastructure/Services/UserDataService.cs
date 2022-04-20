@@ -34,35 +34,27 @@ namespace OnDigit.Infrastructure.Services
 
         public async Task<User> GetByIdAsync(string id)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.Users.FirstOrDefaultAsync((e) => e.Id == id);
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Users.FirstOrDefaultAsync((e) => e.Id == id);
         }
 
         public async Task<User> GetByEmailAsync(string email)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.Users.FirstOrDefaultAsync(e => e.Email == email);
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Users.FirstOrDefaultAsync(e => e.Email == email);
         }
 
         public async Task AddLoginToHistory(string userId)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                await context.UsersLoginHistory.AddAsync(new UserLoginHistory() { UserId = userId });
-                await context.SaveChangesAsync();
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            await context.UsersLoginHistory.AddAsync(new UserLoginHistory() { UserId = userId });
+            await context.SaveChangesAsync();
         }
 
         public async Task<ICollection<User>> GetAllAsync()
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.Users.ToListAsync();
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Users.ToListAsync();
         }
 
         public async Task<User> UpdateAsync(string id, User entity) => await _nonQueryDataService.Update(id, entity);
@@ -75,76 +67,64 @@ namespace OnDigit.Infrastructure.Services
 
         public async Task<ICollection<UserFavorite>> GetFavoriteEditionsAsync(string userId)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task SetFavoriteEditionAsync(string userId, string editionId)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            await context.UserFavorites.AddAsync(new UserFavorite()
             {
-                await context.UserFavorites.AddAsync(new UserFavorite()
-                {
-                    UserId = userId,
-                    EditionId = editionId
-                });
-                await context.SaveChangesAsync();
-            }
+                UserId = userId,
+                EditionId = editionId
+            });
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteFavoriteEditionAsync(string userId, string editionId)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            context.UserFavorites.Remove(new UserFavorite()
             {
-                context.UserFavorites.Remove(new UserFavorite()
-                {
-                    UserId = userId,
-                    EditionId = editionId
-                });
-                await context.SaveChangesAsync();
-            }
+                UserId = userId,
+                EditionId = editionId
+            });
+            await context.SaveChangesAsync();
         }
 
         public async Task SetRememberMeStatus(string userId)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                var pcId = Guid.NewGuid().ToString();
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            var pcId = Guid.NewGuid().ToString();
 
-                using var key = Registry.CurrentUser.CreateSubKey("OnDigitSession");
-                key.SetValue("pcId", pcId);
-                key.SetValue("userId", userId);
-                key.Close();
-                
-                await context.Sessions.AddAsync(new Session()
-                {
-                    UserId = userId,
-                    MACHINE_KEY = pcId,
-                    StartDate = DateTime.UtcNow,
-                    EndDate = DateTime.UtcNow.AddDays(1),
-                    IsCanceledInAdvance = false
-                });
-                await context.SaveChangesAsync();
-            }
+            using var key = Registry.CurrentUser.CreateSubKey("OnDigitSession");
+            key.SetValue("pcId", pcId);
+            key.SetValue("userId", userId);
+            key.Close();
+
+            await context.Sessions.AddAsync(new Session()
+            {
+                UserId = userId,
+                MACHINE_KEY = pcId,
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1),
+                IsCanceledInAdvance = false
+            });
+            await context.SaveChangesAsync();
         }
 
         public async Task<Session> GetSessionInfo(string pcId, string userId)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.Sessions.Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).FirstOrDefaultAsync();
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Sessions.Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).FirstOrDefaultAsync();
         }
 
         public async Task UpdateSessionInfo(Session session)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                context.Sessions.Update(session);
-                await context.SaveChangesAsync();
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            context.Sessions.Update(session);
+            await context.SaveChangesAsync();
         }
     }
 }

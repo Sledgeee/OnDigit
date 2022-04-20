@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace OnDigit.Core.Models.EditionModel
 {
@@ -40,7 +41,7 @@ namespace OnDigit.Core.Models.EditionModel
             builder
                 .Property(e => e.DateCreated)
                 .IsRequired()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValue(DateTime.UtcNow);
 
             builder
                 .HasMany(r => r.Reviews)

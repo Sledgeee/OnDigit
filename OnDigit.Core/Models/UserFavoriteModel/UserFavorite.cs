@@ -5,7 +5,7 @@ using System;
 
 namespace OnDigit.Core.Models.UserFavoriteModel
 {
-    public class UserFavorite : IBaseEntity, IDisposable
+    public class UserFavorite : IDisposable
     {
         public string UserId { get; set; }
         public User User { get; set; }
@@ -15,6 +15,18 @@ namespace OnDigit.Core.Models.UserFavoriteModel
         public void Dispose()
         {
             GC.Collect();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if ((obj is null) || this.GetType().Equals(obj.GetType()) is false)
+            {
+                return false;
+            }
+            else {
+                UserFavorite uf = obj as UserFavorite;
+                return (UserId == uf.UserId) && (User == uf.User) && (EditionId == uf.EditionId) && (Edition == uf.Edition);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace OnDigit.Core.Models.ReviewModel
 {
@@ -19,7 +20,7 @@ namespace OnDigit.Core.Models.ReviewModel
 
             builder
                 .Property(r => r.DateCreated)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasDefaultValue(DateTime.UtcNow)
                 .IsRequired();
 
             builder

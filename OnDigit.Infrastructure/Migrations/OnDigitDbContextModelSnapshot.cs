@@ -19,49 +19,15 @@ namespace OnDigit.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BasketEdition", b =>
-                {
-                    b.Property<string>("BasketsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EditionsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("BasketsId", "EditionsId");
-
-                    b.HasIndex("EditionsId");
-
-                    b.ToTable("BasketEdition");
-                });
-
-            modelBuilder.Entity("OnDigit.Core.Models.BasketModel.Basket", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Baskets");
-                });
-
             modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTimeOffset>("DateCreated")
+                    b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 14, DateTimeKind.Utc).AddTicks(2314));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -100,8 +66,8 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "84c60ae1-7c0b-4dbd-b9f8-37c9d3206fac",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "5322e304-d018-4fb5-a8b3-ba31b4756ac1",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book1",
                             GenreId = 1,
                             Name = "Book1",
@@ -111,8 +77,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "0d72308f-34b1-470e-93c5-fa9cb524756b",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "93d0ec50-7492-4adf-9c0e-4079e6a44227",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book2",
                             GenreId = 2,
                             Name = "Book2",
@@ -122,8 +88,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "310b6266-9c11-4cc6-8bc7-198f04c4f753",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "390aeaf6-e289-4691-8351-db1967907bcf",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book3",
                             GenreId = 3,
                             Name = "Book3",
@@ -133,8 +99,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "14628a2f-287a-466c-81ff-8cb1e9dd25f9",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "f2ea90fb-3776-46ce-9f67-3a3e82e0a548",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book4",
                             GenreId = 4,
                             Name = "Book4",
@@ -144,8 +110,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "5e816e35-2477-49b3-af96-5c5fa45b80c1",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "1ac27b96-4169-491a-b9e6-8c9ef9b15959",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book5",
                             GenreId = 5,
                             Name = "Book5",
@@ -155,8 +121,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c85b4e26-72cb-4c26-bb65-d79990523eb1",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "f2620030-9947-48db-9d25-5e91dfa913a3",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book6",
                             GenreId = 6,
                             Name = "Book6",
@@ -166,8 +132,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "91420ac4-3a51-4cd1-b287-e461dd88576f",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "7b4195d5-bd71-497a-9da0-99847addce7b",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book7",
                             GenreId = 7,
                             Name = "Book7",
@@ -177,8 +143,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c93eec40-3469-4c8a-8c77-81f8b52aaf3b",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "ab864b95-a41d-4bea-96fb-5c072abd8ffe",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book8",
                             GenreId = 8,
                             Name = "Book8",
@@ -188,8 +154,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "2641dd3d-c8d7-4d0b-81df-451dec1288f9",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "aed4bb17-1dab-4e38-bdb4-79a76f1d4736",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book9",
                             GenreId = 9,
                             Name = "Book9",
@@ -199,8 +165,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "bc3c52cd-2d79-4fe5-a3d8-1c6ecdf5cc67",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "2e7e40a8-0371-46eb-8272-d61b9e05649e",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book10",
                             GenreId = 10,
                             Name = "Book10",
@@ -210,8 +176,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "949d7c8e-eda7-4361-b827-0c5340a3d19c",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "020b8a2a-bd02-4caf-87e7-d10e609ce2a6",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book11",
                             GenreId = 11,
                             Name = "Book11",
@@ -221,8 +187,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "f37a1582-586f-418c-b3aa-b383e80f5f98",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "81189d8e-89fb-4f2c-9339-055664e781db",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book12",
                             GenreId = 12,
                             Name = "Book12",
@@ -232,8 +198,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "b61db9ec-9164-4c51-94ad-2c56603e0bba",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "3d66cce9-4e88-4194-bce2-24989b9be23c",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book13",
                             GenreId = 13,
                             Name = "Book13",
@@ -243,8 +209,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c85ae46b-eb28-4915-86a4-abcd9aa72e79",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "22ddfaca-68e4-4c73-8d82-dbabc514b911",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book14",
                             GenreId = 14,
                             Name = "Book14",
@@ -254,8 +220,8 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "b1cd121e-de5b-4dd3-a15c-6806673b3b6d",
-                            DateCreated = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = "2e19783f-8c32-4e87-990f-8eaae4e5da2a",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book15",
                             GenreId = 15,
                             Name = "Book15",
@@ -361,13 +327,13 @@ namespace OnDigit.Infrastructure.Migrations
 
             modelBuilder.Entity("OnDigit.Core.Models.OrderEditionModel.OrderEdition", b =>
                 {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("EditionId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("OrderId", "EditionId");
+                    b.HasKey("OrderNumber", "EditionId");
 
                     b.HasIndex("EditionId");
 
@@ -376,13 +342,15 @@ namespace OnDigit.Infrastructure.Migrations
 
             modelBuilder.Entity("OnDigit.Core.Models.OrderModel.Order", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTimeOffset>("DateOrder")
+                    b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateOrder")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 23, DateTimeKind.Utc).AddTicks(2271));
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -390,7 +358,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Number");
 
                     b.HasIndex("UserId");
 
@@ -420,10 +388,10 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTimeOffset>("DateCreated")
+                    b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 30, DateTimeKind.Utc).AddTicks(8847));
 
                     b.Property<string>("EditionId")
                         .IsRequired()
@@ -449,46 +417,13 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.RoleModel.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Owner"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Administrator"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Customer"
-                        });
-                });
-
             modelBuilder.Entity("OnDigit.Core.Models.SessionModel.Session", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTimeOffset>("EndDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsCanceledInAdvance")
                         .HasColumnType("bit");
@@ -497,8 +432,8 @@ namespace OnDigit.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("StartDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -531,10 +466,10 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTimeOffset>("DateLogined")
+                    b.Property<DateTime>("DateLogined")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 33, DateTimeKind.Utc).AddTicks(3819));
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -557,10 +492,10 @@ namespace OnDigit.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValue(0m);
 
-                    b.Property<DateTimeOffset>("DateCreated")
+                    b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 32, DateTimeKind.Utc).AddTicks(4586));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -580,9 +515,6 @@ namespace OnDigit.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -590,35 +522,7 @@ namespace OnDigit.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("BasketEdition", b =>
-                {
-                    b.HasOne("OnDigit.Core.Models.BasketModel.Basket", null)
-                        .WithMany()
-                        .HasForeignKey("BasketsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", null)
-                        .WithMany()
-                        .HasForeignKey("EditionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OnDigit.Core.Models.BasketModel.Basket", b =>
-                {
-                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
-                        .WithMany("Baskets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
@@ -642,7 +546,7 @@ namespace OnDigit.Infrastructure.Migrations
 
                     b.HasOne("OnDigit.Core.Models.OrderModel.Order", "Order")
                         .WithMany("OrdersEditions")
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("OrderNumber")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
@@ -730,17 +634,6 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.UserModel.User", b =>
-                {
-                    b.HasOne("OnDigit.Core.Models.RoleModel.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
                 {
                     b.Navigation("OrdersEditions");
@@ -760,15 +653,8 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("OrdersEditions");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.RoleModel.Role", b =>
-                {
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("OnDigit.Core.Models.UserModel.User", b =>
                 {
-                    b.Navigation("Baskets");
-
                     b.Navigation("Orders");
 
                     b.Navigation("ResetTokens");

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnDigit.Core.Models.SessionModel;
-using OnDigit.Core.Models.UserLoginHistoryModel;
+using System;
 
 namespace OnDigit.Core.Models.UserModel
 {
@@ -23,7 +22,7 @@ namespace OnDigit.Core.Models.UserModel
 
             builder.Property(u => u.PasswordHash).IsRequired();
 
-            builder.Property(u => u.DateCreated).HasDefaultValueSql("CURRENT_TIMESTAMP").IsRequired();
+            builder.Property(u => u.DateCreated).HasDefaultValue(DateTime.UtcNow).IsRequired();
 
             builder
                 .HasMany(o => o.Orders)
@@ -38,21 +37,9 @@ namespace OnDigit.Core.Models.UserModel
                 .OnDelete(DeleteBehavior.ClientCascade);
 
             builder
-                .HasMany(b => b.Baskets)
-                .WithOne(u => u.User)
-                .HasForeignKey(u => u.UserId)
-                .OnDelete(DeleteBehavior.ClientCascade);
-
-            builder
                 .HasMany(ulh => ulh.UserLogins)
                 .WithOne(u => u.User)
                 .HasForeignKey(ulh => ulh.UserId);
-
-            builder
-                .HasOne(r => r.Role)
-                .WithMany(u => u.Users)
-                .HasForeignKey(r => r.RoleId)
-                .IsRequired();
 
             builder
                 .HasMany(s => s.Sessions)

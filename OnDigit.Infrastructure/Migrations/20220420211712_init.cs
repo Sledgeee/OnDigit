@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnDigit.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,16 +21,21 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 32, DateTimeKind.Utc).AddTicks(4586))
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,7 +50,7 @@ namespace OnDigit.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     GenreId = table.Column<int>(type: "int", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 14, DateTimeKind.Utc).AddTicks(2314))
                 },
                 constraints: table =>
                 {
@@ -59,61 +64,18 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Baskets",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Baskets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Baskets_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DateOrder = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 23, DateTimeKind.Utc).AddTicks(2271)),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Number);
                     table.ForeignKey(
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
@@ -142,13 +104,54 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sessions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MACHINE_KEY = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsCanceledInAdvance = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sessions_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsersLoginHistory",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateLogined = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 33, DateTimeKind.Utc).AddTicks(3819))
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersLoginHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersLoginHistory_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Stars = table.Column<int>(type: "int", nullable: false),
-                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 30, DateTimeKind.Utc).AddTicks(8847)),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EditionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -163,28 +166,6 @@ namespace OnDigit.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reviews_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sessions",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MACHINE_KEY = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    IsCanceledInAdvance = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sessions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sessions_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -216,58 +197,15 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UsersLoginHistory",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateLogined = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersLoginHistory", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UsersLoginHistory_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CartEdition",
-                columns: table => new
-                {
-                    BasketsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EditionsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CartEdition", x => new { x.BasketsId, x.EditionsId });
-                    table.ForeignKey(
-                        name: "FK_CartEdition_Baskets_BasketsId",
-                        column: x => x.BasketsId,
-                        principalTable: "Baskets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CartEdition_Editions_EditionsId",
-                        column: x => x.EditionsId,
-                        principalTable: "Editions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderEditions",
                 columns: table => new
                 {
-                    OrderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderNumber = table.Column<int>(type: "int", nullable: false),
                     EditionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderEditions", x => new { x.OrderId, x.EditionId });
+                    table.PrimaryKey("PK_OrderEditions", x => new { x.OrderNumber, x.EditionId });
                     table.ForeignKey(
                         name: "FK_OrderEditions_Editions_EditionId",
                         column: x => x.EditionId,
@@ -275,10 +213,10 @@ namespace OnDigit.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderEditions_Orders_OrderId",
-                        column: x => x.OrderId,
+                        name: "FK_OrderEditions_Orders_OrderNumber",
+                        column: x => x.OrderNumber,
                         principalTable: "Orders",
-                        principalColumn: "Id",
+                        principalColumn: "Number",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -288,30 +226,20 @@ namespace OnDigit.Infrastructure.Migrations
                 values: new object[,]
                 {
                     { 1, "Detective" },
-                    { 15, "Religious Literature" },
-                    { 14, "Business Literature" },
-                    { 13, "Equipment" },
-                    { 12, "Education Book" },
-                    { 11, "Documentary Literature" },
-                    { 10, "Children's Books" },
-                    { 9, "Prose" },
-                    { 7, "Humor" },
-                    { 6, "Folklore" },
-                    { 5, "Scientific Book" },
-                    { 4, "Novel" },
-                    { 3, "Adventures" },
                     { 2, "Fantasy" },
-                    { 8, "Poetry" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 2, "Administrator" },
-                    { 1, "Owner" },
-                    { 3, "Customer" }
+                    { 3, "Adventures" },
+                    { 4, "Novel" },
+                    { 5, "Scientific Book" },
+                    { 6, "Folklore" },
+                    { 7, "Humor" },
+                    { 8, "Poetry" },
+                    { 9, "Prose" },
+                    { 10, "Children's Books" },
+                    { 11, "Documentary Literature" },
+                    { 12, "Education Book" },
+                    { 13, "Equipment" },
+                    { 14, "Business Literature" },
+                    { 15, "Religious Literature" }
                 });
 
             migrationBuilder.InsertData(
@@ -319,13 +247,13 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price", "Rating" },
                 values: new object[,]
                 {
-                    { "939ce2f4-d728-4b13-8526-c585d8bc748f", "Book1", 1, null, "Book1", 9.99m, 5f },
-                    { "f3ca30a5-16af-4567-a551-85f553c9b311", "Book2", 2, null, "Book2", 9.99m, 4.4f },
-                    { "d29dd343-4852-4e91-8056-282f9d619993", "Book3", 3, null, "Book3", 9.99m, 3.2f },
-                    { "b1e9f6ca-1d0e-4bd0-874f-85d56cca81d1", "Book4", 4, null, "Book4", 9.99m, 3f },
-                    { "97c588df-7921-43a6-918c-bfc274416f28", "Book5", 5, null, "Book5", 9.99m, 2f },
-                    { "aa2fa016-7ecb-4b0f-b0c9-f027c66aefa4", "Book6", 6, null, "Book6", 9.99m, 1f },
-                    { "3d210498-e9f8-4453-b7e0-7a1a38081fea", "Book7", 7, null, "Book7", 9.99m, 0.6f }
+                    { "5322e304-d018-4fb5-a8b3-ba31b4756ac1", "Book1", 1, null, "Book1", 9.99m, 5f },
+                    { "93d0ec50-7492-4adf-9c0e-4079e6a44227", "Book2", 2, null, "Book2", 9.99m, 4.4f },
+                    { "390aeaf6-e289-4691-8351-db1967907bcf", "Book3", 3, null, "Book3", 9.99m, 3.2f },
+                    { "f2ea90fb-3776-46ce-9f67-3a3e82e0a548", "Book4", 4, null, "Book4", 9.99m, 3f },
+                    { "1ac27b96-4169-491a-b9e6-8c9ef9b15959", "Book5", 5, null, "Book5", 9.99m, 2f },
+                    { "f2620030-9947-48db-9d25-5e91dfa913a3", "Book6", 6, null, "Book6", 9.99m, 1f },
+                    { "7b4195d5-bd71-497a-9da0-99847addce7b", "Book7", 7, null, "Book7", 9.99m, 0.6f }
                 });
 
             migrationBuilder.InsertData(
@@ -333,25 +261,15 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "65cfe07b-47ff-40b0-9571-2a1448ef1143", "Book8", 8, null, "Book8", 9.99m },
-                    { "43b0383d-49c0-43db-ba20-e49b8058e8e6", "Book9", 9, null, "Book9", 9.99m },
-                    { "16308c41-07ba-48f7-b4d0-6044c6cfe81a", "Book10", 10, null, "Book10", 9.99m },
-                    { "124f0507-8fb9-4393-b61f-789bbfab5e4b", "Book11", 11, null, "Book11", 9.99m },
-                    { "ed8ff430-fa8d-4ad8-91de-2d9e3b81ac42", "Book12", 12, null, "Book12", 9.99m },
-                    { "abf186ce-40c0-4b90-9403-8c0009de8cd8", "Book13", 13, null, "Book13", 9.99m },
-                    { "233555e0-8d9b-497d-bac7-bb947eca5479", "Book14", 14, null, "Book14", 9.99m },
-                    { "430bc4b5-2848-4b1a-945c-6460c027eda1", "Book15", 15, null, "Book15", 9.99m }
+                    { "ab864b95-a41d-4bea-96fb-5c072abd8ffe", "Book8", 8, null, "Book8", 9.99m },
+                    { "aed4bb17-1dab-4e38-bdb4-79a76f1d4736", "Book9", 9, null, "Book9", 9.99m },
+                    { "2e7e40a8-0371-46eb-8272-d61b9e05649e", "Book10", 10, null, "Book10", 9.99m },
+                    { "020b8a2a-bd02-4caf-87e7-d10e609ce2a6", "Book11", 11, null, "Book11", 9.99m },
+                    { "81189d8e-89fb-4f2c-9339-055664e781db", "Book12", 12, null, "Book12", 9.99m },
+                    { "3d66cce9-4e88-4194-bce2-24989b9be23c", "Book13", 13, null, "Book13", 9.99m },
+                    { "22ddfaca-68e4-4c73-8d82-dbabc514b911", "Book14", 14, null, "Book14", 9.99m },
+                    { "2e19783f-8c32-4e87-990f-8eaae4e5da2a", "Book15", 15, null, "Book15", 9.99m }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Baskets_UserId",
-                table: "Baskets",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CartEdition_EditionsId",
-                table: "CartEdition",
-                column: "EditionsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Editions_GenreId",
@@ -394,11 +312,6 @@ namespace OnDigit.Infrastructure.Migrations
                 column: "EditionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
-                table: "Users",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UsersLoginHistory_UserId",
                 table: "UsersLoginHistory",
                 column: "UserId");
@@ -406,9 +319,6 @@ namespace OnDigit.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "CartEdition");
-
             migrationBuilder.DropTable(
                 name: "OrderEditions");
 
@@ -428,9 +338,6 @@ namespace OnDigit.Infrastructure.Migrations
                 name: "UsersLoginHistory");
 
             migrationBuilder.DropTable(
-                name: "Baskets");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
@@ -441,9 +348,6 @@ namespace OnDigit.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genres");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
         }
     }
 }

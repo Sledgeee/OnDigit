@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnDigit.Core.Models.OrderEditionModel;
+using System;
 
 namespace OnDigit.Core.Models.OrderModel
 {
@@ -8,7 +9,7 @@ namespace OnDigit.Core.Models.OrderModel
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.HasKey(o => o.Id);
+            builder.HasKey(o => o.Number);
 
             builder
                 .Property(o => o.TotalPrice)
@@ -17,7 +18,7 @@ namespace OnDigit.Core.Models.OrderModel
 
             builder
                 .Property(o => o.DateOrder)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValue(DateTime.UtcNow);
 
             builder
                 .HasMany(e => e.Editions)
@@ -31,7 +32,7 @@ namespace OnDigit.Core.Models.OrderModel
                 j => j
                     .HasOne(oe => oe.Order)
                     .WithMany(o => o.OrdersEditions)
-                    .HasForeignKey(oe => oe.OrderId)
+                    .HasForeignKey(oe => oe.OrderNumber)
                     .OnDelete(DeleteBehavior.ClientCascade));
         }
     }

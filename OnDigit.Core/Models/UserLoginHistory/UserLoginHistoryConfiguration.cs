@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace OnDigit.Core.Models.UserLoginHistoryModel
 {
@@ -15,7 +16,7 @@ namespace OnDigit.Core.Models.UserLoginHistoryModel
 
             builder
                 .Property(ulh => ulh.DateLogined)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasDefaultValue(DateTime.UtcNow)
                 .IsRequired();
         }
     }

@@ -10,7 +10,7 @@ using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Services;
 using OnDigit.Infrastructure.Data;
 using OnDigit.Infrastructure.Services;
-using System.Windows.Media.Animation;
+using OnDigit.Core.Models.OrderModel;
 
 namespace OnDigit.Client
 {
@@ -34,7 +34,7 @@ namespace OnDigit.Client
                     string connectionString = context.Configuration.GetConnectionString("DefaultConnection");
                     Action<DbContextOptionsBuilder> configureDbContext = o => o.UseSqlServer(connectionString);
                     services.AddDbContext<OnDigitDbContext>(configureDbContext);
-                    services.AddSingleton<OnDigitDbContextFactory>(new OnDigitDbContextFactory(configureDbContext));
+                    services.AddSingleton(new OnDigitDbContextFactory(configureDbContext));
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<IPasswordHasher, PasswordHasher>();
                     services.AddSingleton<IAuthenticationService, AuthenticationService>();
@@ -42,6 +42,7 @@ namespace OnDigit.Client
                     services.AddSingleton<IDataService<User>, UserDataService>();
                     services.AddSingleton<IUserService, UserDataService>();
                     services.AddSingleton<IShopService, ShopService>();
+                    services.AddSingleton<IOrderService, OrderDataService>();
                     services.AddSingleton(typeof(IDataService<>), typeof(GenericDataService<>));
                 });
 

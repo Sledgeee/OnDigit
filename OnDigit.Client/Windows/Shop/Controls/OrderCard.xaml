@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="OnDigit.Client.Windows.Shop.Controls.OrderCard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:OnDigit.Client.Windows.Shop.Controls"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d">
+
+    <StackPanel>
+        <Grid Margin="10" Height="100" Width="1500">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="Green" BorderThickness="5" CornerRadius="5" Height="75" Margin="0 0 10 0"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock FontSize="18" Foreground="LightGray" Text="№" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                    <TextBlock FontSize="18" Foreground="LightGray" Text="{Binding OrderNumber}" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                    <TextBlock FontSize="18" Foreground="LightGray" Text="of" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                    <TextBlock FontSize="18" Foreground="LightGray" Text="{Binding OrderDate}" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                </StackPanel>
+                <TextBlock Grid.Row="2" FontSize="18" Foreground="White" Text="Paid" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" FontSize="18" Foreground="LightGray" Text="Order price" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                <TextBlock Grid.Row="2" FontSize="18" Foreground="White" Text="{Binding OrderPrice}" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+            </Grid>
+            <Grid Grid.Column="3">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Image Source="/Images/willbook.jpg" Margin="7"/>
+                        <Image Source="/Images/willbook.jpg" Margin="7"/>
+                        <Image Source="/Images/willbook.jpg" Margin="7"/>
+                    </WrapPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+        <Separator Width="1475" Background="#292929"/>
+    </StackPanel>
+</UserControl>

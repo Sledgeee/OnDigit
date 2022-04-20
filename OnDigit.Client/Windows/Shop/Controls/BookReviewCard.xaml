@@ -29,7 +29,7 @@
                     <materialDesign:PackIcon x:Name="star_5" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                 </StackPanel>
             </Grid>
-            <Separator Grid.Row="2"/>
+            <Separator Grid.Row="2" Background="#292929"/>
             <Grid Grid.Row="3">
                 <TextBlock Text="So many text" FontSize="18" Foreground="White" VerticalAlignment="Top" Margin="10"/>
             </Grid>
