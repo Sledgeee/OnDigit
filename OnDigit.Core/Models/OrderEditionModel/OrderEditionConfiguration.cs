@@ -7,7 +7,7 @@ namespace OnDigit.Core.Models.OrderEditionModel
     {
         public void Configure(EntityTypeBuilder<OrderEdition> builder)
         {
-            builder.HasKey(k => new { k.OrderId, k.EditionId });
+            builder.HasKey(k => new { k.OrderNumber, k.EditionId });
         }
     }
 }

@@ -30,18 +30,14 @@ namespace OnDigit.Infrastructure.Services
 
         public async Task<T> GetByIdAsync(string id)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.Set<T>().FirstOrDefaultAsync((e) => e.Id == id);
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Set<T>().FirstOrDefaultAsync((e) => e.Id == id);
         }
 
         public async Task<ICollection<T>> GetAllAsync()
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.Set<T>().ToListAsync();
-            }
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Set<T>().ToListAsync();
         }
 
         public async Task<T> UpdateAsync(string id, T entity) => await _nonQueryDataService.Update(id, entity);

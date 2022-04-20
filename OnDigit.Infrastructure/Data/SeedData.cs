@@ -2,9 +2,6 @@
 using OnDigit.Core.Genres;
 using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.GenreModel;
-using OnDigit.Core.Models.RoleModel;
-using OnDigit.Core.Roles;
-using System;
 
 namespace OnDigit.Infrastructure.Data
 {
@@ -12,28 +9,9 @@ namespace OnDigit.Infrastructure.Data
     {
         public static void Seed(this ModelBuilder builder)
         {
-            SeedUserRoles(builder);
             SeedGenres(builder);
             SeedEditions(builder);
         }
-
-        public static void SeedUserRoles(ModelBuilder builder) =>
-            builder.Entity<Role>().HasData(
-                new Role()
-                {
-                    Id = (int)Roles.OwnerId,
-                    Name = "Owner"
-                },
-                new Role()
-                {
-                    Id = (int)Roles.AdministratorId,
-                    Name = "Administrator"
-                },
-                new Role()
-                {
-                    Id = (int)Roles.CustomerId,
-                    Name = "Customer"
-                });
 
         public static void SeedGenres(ModelBuilder builder) =>
             builder.Entity<Genre>().HasData(

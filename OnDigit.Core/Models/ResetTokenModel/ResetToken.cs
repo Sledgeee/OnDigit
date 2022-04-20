@@ -4,7 +4,7 @@ using System;
 
 namespace OnDigit.Core.Models.ResetTokenModel
 {
-    public class ResetToken : EntityObject, IBaseEntity
+    public class ResetToken : EntityObject
     {
         public string UserId { get; set; }
         public User User { get; set; }

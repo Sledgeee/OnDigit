@@ -14,7 +14,7 @@ namespace OnDigit.Infrastructure.Data
 
         public OnDigitDbContext CreateDbContext()
         {
-            DbContextOptionsBuilder<OnDigitDbContext> options = new DbContextOptionsBuilder<OnDigitDbContext>();
+            DbContextOptionsBuilder<OnDigitDbContext> options = new();
 
             _configureDbContext(options);
 

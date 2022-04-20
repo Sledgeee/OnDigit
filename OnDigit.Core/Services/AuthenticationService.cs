@@ -3,10 +3,8 @@ using OnDigit.Core.Interfaces.Services;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using OnDigit.Core.Exceptions;
-using OnDigit.Core.Models.RoleModel;
 using System.Collections.Generic;
 using System;
-using System.Collections;
 
 namespace OnDigit.Core.Services
 {
@@ -23,7 +21,7 @@ namespace OnDigit.Core.Services
 
         public async Task<User> Login(string email, string password, bool? rememberMe)
         {
-            List<Exception> exceptions = new List<Exception>();
+            List<Exception> exceptions = new();
             if (string.IsNullOrEmpty(email) is true)
                 exceptions.Add(new EmptyFieldException("Email field is empty"));
 
@@ -96,17 +94,14 @@ namespace OnDigit.Core.Services
             {
                 string hashedPassword = _passwordHasher.HashPassword(password);
 
-                User user = new User()
+                await _userService.AddAsync(new()
                 {
                     Email = email,
                     PasswordHash = hashedPassword,
                     Name = name,
                     Surname = surname,
-                    Gender = gender,
-                    RoleId = 3
-                };
-
-                await _userService.AddAsync(user);
+                    Gender = gender
+                });
             }
 
             return result;

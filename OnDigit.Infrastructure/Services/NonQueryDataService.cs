@@ -14,38 +14,32 @@ namespace OnDigit.Infrastructure.Services
 
         public async Task<T> Add(T entity)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                EntityEntry<T> createdResult = await context.Set<T>().AddAsync(entity);
-                await context.SaveChangesAsync();
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            EntityEntry<T> createdResult = await context.Set<T>().AddAsync(entity);
+            await context.SaveChangesAsync();
 
-                return createdResult.Entity;
-            }
+            return createdResult.Entity;
         }
 
         public async Task<T> Update(string id, T entity)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                entity.Id = id;
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            entity.Id = id;
 
-                context.Set<T>().Update(entity);
-                await context.SaveChangesAsync();
+            context.Set<T>().Update(entity);
+            await context.SaveChangesAsync();
 
-                return entity;
-            }
+            return entity;
         }
 
         public async Task<bool> Delete(string id)
         {
-            using (OnDigitDbContext context = _contextFactory.CreateDbContext())
-            {
-                T entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
-                context.Set<T>().Remove(entity);
-                await context.SaveChangesAsync();
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            T entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+            context.Set<T>().Remove(entity);
+            await context.SaveChangesAsync();
 
-                return true;
-            }
+            return true;
         }
     }
 }

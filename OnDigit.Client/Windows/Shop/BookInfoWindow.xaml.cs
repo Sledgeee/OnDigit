@@ -19,14 +19,16 @@ namespace OnDigit.Client.Windows.Shop
         private readonly Edition _edition;
         private readonly IReviewService _reviewService;
         private readonly string _userId;
+        private readonly MainWindow _mainWindow;
 
-        public BookInfoWindow(Edition edition, string userId, IReviewService reviewService)
+        public BookInfoWindow(Edition edition, string userId, IReviewService reviewService, MainWindow mainWindow)
         {
             InitializeComponent();
             this.DataContext = this;
             _edition = edition;
             _reviewService = reviewService;
             _userId = userId;
+            _mainWindow = mainWindow;
             Initialize();
         }
 
@@ -37,7 +39,14 @@ namespace OnDigit.Client.Windows.Shop
             _price = _edition.Price + "$";
             _imageUri = _edition.ImageUri;
             _ratingCount = _edition.RatingCount;
-            _genre = typeof(Genres).GetFields().Where(x => x.IsLiteral).Select(x => x.Name).ToArray()[_edition.GenreId].Replace("_", " ");
+            _genre = typeof(Genres).GetFields().Where(x => x.IsLiteral).Select(x => x.Name).ToArray()[_edition.GenreId - 1].Replace("_", " ");
+
+            if (_mainWindow.UserCart.Editions.Contains(_edition))
+            {
+                AddToCartCheck.Visibility = Visibility.Visible;
+                AddToCart.Content = "Remove from cart";
+            }
+
             ReviewsPanel.Children.Add(new BookReviewCard());
             ReviewsPanel.Children.Add(new BookReviewCard());
             ReviewsPanel.Children.Add(new BookReviewCard());
@@ -138,6 +147,23 @@ namespace OnDigit.Client.Windows.Shop
             this.Effect = new BlurEffect();
             new CreateReviewWindow(_reviewService, _userId).ShowDialog();
             this.Effect = null;
+        }
+
+        private void Buy_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddToCart.Content is "Add to cart")
+            {
+                _mainWindow.UserCart.AddEdition(_edition);
+                _mainWindow.CartWrap.Children.Add(new CartEditionCard(_mainWindow.UserCart, _edition));
+                AddToCartCheck.Visibility = Visibility.Visible;
+                AddToCart.Content = "Remove from cart";
+            }
+            else
+            {
+                AddToCart.Content = "Add to cart";
+                AddToCartCheck.Visibility = Visibility.Collapsed;
+                _mainWindow.CartWrap.Children.Remove(new CartEditionCard(_mainWindow.UserCart, _edition));
+            }
         }
     }
 }
