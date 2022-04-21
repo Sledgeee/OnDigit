@@ -21,6 +21,12 @@ namespace OnDigit.Core.Models.CartModel
             TotalPrice = Editions.Sum(x => x.Price);
         }
 
+        public void RemoveEdition(Edition edition)
+        {
+            Editions.Remove(edition);
+            TotalPrice = Editions.Sum(x => x.Price);
+        }
+
         public void Dispose()
         {
             GC.Collect();

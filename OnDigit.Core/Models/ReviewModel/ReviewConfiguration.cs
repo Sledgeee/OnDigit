@@ -20,7 +20,7 @@ namespace OnDigit.Core.Models.ReviewModel
 
             builder
                 .Property(r => r.DateCreated)
-                .HasDefaultValue(DateTime.UtcNow)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .IsRequired();
 
             builder

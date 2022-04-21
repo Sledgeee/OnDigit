@@ -18,7 +18,7 @@ namespace OnDigit.Core.Models.OrderModel
 
             builder
                 .Property(o => o.DateOrder)
-                .HasDefaultValue(DateTime.UtcNow);
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder
                 .HasMany(e => e.Editions)

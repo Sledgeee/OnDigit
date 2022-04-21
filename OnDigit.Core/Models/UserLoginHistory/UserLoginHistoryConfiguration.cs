@@ -16,7 +16,7 @@ namespace OnDigit.Core.Models.UserLoginHistoryModel
 
             builder
                 .Property(ulh => ulh.DateLogined)
-                .HasDefaultValue(DateTime.UtcNow)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .IsRequired();
         }
     }

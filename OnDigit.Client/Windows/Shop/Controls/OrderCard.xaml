@@ -48,11 +48,7 @@
             </Grid>
             <Grid Grid.Column="3">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Image Source="/Images/willbook.jpg" Margin="7"/>
-                        <Image Source="/Images/willbook.jpg" Margin="7"/>
-                        <Image Source="/Images/willbook.jpg" Margin="7"/>
-                    </WrapPanel>
+                    <WrapPanel x:Name="OrderedEditions" Orientation="Horizontal" HorizontalAlignment="Right"/>
                 </ScrollViewer>
             </Grid>
         </Grid>

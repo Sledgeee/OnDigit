@@ -10,7 +10,7 @@ using OnDigit.Infrastructure.Data;
 namespace OnDigit.Infrastructure.Migrations
 {
     [DbContext(typeof(OnDigitDbContext))]
-    [Migration("20220420211712_init")]
+    [Migration("20220421093714_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 14, DateTimeKind.Utc).AddTicks(2314));
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -68,10 +68,11 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5322e304-d018-4fb5-a8b3-ba31b4756ac1",
+                            Id = "151208f3-6a57-4009-a49e-575b2e0ec634",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book1",
                             GenreId = 1,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book1",
                             Price = 9.99m,
                             Rating = 5f,
@@ -79,10 +80,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "93d0ec50-7492-4adf-9c0e-4079e6a44227",
+                            Id = "edd90f24-fd19-449d-878a-efd8b4a3a814",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book2",
                             GenreId = 2,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book2",
                             Price = 9.99m,
                             Rating = 4.4f,
@@ -90,10 +92,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "390aeaf6-e289-4691-8351-db1967907bcf",
+                            Id = "fb48799c-7ce3-4e78-9077-1b41e98909b4",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book3",
                             GenreId = 3,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book3",
                             Price = 9.99m,
                             Rating = 3.2f,
@@ -101,10 +104,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "f2ea90fb-3776-46ce-9f67-3a3e82e0a548",
+                            Id = "081a5fc4-e3cd-4360-8d3f-432d63fef19f",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book4",
                             GenreId = 4,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book4",
                             Price = 9.99m,
                             Rating = 3f,
@@ -112,10 +116,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "1ac27b96-4169-491a-b9e6-8c9ef9b15959",
+                            Id = "62235a64-7201-4504-8cf8-533583805eda",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book5",
                             GenreId = 5,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book5",
                             Price = 9.99m,
                             Rating = 2f,
@@ -123,10 +128,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "f2620030-9947-48db-9d25-5e91dfa913a3",
+                            Id = "f9a0497d-6df6-4549-9cee-2803a01836c8",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book6",
                             GenreId = 6,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book6",
                             Price = 9.99m,
                             Rating = 1f,
@@ -134,10 +140,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "7b4195d5-bd71-497a-9da0-99847addce7b",
+                            Id = "c61c4ef9-3ef4-4a4e-baf6-39772f813818",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book7",
                             GenreId = 7,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book7",
                             Price = 9.99m,
                             Rating = 0.6f,
@@ -145,10 +152,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "ab864b95-a41d-4bea-96fb-5c072abd8ffe",
+                            Id = "2f9a21ad-d05d-48de-a616-66e8e5aea5b0",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book8",
                             GenreId = 8,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book8",
                             Price = 9.99m,
                             Rating = 0f,
@@ -156,10 +164,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "aed4bb17-1dab-4e38-bdb4-79a76f1d4736",
+                            Id = "37710d96-a080-465b-92be-bfa6302ff745",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book9",
                             GenreId = 9,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book9",
                             Price = 9.99m,
                             Rating = 0f,
@@ -167,10 +176,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "2e7e40a8-0371-46eb-8272-d61b9e05649e",
+                            Id = "5a6fd521-e026-43d9-b6a7-d92a386b81bb",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book10",
                             GenreId = 10,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book10",
                             Price = 9.99m,
                             Rating = 0f,
@@ -178,10 +188,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "020b8a2a-bd02-4caf-87e7-d10e609ce2a6",
+                            Id = "278aa884-3113-4227-bfb1-a1753706d79f",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book11",
                             GenreId = 11,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book11",
                             Price = 9.99m,
                             Rating = 0f,
@@ -189,10 +200,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "81189d8e-89fb-4f2c-9339-055664e781db",
+                            Id = "bde2aba1-570d-4eda-8da0-f7ef911d44a5",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book12",
                             GenreId = 12,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book12",
                             Price = 9.99m,
                             Rating = 0f,
@@ -200,10 +212,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "3d66cce9-4e88-4194-bce2-24989b9be23c",
+                            Id = "17007453-ed46-4b55-b936-69b6b765eb6d",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book13",
                             GenreId = 13,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book13",
                             Price = 9.99m,
                             Rating = 0f,
@@ -211,10 +224,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "22ddfaca-68e4-4c73-8d82-dbabc514b911",
+                            Id = "610cd18a-0b4e-4a32-bceb-f8d28c5dfb6f",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book14",
                             GenreId = 14,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book14",
                             Price = 9.99m,
                             Rating = 0f,
@@ -222,10 +236,11 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "2e19783f-8c32-4e87-990f-8eaae4e5da2a",
+                            Id = "3696174f-d765-4b07-9c70-9916f29e2ebe",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book15",
                             GenreId = 15,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book15",
                             Price = 9.99m,
                             Rating = 0f,
@@ -352,7 +367,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<DateTime>("DateOrder")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 23, DateTimeKind.Utc).AddTicks(2271));
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -393,7 +408,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 30, DateTimeKind.Utc).AddTicks(8847));
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("EditionId")
                         .IsRequired()
@@ -471,7 +486,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<DateTime>("DateLogined")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 33, DateTimeKind.Utc).AddTicks(3819));
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -497,7 +512,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 20, 21, 17, 12, 32, DateTimeKind.Utc).AddTicks(4586));
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()

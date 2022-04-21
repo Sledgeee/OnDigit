@@ -194,6 +194,7 @@
                                 <TextBlock x:Name="ItemCartText" Text="My cart" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
+                        <ListViewItem x:Name="ItemSearch" Height="60" Visibility="Collapsed"/>
                     </ListView>
                 </StackPanel>
             </Grid>
