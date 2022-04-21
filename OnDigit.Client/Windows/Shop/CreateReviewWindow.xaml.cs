@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -98,6 +99,12 @@ namespace OnDigit.Client.Windows.Shop
             star_4_MouseLeftButtonDown(sender, e);
             star_5.Kind = PackIconKind.Star;
             star_5.Foreground = Brushes.Orange;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

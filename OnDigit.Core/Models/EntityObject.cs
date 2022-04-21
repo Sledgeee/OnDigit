@@ -8,7 +8,7 @@ namespace OnDigit.Core.Models
 
         public virtual void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
         }
     }
 }

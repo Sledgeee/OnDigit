@@ -22,7 +22,7 @@ namespace OnDigit.Client
         private readonly IHost _host;
         public App() => _host = CreateHostBuilder().Build();
 
-        public static IHostBuilder CreateHostBuilder(string[] args = null) =>
+        public static IHostBuilder CreateHostBuilder(string[]? args = null) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(c =>
                 {
@@ -32,7 +32,7 @@ namespace OnDigit.Client
                 .ConfigureServices((context, services) =>
                 {
                     string connectionString = context.Configuration.GetConnectionString("DefaultConnection");
-                    Action<DbContextOptionsBuilder> configureDbContext = o => o.UseSqlServer(connectionString);
+                    void configureDbContext(DbContextOptionsBuilder o) => o.UseSqlServer(connectionString);
                     services.AddDbContext<OnDigitDbContext>(configureDbContext);
                     services.AddSingleton(new OnDigitDbContextFactory(configureDbContext));
                     services.AddSingleton<MainWindow>();

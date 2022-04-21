@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using OnDigit.Core.Extensions;
 using OnDigit.Core.Interfaces.Services;
-using OnDigit.Core.Models.CartModel;
 using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.OrderModel;
 

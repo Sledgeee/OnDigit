@@ -18,8 +18,6 @@ using System.Windows.Media;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
 using OnDigit.Core.Models.CartModel;
-using OnDigit.Core.Models.OrderModel;
-using OnDigit.Core.Models.OrderEditionModel;
 
 namespace OnDigit.Client
 {
@@ -62,7 +60,6 @@ namespace OnDigit.Client
                 SignInDialog();
             }
             ItemShop.IsSelected = true;
-            LoadOrders();
         }
 
         private void SpinnersPropsChange(string spinner, bool spin, Visibility visibility)
@@ -94,8 +91,8 @@ namespace OnDigit.Client
                 return false;
             }
 
-            var pcId = key.GetValue("pcId").ToString();
-            var userId = key.GetValue("userId").ToString();
+            var pcId = key?.GetValue("pcId")?.ToString();
+            var userId = key?.GetValue("userId")?.ToString();
 
             if (string.IsNullOrEmpty(pcId) is false)
             {
@@ -110,6 +107,10 @@ namespace OnDigit.Client
                             UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
                             UserBalance.Text = _currentUser.Balance + "$";
                             LoginedState.Visibility = Visibility.Visible;
+
+                            foreach (var order in _currentUser.Orders)
+                                Orders.Children.Add(new OrderCard(order));
+
                             SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
                             return true;
                         }
@@ -121,13 +122,13 @@ namespace OnDigit.Client
             return false;
         }
 
-        private async void LoadOrders()
+        private async void UpdateOrders()
         {
             Orders.Children.Clear();
 
-            var orders = await _shopService.LoadCurrentUserOrdersAsync(_currentUser.Id);
+            _currentUser.Orders = await _shopService.LoadCurrentUserOrdersAsync(_currentUser.Id);
 
-            foreach (var order in orders)
+            foreach (var order in _currentUser.Orders)
                 Orders.Children.Add(new OrderCard(order));
         }
 
@@ -319,7 +320,7 @@ namespace OnDigit.Client
                 CartEditionsCount.Text = "0";
                 UserCart = new();
                 SuccessOrder.Visibility = Visibility.Visible;
-                LoadOrders();
+                UpdateOrders();
                 SpinnersPropsChange("SpinnerBooks", false, Visibility.Collapsed);
                 ScrollViewerCart.Effect = null;
                 BorderCart.Effect = null;
@@ -327,8 +328,8 @@ namespace OnDigit.Client
         }
 
 
-        private User _currentUser;
-        public User CurrentUser
+        private User? _currentUser;
+        public User? CurrentUser
         {
             get { return _currentUser; }
             set
@@ -341,11 +342,17 @@ namespace OnDigit.Client
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler is not null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace OnDigit.Core.Models.OrderEditionModel
 
         public void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
         }
     }
 }
