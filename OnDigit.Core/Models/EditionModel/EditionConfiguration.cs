@@ -41,7 +41,7 @@ namespace OnDigit.Core.Models.EditionModel
             builder
                 .Property(e => e.DateCreated)
                 .IsRequired()
-                .HasDefaultValue(DateTime.UtcNow);
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder
                 .HasMany(r => r.Reviews)

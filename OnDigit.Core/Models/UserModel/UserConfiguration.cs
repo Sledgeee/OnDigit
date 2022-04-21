@@ -22,7 +22,7 @@ namespace OnDigit.Core.Models.UserModel
 
             builder.Property(u => u.PasswordHash).IsRequired();
 
-            builder.Property(u => u.DateCreated).HasDefaultValue(DateTime.UtcNow).IsRequired();
+            builder.Property(u => u.DateCreated).HasDefaultValueSql("CURRENT_TIMESTAMP").IsRequired();
 
             builder
                 .HasMany(o => o.Orders)

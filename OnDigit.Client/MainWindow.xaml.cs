@@ -143,8 +143,6 @@ namespace OnDigit.Client
 
             foreach (var edition in editionList)
             {
-                edition.ImageUri = "/Images/willbook.jpg";
-
                 Shop.Children.Add(new ShopEditionCard(this, edition, _currentUser.Id, _reviewService, _userService));
 
                 if (((ShopEditionCard)Shop.Children[^1]).icon_favorites.Kind == PackIconKind.Heart)
@@ -187,11 +185,19 @@ namespace OnDigit.Client
                     break;
                 case "ItemCart":
                     SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Brushes.White, Brushes.White, Brushes.White, Brushes.Orange);
-                    CartTotalPrice.Text = UserCart.TotalPrice + "$";
-                    CartEditionsCount.Text = UserCart.Editions.Count.ToString();
-                    SuccessOrder.Visibility = Visibility.Collapsed;
+                    UpdateCartSelection();
                     break;
             }
+        }
+
+        public void UpdateCartSelection()
+        {
+            CartWrap.Children.Clear();
+            foreach (var edition in UserCart.Editions)
+                CartWrap.Children.Add(new CartEditionCard(this, UserCart, edition));
+            CartTotalPrice.Text = UserCart.TotalPrice + "$";
+            CartEditionsCount.Text = UserCart.Editions.Count.ToString();
+            SuccessOrder.Visibility = Visibility.Collapsed;
         }
 
         private void SwitchToOtherTab(Visibility shopVisibility, Visibility favoritesVisibility, Visibility ordersVisibility, Visibility cartVisibility,
@@ -287,6 +293,10 @@ namespace OnDigit.Client
 
             if (searchedEditions is not null)
                 LoadBooks(searchedEditions);
+
+            ItemSearch.IsSelected = true;
+            ItemShopIcon.Foreground = Brushes.White;
+            ItemShopText.Foreground = Brushes.White;
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

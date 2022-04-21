@@ -153,16 +153,15 @@ namespace OnDigit.Client.Windows.Shop
         {
             if (AddToCart.Content is "Add to cart")
             {
-                _mainWindow.UserCart.AddEdition(_edition);
-                _mainWindow.CartWrap.Children.Add(new CartEditionCard(_mainWindow.UserCart, _edition));
-                AddToCartCheck.Visibility = Visibility.Visible;
                 AddToCart.Content = "Remove from cart";
+                AddToCartCheck.Visibility = Visibility.Visible;
+                _mainWindow.UserCart.AddEdition(_edition);
             }
             else
             {
                 AddToCart.Content = "Add to cart";
                 AddToCartCheck.Visibility = Visibility.Collapsed;
-                _mainWindow.CartWrap.Children.Remove(new CartEditionCard(_mainWindow.UserCart, _edition));
+                _mainWindow.UserCart.RemoveEdition(_edition);
             }
         }
     }

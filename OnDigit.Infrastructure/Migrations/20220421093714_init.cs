@@ -31,7 +31,7 @@ namespace OnDigit.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 32, DateTimeKind.Utc).AddTicks(4586))
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -50,7 +50,7 @@ namespace OnDigit.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     GenreId = table.Column<int>(type: "int", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 14, DateTimeKind.Utc).AddTicks(2314))
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -70,7 +70,7 @@ namespace OnDigit.Infrastructure.Migrations
                     Number = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 23, DateTimeKind.Utc).AddTicks(2271)),
+                    DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -131,7 +131,7 @@ namespace OnDigit.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateLogined = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 33, DateTimeKind.Utc).AddTicks(3819))
+                    DateLogined = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -151,7 +151,7 @@ namespace OnDigit.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Stars = table.Column<int>(type: "int", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 20, 21, 17, 12, 30, DateTimeKind.Utc).AddTicks(8847)),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EditionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -247,13 +247,13 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price", "Rating" },
                 values: new object[,]
                 {
-                    { "5322e304-d018-4fb5-a8b3-ba31b4756ac1", "Book1", 1, null, "Book1", 9.99m, 5f },
-                    { "93d0ec50-7492-4adf-9c0e-4079e6a44227", "Book2", 2, null, "Book2", 9.99m, 4.4f },
-                    { "390aeaf6-e289-4691-8351-db1967907bcf", "Book3", 3, null, "Book3", 9.99m, 3.2f },
-                    { "f2ea90fb-3776-46ce-9f67-3a3e82e0a548", "Book4", 4, null, "Book4", 9.99m, 3f },
-                    { "1ac27b96-4169-491a-b9e6-8c9ef9b15959", "Book5", 5, null, "Book5", 9.99m, 2f },
-                    { "f2620030-9947-48db-9d25-5e91dfa913a3", "Book6", 6, null, "Book6", 9.99m, 1f },
-                    { "7b4195d5-bd71-497a-9da0-99847addce7b", "Book7", 7, null, "Book7", 9.99m, 0.6f }
+                    { "151208f3-6a57-4009-a49e-575b2e0ec634", "Book1", 1, "pack://application:,,,/Images/willbook.jpg", "Book1", 9.99m, 5f },
+                    { "edd90f24-fd19-449d-878a-efd8b4a3a814", "Book2", 2, "pack://application:,,,/Images/willbook.jpg", "Book2", 9.99m, 4.4f },
+                    { "fb48799c-7ce3-4e78-9077-1b41e98909b4", "Book3", 3, "pack://application:,,,/Images/willbook.jpg", "Book3", 9.99m, 3.2f },
+                    { "081a5fc4-e3cd-4360-8d3f-432d63fef19f", "Book4", 4, "pack://application:,,,/Images/willbook.jpg", "Book4", 9.99m, 3f },
+                    { "62235a64-7201-4504-8cf8-533583805eda", "Book5", 5, "pack://application:,,,/Images/willbook.jpg", "Book5", 9.99m, 2f },
+                    { "f9a0497d-6df6-4549-9cee-2803a01836c8", "Book6", 6, "pack://application:,,,/Images/willbook.jpg", "Book6", 9.99m, 1f },
+                    { "c61c4ef9-3ef4-4a4e-baf6-39772f813818", "Book7", 7, "pack://application:,,,/Images/willbook.jpg", "Book7", 9.99m, 0.6f }
                 });
 
             migrationBuilder.InsertData(
@@ -261,14 +261,14 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "ab864b95-a41d-4bea-96fb-5c072abd8ffe", "Book8", 8, null, "Book8", 9.99m },
-                    { "aed4bb17-1dab-4e38-bdb4-79a76f1d4736", "Book9", 9, null, "Book9", 9.99m },
-                    { "2e7e40a8-0371-46eb-8272-d61b9e05649e", "Book10", 10, null, "Book10", 9.99m },
-                    { "020b8a2a-bd02-4caf-87e7-d10e609ce2a6", "Book11", 11, null, "Book11", 9.99m },
-                    { "81189d8e-89fb-4f2c-9339-055664e781db", "Book12", 12, null, "Book12", 9.99m },
-                    { "3d66cce9-4e88-4194-bce2-24989b9be23c", "Book13", 13, null, "Book13", 9.99m },
-                    { "22ddfaca-68e4-4c73-8d82-dbabc514b911", "Book14", 14, null, "Book14", 9.99m },
-                    { "2e19783f-8c32-4e87-990f-8eaae4e5da2a", "Book15", 15, null, "Book15", 9.99m }
+                    { "2f9a21ad-d05d-48de-a616-66e8e5aea5b0", "Book8", 8, "pack://application:,,,/Images/willbook.jpg", "Book8", 9.99m },
+                    { "37710d96-a080-465b-92be-bfa6302ff745", "Book9", 9, "pack://application:,,,/Images/willbook.jpg", "Book9", 9.99m },
+                    { "5a6fd521-e026-43d9-b6a7-d92a386b81bb", "Book10", 10, "pack://application:,,,/Images/willbook.jpg", "Book10", 9.99m },
+                    { "278aa884-3113-4227-bfb1-a1753706d79f", "Book11", 11, "pack://application:,,,/Images/willbook.jpg", "Book11", 9.99m },
+                    { "bde2aba1-570d-4eda-8da0-f7ef911d44a5", "Book12", 12, "pack://application:,,,/Images/willbook.jpg", "Book12", 9.99m },
+                    { "17007453-ed46-4b55-b936-69b6b765eb6d", "Book13", 13, "pack://application:,,,/Images/willbook.jpg", "Book13", 9.99m },
+                    { "610cd18a-0b4e-4a32-bceb-f8d28c5dfb6f", "Book14", 14, "pack://application:,,,/Images/willbook.jpg", "Book14", 9.99m },
+                    { "3696174f-d765-4b07-9c70-9916f29e2ebe", "Book15", 15, "pack://application:,,,/Images/willbook.jpg", "Book15", 9.99m }
                 });
 
             migrationBuilder.CreateIndex(

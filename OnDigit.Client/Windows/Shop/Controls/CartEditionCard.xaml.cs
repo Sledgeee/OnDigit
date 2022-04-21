@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using OnDigit.Core.Models.CartModel;
 using OnDigit.Core.Models.EditionModel;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -15,10 +16,13 @@ namespace OnDigit.Client.Windows.Shop.Controls
     {
         private readonly Cart _cart;
         private readonly Edition _edition;
-        public CartEditionCard(Cart cart, Edition edition)
+        private readonly MainWindow _mainWindow;
+
+        public CartEditionCard(MainWindow mainWindow, Cart cart, Edition edition)
         {
             InitializeComponent();
             this.DataContext = this;
+            _mainWindow = mainWindow;
             _cart = cart;
             _edition = edition;
             _editionName = edition.Name;
@@ -72,7 +76,8 @@ namespace OnDigit.Client.Windows.Shop.Controls
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            _cart.Editions.Remove(_edition);
+            _cart.RemoveEdition(_edition);
+            _mainWindow.UpdateCartSelection();
         }
     }
 }

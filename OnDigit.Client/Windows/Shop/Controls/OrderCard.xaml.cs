@@ -3,7 +3,10 @@ using OnDigit.Core.Models.OrderModel;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace OnDigit.Client.Windows.Shop.Controls
 {
@@ -19,6 +22,15 @@ namespace OnDigit.Client.Windows.Shop.Controls
             _orderNumber = order.Number;
             _orderPrice = order.TotalPrice + "$";
             _orderDate = order.DateOrder.ToString("dd/MM/yyyy HH:mm:ss");
+
+            foreach (var item in order.OrdersEditions)
+            {
+                OrderedEditions.Children.Add(new Image()
+                {
+                    Source = new BitmapImage(new Uri(item.Edition.ImageUri)),
+                    Margin = new Thickness(7)
+                });
+            }
         }
 
         private int _orderNumber;

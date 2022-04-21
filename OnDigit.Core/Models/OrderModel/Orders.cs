@@ -9,7 +9,7 @@ namespace OnDigit.Core.Models.OrderModel
         {
             public CurrentUserOrders(string userId)
             {
-                Query.Include(x => x.OrdersEditions).Where(x => x.UserId == userId);
+                Query.Include(x => x.OrdersEditions).ThenInclude(x => x.Edition).Where(x => x.UserId == userId);
             }
         }
     }
