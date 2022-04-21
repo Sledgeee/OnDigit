@@ -27,7 +27,7 @@ namespace OnDigit.Core.Models.UserModel
 
         public override void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
             base.Dispose();
         }
     }

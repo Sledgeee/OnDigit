@@ -3,6 +3,7 @@ using OnDigit.Client.Windows.Shop.Controls;
 using OnDigit.Core.Genres;
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.EditionModel;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -21,7 +22,10 @@ namespace OnDigit.Client.Windows.Shop
         private readonly string _userId;
         private readonly MainWindow _mainWindow;
 
-        public BookInfoWindow(Edition edition, string userId, IReviewService reviewService, MainWindow mainWindow)
+        public BookInfoWindow(Edition edition,
+                              string userId,
+                              IReviewService reviewService,
+                              MainWindow mainWindow)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -130,7 +134,7 @@ namespace OnDigit.Client.Windows.Shop
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler is not null)
@@ -163,6 +167,12 @@ namespace OnDigit.Client.Windows.Shop
                 AddToCartCheck.Visibility = Visibility.Collapsed;
                 _mainWindow.UserCart.RemoveEdition(_edition);
             }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace OnDigit.Core.Models.ResetTokenModel
 
         public override void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
             base.Dispose();
         }
     }

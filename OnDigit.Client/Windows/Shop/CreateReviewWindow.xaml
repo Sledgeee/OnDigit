@@ -12,7 +12,7 @@
         Background="{x:Null}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         AllowsTransparency="True"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Closing="Window_Closing">
 
     <materialDesign:Card Width="500" Height="575" UniformCornerRadius="5" Background="{DynamicResource MaterialDesignPaper}" Margin="5" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <Grid>

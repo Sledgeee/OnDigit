@@ -14,7 +14,7 @@ namespace OnDigit.Core.Models.UserFavoriteModel
 
         public void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
         }
 
         public override bool Equals(object obj)

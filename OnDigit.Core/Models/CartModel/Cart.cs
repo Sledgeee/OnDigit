@@ -29,7 +29,7 @@ namespace OnDigit.Core.Models.CartModel
 
         public void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
         }
     }
 }

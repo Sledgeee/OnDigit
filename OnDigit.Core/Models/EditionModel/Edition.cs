@@ -26,7 +26,7 @@ namespace OnDigit.Core.Models.EditionModel
 
         public override void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
             base.Dispose();
         }
 

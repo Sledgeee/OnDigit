@@ -14,7 +14,7 @@ namespace OnDigit.Core.Models.SessionModel
 
         public override void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
         }
     }
 }

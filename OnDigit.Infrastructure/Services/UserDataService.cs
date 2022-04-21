@@ -35,13 +35,19 @@ namespace OnDigit.Infrastructure.Services
         public async Task<User> GetByIdAsync(string id)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Users.FirstOrDefaultAsync((e) => e.Id == id);
+            return await context.Users.Include(x => x.UserLogins)
+                .Include(x => x.Reviews)
+                .Include(x => x.Orders).ThenInclude(x => x.Editions)
+                .FirstOrDefaultAsync((e) => e.Id == id);
         }
 
         public async Task<User> GetByEmailAsync(string email)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Users.FirstOrDefaultAsync(e => e.Email == email);
+            return await context.Users.Include(x => x.UserLogins)
+                .Include(x => x.Reviews)
+                .Include(x => x.Orders).ThenInclude(x => x.Editions)
+                .FirstOrDefaultAsync(e => e.Email == email);
         }
 
         public async Task AddLoginToHistory(string userId)
@@ -93,6 +99,7 @@ namespace OnDigit.Infrastructure.Services
             await context.SaveChangesAsync();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public async Task SetRememberMeStatus(string userId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();

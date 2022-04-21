@@ -12,7 +12,7 @@ namespace OnDigit.Core.Models.GenreModel
 
         public void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
         }
     }
 }

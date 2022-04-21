@@ -18,7 +18,7 @@ namespace OnDigit.Core.Models.OrderModel
 
         public void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
         }
     }
 }

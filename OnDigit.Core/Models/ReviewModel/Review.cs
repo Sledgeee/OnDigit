@@ -17,7 +17,7 @@ namespace OnDigit.Core.Models.ReviewModel
 
         public override void Dispose()
         {
-            GC.Collect();
+            GC.SuppressFinalize(this);
             base.Dispose();
         }
     }
