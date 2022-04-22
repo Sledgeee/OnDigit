@@ -19,7 +19,7 @@ namespace OnDigit.Client
     public partial class App : Application
     {
         private readonly IHost _host;
-       public App() => _host = CreateHostBuilder().Build();
+        public App() => _host = CreateHostBuilder().Build();
 
         public static IHostBuilder CreateHostBuilder(string[]? args = null) =>
             Host.CreateDefaultBuilder(args)
