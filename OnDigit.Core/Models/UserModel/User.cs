@@ -18,9 +18,9 @@ namespace OnDigit.Core.Models.UserModel
         public string Surname { get; set; }
         public string Gender { get; set; }
         public DateTime DateCreated { get; set; }
+        public ResetToken ResetToken { get; set; }
         public ICollection<Session> Sessions { get; set; } = new List<Session>();
         public ICollection<UserLoginHistory> UserLogins { get; set; } = new List<UserLoginHistory>();
-        public ICollection<ResetToken> ResetTokens { get; set; } = new List<ResetToken>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public List<UserFavorite> UserFavorites { get; set; } = new List<UserFavorite>();

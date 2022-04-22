@@ -59,7 +59,7 @@ namespace OnDigit.Infrastructure.Migrations
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,7 +121,7 @@ namespace OnDigit.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,7 +168,7 @@ namespace OnDigit.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,13 +210,13 @@ namespace OnDigit.Infrastructure.Migrations
                         column: x => x.EditionId,
                         principalTable: "Editions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderEditions_Orders_OrderNumber",
                         column: x => x.OrderNumber,
                         principalTable: "Orders",
                         principalColumn: "Number",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -246,21 +246,21 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "3261e41e-1c64-49e4-8147-739e4a011596", "Book1", 1, "pack://application:,,,/Images/willbook.jpg", "Book1", 9.99m },
-                    { "2c0986a1-8e48-4592-b59a-27afe5d9e769", "Book2", 2, "pack://application:,,,/Images/willbook.jpg", "Book2", 9.99m },
-                    { "cbbd23f9-1cbc-4867-98fa-870bf3d88241", "Book3", 3, "pack://application:,,,/Images/willbook.jpg", "Book3", 9.99m },
-                    { "7c7406c2-9ab2-4b0f-9869-b866116afb78", "Book4", 4, "pack://application:,,,/Images/willbook.jpg", "Book4", 9.99m },
-                    { "a6017e8e-70e0-4691-b5ca-aea15dbde775", "Book5", 5, "pack://application:,,,/Images/willbook.jpg", "Book5", 9.99m },
-                    { "9177ac87-6f30-4591-a709-a27d9798f40a", "Book6", 6, "pack://application:,,,/Images/willbook.jpg", "Book6", 9.99m },
-                    { "ed3bbf05-c76a-4046-b1e5-ebea06f4dd65", "Book7", 7, "pack://application:,,,/Images/willbook.jpg", "Book7", 9.99m },
-                    { "7efa693b-6481-449c-bc73-30baa71e29e1", "Book8", 8, "pack://application:,,,/Images/willbook.jpg", "Book8", 9.99m },
-                    { "8335b6b5-30bc-45f8-9a6d-87230f09083e", "Book9", 9, "pack://application:,,,/Images/willbook.jpg", "Book9", 9.99m },
-                    { "9e3809fc-1a39-4d43-a697-57971492c221", "Book10", 10, "pack://application:,,,/Images/willbook.jpg", "Book10", 9.99m },
-                    { "e616523b-cfb6-47f3-ac1e-fc318ecd90e7", "Book11", 11, "pack://application:,,,/Images/willbook.jpg", "Book11", 9.99m },
-                    { "8b730119-4e7c-4c34-99fc-74e47fdffbb9", "Book12", 12, "pack://application:,,,/Images/willbook.jpg", "Book12", 9.99m },
-                    { "4e519fe6-89c1-4ea7-b587-4250343c77e5", "Book13", 13, "pack://application:,,,/Images/willbook.jpg", "Book13", 9.99m },
-                    { "6e59d3d7-248a-472f-8404-8783d7bc7b35", "Book14", 14, "pack://application:,,,/Images/willbook.jpg", "Book14", 9.99m },
-                    { "4e90558a-3374-4b1c-8549-90048b207a10", "Book15", 15, "pack://application:,,,/Images/willbook.jpg", "Book15", 9.99m }
+                    { "88e62c99-3be5-40c1-9658-804a4fadc93a", "Book1", 1, "pack://application:,,,/Images/willbook.jpg", "Book1", 9.99m },
+                    { "e8751eb7-c933-4bc3-b602-1253dcddbf85", "Book2", 2, "pack://application:,,,/Images/willbook.jpg", "Book2", 9.99m },
+                    { "b5b0fa49-a41e-4921-9805-f32dd5b8cba4", "Book3", 3, "pack://application:,,,/Images/willbook.jpg", "Book3", 9.99m },
+                    { "6d155705-3211-48c3-9490-f302f08f571c", "Book4", 4, "pack://application:,,,/Images/willbook.jpg", "Book4", 9.99m },
+                    { "41c434e9-7d15-47a7-88c1-26184aa2fe1f", "Book5", 5, "pack://application:,,,/Images/willbook.jpg", "Book5", 9.99m },
+                    { "8d23c292-d3c4-4e89-b23d-54b3ac199f35", "Book6", 6, "pack://application:,,,/Images/willbook.jpg", "Book6", 9.99m },
+                    { "92e2caf6-4ab1-4c35-9726-36ffb10272f8", "Book7", 7, "pack://application:,,,/Images/willbook.jpg", "Book7", 9.99m },
+                    { "7b60ec8e-4c83-4873-aa95-02d52e3b464c", "Book8", 8, "pack://application:,,,/Images/willbook.jpg", "Book8", 9.99m },
+                    { "0421dd86-4094-4139-8944-6ea1d05059d0", "Book9", 9, "pack://application:,,,/Images/willbook.jpg", "Book9", 9.99m },
+                    { "2abe0f0f-727b-4d09-8e9b-4a20fec3ab3e", "Book10", 10, "pack://application:,,,/Images/willbook.jpg", "Book10", 9.99m },
+                    { "66ce45d1-0a3d-4358-acf8-134c1bf95e78", "Book11", 11, "pack://application:,,,/Images/willbook.jpg", "Book11", 9.99m },
+                    { "2da890fe-c66e-4caf-8372-28327709bf0f", "Book12", 12, "pack://application:,,,/Images/willbook.jpg", "Book12", 9.99m },
+                    { "19e7eca2-6cab-4629-9e35-d63045356cf5", "Book13", 13, "pack://application:,,,/Images/willbook.jpg", "Book13", 9.99m },
+                    { "71941193-50f3-40b1-aa47-39e0fdfda8d3", "Book14", 14, "pack://application:,,,/Images/willbook.jpg", "Book14", 9.99m },
+                    { "ac95b139-4c23-4f7b-8c50-c3f9f9ad0ac3", "Book15", 15, "pack://application:,,,/Images/willbook.jpg", "Book15", 9.99m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -281,7 +281,9 @@ namespace OnDigit.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ResetToken_UserId",
                 table: "ResetToken",
-                column: "UserId");
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_EditionId",

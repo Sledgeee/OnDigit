@@ -10,7 +10,7 @@ using OnDigit.Infrastructure.Data;
 namespace OnDigit.Infrastructure.Migrations
 {
     [DbContext(typeof(OnDigitDbContext))]
-    [Migration("20220421172407_init")]
+    [Migration("20220422163905_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3261e41e-1c64-49e4-8147-739e4a011596",
+                            Id = "88e62c99-3be5-40c1-9658-804a4fadc93a",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book1",
                             GenreId = 1,
@@ -74,7 +74,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "2c0986a1-8e48-4592-b59a-27afe5d9e769",
+                            Id = "e8751eb7-c933-4bc3-b602-1253dcddbf85",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book2",
                             GenreId = 2,
@@ -85,7 +85,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "cbbd23f9-1cbc-4867-98fa-870bf3d88241",
+                            Id = "b5b0fa49-a41e-4921-9805-f32dd5b8cba4",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book3",
                             GenreId = 3,
@@ -96,7 +96,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "7c7406c2-9ab2-4b0f-9869-b866116afb78",
+                            Id = "6d155705-3211-48c3-9490-f302f08f571c",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book4",
                             GenreId = 4,
@@ -107,7 +107,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "a6017e8e-70e0-4691-b5ca-aea15dbde775",
+                            Id = "41c434e9-7d15-47a7-88c1-26184aa2fe1f",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book5",
                             GenreId = 5,
@@ -118,7 +118,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "9177ac87-6f30-4591-a709-a27d9798f40a",
+                            Id = "8d23c292-d3c4-4e89-b23d-54b3ac199f35",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book6",
                             GenreId = 6,
@@ -129,7 +129,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "ed3bbf05-c76a-4046-b1e5-ebea06f4dd65",
+                            Id = "92e2caf6-4ab1-4c35-9726-36ffb10272f8",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book7",
                             GenreId = 7,
@@ -140,7 +140,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "7efa693b-6481-449c-bc73-30baa71e29e1",
+                            Id = "7b60ec8e-4c83-4873-aa95-02d52e3b464c",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book8",
                             GenreId = 8,
@@ -151,7 +151,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "8335b6b5-30bc-45f8-9a6d-87230f09083e",
+                            Id = "0421dd86-4094-4139-8944-6ea1d05059d0",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book9",
                             GenreId = 9,
@@ -162,7 +162,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "9e3809fc-1a39-4d43-a697-57971492c221",
+                            Id = "2abe0f0f-727b-4d09-8e9b-4a20fec3ab3e",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book10",
                             GenreId = 10,
@@ -173,7 +173,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "e616523b-cfb6-47f3-ac1e-fc318ecd90e7",
+                            Id = "66ce45d1-0a3d-4358-acf8-134c1bf95e78",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book11",
                             GenreId = 11,
@@ -184,7 +184,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "8b730119-4e7c-4c34-99fc-74e47fdffbb9",
+                            Id = "2da890fe-c66e-4caf-8372-28327709bf0f",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book12",
                             GenreId = 12,
@@ -195,7 +195,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "4e519fe6-89c1-4ea7-b587-4250343c77e5",
+                            Id = "19e7eca2-6cab-4629-9e35-d63045356cf5",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book13",
                             GenreId = 13,
@@ -206,7 +206,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "6e59d3d7-248a-472f-8404-8783d7bc7b35",
+                            Id = "71941193-50f3-40b1-aa47-39e0fdfda8d3",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book14",
                             GenreId = 14,
@@ -217,7 +217,7 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "4e90558a-3374-4b1c-8549-90048b207a10",
+                            Id = "ac95b139-4c23-4f7b-8c50-c3f9f9ad0ac3",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book15",
                             GenreId = 15,
@@ -375,7 +375,9 @@ namespace OnDigit.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("ResetToken");
                 });
@@ -527,7 +529,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasOne("OnDigit.Core.Models.GenreModel.Genre", "Genre")
                         .WithMany("Editions")
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Genre");
@@ -538,13 +540,13 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
                         .WithMany("OrdersEditions")
                         .HasForeignKey("EditionId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OnDigit.Core.Models.OrderModel.Order", "Order")
                         .WithMany("OrdersEditions")
                         .HasForeignKey("OrderNumber")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Edition");
@@ -556,8 +558,7 @@ namespace OnDigit.Infrastructure.Migrations
                 {
                     b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -565,8 +566,8 @@ namespace OnDigit.Infrastructure.Migrations
             modelBuilder.Entity("OnDigit.Core.Models.ResetTokenModel.ResetToken", b =>
                 {
                     b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
-                        .WithMany("ResetTokens")
-                        .HasForeignKey("UserId");
+                        .WithOne("ResetToken")
+                        .HasForeignKey("OnDigit.Core.Models.ResetTokenModel.ResetToken", "UserId");
 
                     b.Navigation("User");
                 });
@@ -582,7 +583,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Edition");
@@ -595,7 +596,7 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithMany("Sessions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -654,7 +655,7 @@ namespace OnDigit.Infrastructure.Migrations
                 {
                     b.Navigation("Orders");
 
-                    b.Navigation("ResetTokens");
+                    b.Navigation("ResetToken");
 
                     b.Navigation("Reviews");
 
