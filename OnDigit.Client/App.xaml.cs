@@ -10,7 +10,6 @@ using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Services;
 using OnDigit.Infrastructure.Data;
 using OnDigit.Infrastructure.Services;
-using OnDigit.Core.Models.OrderModel;
 
 namespace OnDigit.Client
 {
@@ -20,7 +19,7 @@ namespace OnDigit.Client
     public partial class App : Application
     {
         private readonly IHost _host;
-        public App() => _host = CreateHostBuilder().Build();
+       public App() => _host = CreateHostBuilder().Build();
 
         public static IHostBuilder CreateHostBuilder(string[]? args = null) =>
             Host.CreateDefaultBuilder(args)

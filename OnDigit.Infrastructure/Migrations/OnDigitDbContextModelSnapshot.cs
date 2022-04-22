@@ -52,11 +52,6 @@ namespace OnDigit.Infrastructure.Migrations
                         .HasColumnType("real")
                         .HasDefaultValue(0f);
 
-                    b.Property<int>("RatingCount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
                     b.HasKey("Id");
 
                     b.HasIndex("GenreId");
@@ -66,183 +61,168 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "151208f3-6a57-4009-a49e-575b2e0ec634",
+                            Id = "3261e41e-1c64-49e4-8147-739e4a011596",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book1",
                             GenreId = 1,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book1",
                             Price = 9.99m,
-                            Rating = 5f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "edd90f24-fd19-449d-878a-efd8b4a3a814",
+                            Id = "2c0986a1-8e48-4592-b59a-27afe5d9e769",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book2",
                             GenreId = 2,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book2",
                             Price = 9.99m,
-                            Rating = 4.4f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "fb48799c-7ce3-4e78-9077-1b41e98909b4",
+                            Id = "cbbd23f9-1cbc-4867-98fa-870bf3d88241",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book3",
                             GenreId = 3,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book3",
                             Price = 9.99m,
-                            Rating = 3.2f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "081a5fc4-e3cd-4360-8d3f-432d63fef19f",
+                            Id = "7c7406c2-9ab2-4b0f-9869-b866116afb78",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book4",
                             GenreId = 4,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book4",
                             Price = 9.99m,
-                            Rating = 3f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "62235a64-7201-4504-8cf8-533583805eda",
+                            Id = "a6017e8e-70e0-4691-b5ca-aea15dbde775",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book5",
                             GenreId = 5,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book5",
                             Price = 9.99m,
-                            Rating = 2f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "f9a0497d-6df6-4549-9cee-2803a01836c8",
+                            Id = "9177ac87-6f30-4591-a709-a27d9798f40a",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book6",
                             GenreId = 6,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book6",
                             Price = 9.99m,
-                            Rating = 1f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "c61c4ef9-3ef4-4a4e-baf6-39772f813818",
+                            Id = "ed3bbf05-c76a-4046-b1e5-ebea06f4dd65",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book7",
                             GenreId = 7,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book7",
                             Price = 9.99m,
-                            Rating = 0.6f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "2f9a21ad-d05d-48de-a616-66e8e5aea5b0",
+                            Id = "7efa693b-6481-449c-bc73-30baa71e29e1",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book8",
                             GenreId = 8,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book8",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "37710d96-a080-465b-92be-bfa6302ff745",
+                            Id = "8335b6b5-30bc-45f8-9a6d-87230f09083e",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book9",
                             GenreId = 9,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book9",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "5a6fd521-e026-43d9-b6a7-d92a386b81bb",
+                            Id = "9e3809fc-1a39-4d43-a697-57971492c221",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book10",
                             GenreId = 10,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book10",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "278aa884-3113-4227-bfb1-a1753706d79f",
+                            Id = "e616523b-cfb6-47f3-ac1e-fc318ecd90e7",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book11",
                             GenreId = 11,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book11",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "bde2aba1-570d-4eda-8da0-f7ef911d44a5",
+                            Id = "8b730119-4e7c-4c34-99fc-74e47fdffbb9",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book12",
                             GenreId = 12,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book12",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "17007453-ed46-4b55-b936-69b6b765eb6d",
+                            Id = "4e519fe6-89c1-4ea7-b587-4250343c77e5",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book13",
                             GenreId = 13,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book13",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "610cd18a-0b4e-4a32-bceb-f8d28c5dfb6f",
+                            Id = "6e59d3d7-248a-472f-8404-8783d7bc7b35",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book14",
                             GenreId = 14,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book14",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         },
                         new
                         {
-                            Id = "3696174f-d765-4b07-9c70-9916f29e2ebe",
+                            Id = "4e90558a-3374-4b1c-8549-90048b207a10",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book15",
                             GenreId = 15,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
                             Name = "Book15",
                             Price = 9.99m,
-                            Rating = 0f,
-                            RatingCount = 0
+                            Rating = 0f
                         });
                 });
 

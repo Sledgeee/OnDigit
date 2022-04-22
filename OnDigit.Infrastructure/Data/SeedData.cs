@@ -98,7 +98,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book1",
                     Description = "Book1",
                     Price = 9.99m,
-                    Rating = 5,
                     GenreId = (int)Genres.Detective,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -107,7 +106,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book2",
                     Description = "Book2",
                     Price = 9.99m,
-                    Rating = 4.4f,
                     GenreId = (int)Genres.Fantasy,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -116,7 +114,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book3",
                     Description = "Book3",
                     Price = 9.99m,
-                    Rating = 3.2f,
                     GenreId = (int)Genres.Adventures,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -125,7 +122,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book4",
                     Description = "Book4",
                     Price = 9.99m,
-                    Rating = 3,
                     GenreId = (int)Genres.Novel,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -134,7 +130,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book5",
                     Description = "Book5",
                     Price = 9.99m,
-                    Rating = 2,
                     GenreId = (int)Genres.Scientific_book,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -143,7 +138,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book6",
                     Description = "Book6",
                     Price = 9.99m,
-                    Rating = 1,
                     GenreId = (int)Genres.Folklore,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -152,7 +146,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book7",
                     Description = "Book7",
                     Price = 9.99m,
-                    Rating = 0.6f,
                     GenreId = (int)Genres.Humor,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -161,7 +154,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book8",
                     Description = "Book8",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Poetry,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -170,7 +162,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book9",
                     Description = "Book9",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Prose,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -179,7 +170,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book10",
                     Description = "Book10",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Childrens_book,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -188,7 +178,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book11",
                     Description = "Book11",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Documentary_literature,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -197,7 +186,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book12",
                     Description = "Book12",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Education_book,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -206,7 +194,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book13",
                     Description = "Book13",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Equipment,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -215,7 +202,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book14",
                     Description = "Book14",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Business_literature,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 },
@@ -224,7 +210,6 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book15",
                     Description = "Book15",
                     Price = 9.99m,
-                    Rating = 0,
                     GenreId = (int)Genres.Religious_literature,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 });

@@ -21,7 +21,7 @@
                 <materialDesign:PackIcon x:Name="star_3" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                 <materialDesign:PackIcon x:Name="star_4" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                 <materialDesign:PackIcon x:Name="star_5" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
-                <TextBlock Margin="10 -1 0 0" Text="{Binding RatingCount}" FontSize="16" Foreground="White"/>
+                <TextBlock x:Name="tbRatingCount" Margin="10 -1 0 0" Text="{Binding Path=RatingCount, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Foreground="White"/>
             </StackPanel>
             <StackPanel Margin="0 10 0 0">
                 <TextBlock Text="{Binding EditionPrice}" FontSize="21" TextAlignment="Center"/>

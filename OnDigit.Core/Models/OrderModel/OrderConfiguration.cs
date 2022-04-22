@@ -27,13 +27,11 @@ namespace OnDigit.Core.Models.OrderModel
                 j => j
                     .HasOne(oe => oe.Edition)
                     .WithMany(e => e.OrdersEditions)
-                    .HasForeignKey(oe => oe.EditionId)
-                    .OnDelete(DeleteBehavior.ClientCascade),
+                    .HasForeignKey(oe => oe.EditionId),
                 j => j
                     .HasOne(oe => oe.Order)
                     .WithMany(o => o.OrdersEditions)
-                    .HasForeignKey(oe => oe.OrderNumber)
-                    .OnDelete(DeleteBehavior.ClientCascade));
+                    .HasForeignKey(oe => oe.OrderNumber));
         }
     }
 }

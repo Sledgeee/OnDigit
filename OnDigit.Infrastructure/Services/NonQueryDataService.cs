@@ -17,18 +17,14 @@ namespace OnDigit.Infrastructure.Services
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             EntityEntry<T> createdResult = await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
-
             return createdResult.Entity;
         }
 
-        public async Task<T> Update(string id, T entity)
+        public async Task<T> Update(T entity)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            entity.Id = id;
-
             context.Set<T>().Update(entity);
             await context.SaveChangesAsync();
-
             return entity;
         }
 
@@ -38,7 +34,6 @@ namespace OnDigit.Infrastructure.Services
             T entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
             context.Set<T>().Remove(entity);
             await context.SaveChangesAsync();
-
             return true;
         }
     }

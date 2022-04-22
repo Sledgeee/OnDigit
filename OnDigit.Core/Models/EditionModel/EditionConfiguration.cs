@@ -25,11 +25,6 @@ namespace OnDigit.Core.Models.EditionModel
                 .IsRequired();
 
             builder
-                .Property(e => e.RatingCount)
-                .HasDefaultValue(0)
-                .IsRequired();
-
-            builder
                 .Property(e => e.Price)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
