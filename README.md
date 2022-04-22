@@ -1,4 +1,8 @@
 <h1>OnDigit</h1>
+<h2>Sign in</h2>
+<img src="https://user-images.githubusercontent.com/76629564/164710040-00778acf-db8e-495a-b781-1668ac775c97.png"/>
+<h2>Sign up</h2>
+<img src="https://user-images.githubusercontent.com/76629564/164710111-7a210784-a63d-4c92-96f3-aba893912806.png"/>
 <h2>Navigation tabs</h2>
 <h3>Shop view</h3>
 <img src="https://user-images.githubusercontent.com/76629564/164708221-2d7731b8-135d-4342-95ca-3b9760b297b4.png"/>
