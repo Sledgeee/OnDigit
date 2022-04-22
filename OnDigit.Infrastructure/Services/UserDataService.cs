@@ -38,7 +38,7 @@ namespace OnDigit.Infrastructure.Services
             return await context.Users.Include(x => x.UserLogins)
                 .Include(x => x.Reviews)
                 .Include(x => x.Orders).ThenInclude(x => x.Editions)
-                .FirstOrDefaultAsync((e) => e.Id == id);
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<User> GetByEmailAsync(string email)

@@ -20,8 +20,8 @@ namespace OnDigit.Core.Models.ResetTokenModel
 
             builder
                 .HasOne(u => u.User)
-                .WithMany(t => t.ResetTokens)
-                .HasForeignKey(u => u.UserId);
+                .WithOne(t => t.ResetToken)
+                .HasForeignKey<ResetToken>(t => t.UserId);
         }
     }
 }
