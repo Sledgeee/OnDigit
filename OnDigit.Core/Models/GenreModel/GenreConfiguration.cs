@@ -17,8 +17,7 @@ namespace OnDigit.Core.Models.GenreModel
             builder
                 .HasMany(e => e.Editions)
                 .WithOne(g => g.Genre)
-                .HasForeignKey(g => g.GenreId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(g => g.GenreId);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace OnDigit.Core.Interfaces.Services
     {
         Task<ICollection<T>> GetAllAsync();
         Task<T> AddAsync(T entity);
-        Task<T> UpdateAsync(string id, T entity);
+        Task<T> UpdateAsync(T entity);
         Task<T> GetByIdAsync(string id);
         Task<bool> DeleteAsync(string id);
         Task<ICollection<T>> GetListBySpecAsync(ISpecification<T> specification);

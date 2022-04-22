@@ -1,7 +1,6 @@
 ﻿using System;
 using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.UserModel;
-using OnDigit.Core.Interfaces;
 
 namespace OnDigit.Core.Models.ReviewModel
 {

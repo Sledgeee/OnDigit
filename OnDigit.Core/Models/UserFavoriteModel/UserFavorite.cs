@@ -25,7 +25,7 @@ namespace OnDigit.Core.Models.UserFavoriteModel
             }
             else {
                 UserFavorite uf = obj as UserFavorite;
-                return (UserId == uf.UserId) && (User == uf.User) && (EditionId == uf.EditionId) && (Edition == uf.Edition);
+                return (UserId == uf.UserId) && (EditionId == uf.EditionId);
             }
         }
     }

@@ -4,7 +4,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
+using OnDigit.Client.Windows.Shop.Controls;
 using OnDigit.Core.Interfaces.Services;
+using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.ReviewModel;
+using OnDigit.Core.Models.UserModel;
 
 namespace OnDigit.Client.Windows.Shop
 {
@@ -14,12 +18,17 @@ namespace OnDigit.Client.Windows.Shop
     public partial class CreateReviewWindow : Window
     {
         private readonly IReviewService _reviewService;
-        private readonly string _userId;
-        public CreateReviewWindow(IReviewService reviewService, string userId)
+        private readonly User _currentUser;
+        private readonly Edition _edition;
+        private readonly BookInfoWindow _bookInfoWindow;
+
+        public CreateReviewWindow(BookInfoWindow bookInfoWindow, IReviewService reviewService, User currentUser, Edition edition)
         {
             InitializeComponent();
             _reviewService = reviewService;
-            _userId = userId;
+            _edition = edition;
+            _currentUser = currentUser;
+            _bookInfoWindow = bookInfoWindow;
         }
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
@@ -48,18 +57,26 @@ namespace OnDigit.Client.Windows.Shop
             return count;
         }
 
-        private void SendReview_Click(object sender, RoutedEventArgs e)
+        private async void SendReview_Click(object sender, RoutedEventArgs e)
         {
-            _reviewService.AddReviewAsync(
-                new TextRange(CommentField.Document.ContentStart, CommentField.Document.ContentEnd).Text,
-                CalculateStars(),
-                _userId
-                );  
+            Review review = new()
+            {
+                Text = new TextRange(CommentField.Document.ContentStart, CommentField.Document.ContentEnd).Text,
+                Stars = CalculateStars(),
+                UserId = _currentUser.Id,
+                EditionId = _edition.Id
+            };
+
+            _edition.Rating = (_edition.Rating * _edition.Reviews.Count + review.Stars) / (_edition.Reviews.Count + 1);
+
+            await _reviewService.AddReviewAsync(review, _edition);
+
+            _bookInfoWindow.UpdateBookInfo(_edition, review, _currentUser);
 
             CloseWindow_Click(sender, e);
         }
 
-        private void star_1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Star_1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             star_1.Kind = PackIconKind.Star;
             star_1.Foreground = Brushes.Orange;
@@ -73,30 +90,30 @@ namespace OnDigit.Client.Windows.Shop
             star_5.Foreground = Brushes.Gray;
         }
 
-        private void star_2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Star_2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            star_1_MouseLeftButtonDown(sender, e);
+            Star_1_MouseLeftButtonDown(sender, e);
             star_2.Kind = PackIconKind.Star;
             star_2.Foreground = Brushes.Orange;
         }
 
-        private void star_3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Star_3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            star_2_MouseLeftButtonDown(sender, e);
+            Star_2_MouseLeftButtonDown(sender, e);
             star_3.Kind = PackIconKind.Star;
             star_3.Foreground = Brushes.Orange;
         }
 
-        private void star_4_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Star_4_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            star_3_MouseLeftButtonDown(sender, e);
+            Star_3_MouseLeftButtonDown(sender, e);
             star_4.Kind = PackIconKind.Star;
             star_4.Foreground = Brushes.Orange;
         }
 
-        private void star_5_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Star_5_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            star_4_MouseLeftButtonDown(sender, e);
+            Star_4_MouseLeftButtonDown(sender, e);
             star_5.Kind = PackIconKind.Star;
             star_5.Foreground = Brushes.Orange;
         }

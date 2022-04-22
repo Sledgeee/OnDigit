@@ -33,9 +33,9 @@
                     </Button>
                 </Grid>
 
-                <Separator Grid.Row="1"/>
+                <Separator Grid.Row="1" Background="#292929"/>
 
-                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
@@ -58,7 +58,7 @@
                                 <materialDesign:PackIcon x:Name="star_3" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                                 <materialDesign:PackIcon x:Name="star_4" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
                                 <materialDesign:PackIcon x:Name="star_5" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
-                                <TextBlock Margin="10 -1 0 0" Text="{Binding RatingCount}" FontSize="16" Foreground="White"/>
+                                <TextBlock x:Name="tbRatingCount" Margin="10 -1 0 0" Text="{Binding Path=RatingCount, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Foreground="White"/>
                             </StackPanel>
                         </Grid>
 
@@ -121,7 +121,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="Reviews" FontSize="24" Foreground="White"/>
-                            <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding RatingCount}" FontSize="24" Margin="10 0 0 0" Foreground="White"/>
+                            <TextBlock x:Name="tbReviewCount" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=RatingCount, UpdateSourceTrigger=PropertyChanged}" FontSize="24" Margin="10 0 0 0" Foreground="White"/>
                             
                             <Button Grid.Column="2" Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="5" Margin="0" Foreground="White" FontSize="21" Click="CreateReview_Click">
                                 <TextBlock Margin="5 -5 5 0" Text="Write review"/>

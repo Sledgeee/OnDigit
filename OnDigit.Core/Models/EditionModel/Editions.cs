@@ -9,7 +9,7 @@ namespace OnDigit.Core.Models.EditionModel
         {
             public EditionSearch(string searchRow)
             {
-                Query.Include(x => x.Reviews).Include(x=>x.UserFavorites).Where(x => x.Name.Contains(searchRow)).OrderBy(x => x.GenreId);
+                Query.Include(x => x.Reviews).ThenInclude(x => x.User).Include(x=>x.UserFavorites).Where(x => x.Name.Contains(searchRow)).OrderBy(x => x.GenreId);
             }
         }
 
@@ -17,7 +17,7 @@ namespace OnDigit.Core.Models.EditionModel
         {
             public EditionLoad()
             {
-                Query.Include(x => x.Reviews).Include(x => x.UserFavorites).OrderBy(x => x.GenreId);
+                Query.Include(x => x.Reviews).ThenInclude(x => x.User).Include(x => x.UserFavorites).OrderBy(x => x.GenreId);
             }
         }
     }

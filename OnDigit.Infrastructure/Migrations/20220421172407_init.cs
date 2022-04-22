@@ -46,7 +46,6 @@ namespace OnDigit.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
-                    RatingCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     GenreId = table.Column<int>(type: "int", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -244,31 +243,24 @@ namespace OnDigit.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Editions",
-                columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price", "Rating" },
-                values: new object[,]
-                {
-                    { "151208f3-6a57-4009-a49e-575b2e0ec634", "Book1", 1, "pack://application:,,,/Images/willbook.jpg", "Book1", 9.99m, 5f },
-                    { "edd90f24-fd19-449d-878a-efd8b4a3a814", "Book2", 2, "pack://application:,,,/Images/willbook.jpg", "Book2", 9.99m, 4.4f },
-                    { "fb48799c-7ce3-4e78-9077-1b41e98909b4", "Book3", 3, "pack://application:,,,/Images/willbook.jpg", "Book3", 9.99m, 3.2f },
-                    { "081a5fc4-e3cd-4360-8d3f-432d63fef19f", "Book4", 4, "pack://application:,,,/Images/willbook.jpg", "Book4", 9.99m, 3f },
-                    { "62235a64-7201-4504-8cf8-533583805eda", "Book5", 5, "pack://application:,,,/Images/willbook.jpg", "Book5", 9.99m, 2f },
-                    { "f9a0497d-6df6-4549-9cee-2803a01836c8", "Book6", 6, "pack://application:,,,/Images/willbook.jpg", "Book6", 9.99m, 1f },
-                    { "c61c4ef9-3ef4-4a4e-baf6-39772f813818", "Book7", 7, "pack://application:,,,/Images/willbook.jpg", "Book7", 9.99m, 0.6f }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Editions",
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "2f9a21ad-d05d-48de-a616-66e8e5aea5b0", "Book8", 8, "pack://application:,,,/Images/willbook.jpg", "Book8", 9.99m },
-                    { "37710d96-a080-465b-92be-bfa6302ff745", "Book9", 9, "pack://application:,,,/Images/willbook.jpg", "Book9", 9.99m },
-                    { "5a6fd521-e026-43d9-b6a7-d92a386b81bb", "Book10", 10, "pack://application:,,,/Images/willbook.jpg", "Book10", 9.99m },
-                    { "278aa884-3113-4227-bfb1-a1753706d79f", "Book11", 11, "pack://application:,,,/Images/willbook.jpg", "Book11", 9.99m },
-                    { "bde2aba1-570d-4eda-8da0-f7ef911d44a5", "Book12", 12, "pack://application:,,,/Images/willbook.jpg", "Book12", 9.99m },
-                    { "17007453-ed46-4b55-b936-69b6b765eb6d", "Book13", 13, "pack://application:,,,/Images/willbook.jpg", "Book13", 9.99m },
-                    { "610cd18a-0b4e-4a32-bceb-f8d28c5dfb6f", "Book14", 14, "pack://application:,,,/Images/willbook.jpg", "Book14", 9.99m },
-                    { "3696174f-d765-4b07-9c70-9916f29e2ebe", "Book15", 15, "pack://application:,,,/Images/willbook.jpg", "Book15", 9.99m }
+                    { "3261e41e-1c64-49e4-8147-739e4a011596", "Book1", 1, "pack://application:,,,/Images/willbook.jpg", "Book1", 9.99m },
+                    { "2c0986a1-8e48-4592-b59a-27afe5d9e769", "Book2", 2, "pack://application:,,,/Images/willbook.jpg", "Book2", 9.99m },
+                    { "cbbd23f9-1cbc-4867-98fa-870bf3d88241", "Book3", 3, "pack://application:,,,/Images/willbook.jpg", "Book3", 9.99m },
+                    { "7c7406c2-9ab2-4b0f-9869-b866116afb78", "Book4", 4, "pack://application:,,,/Images/willbook.jpg", "Book4", 9.99m },
+                    { "a6017e8e-70e0-4691-b5ca-aea15dbde775", "Book5", 5, "pack://application:,,,/Images/willbook.jpg", "Book5", 9.99m },
+                    { "9177ac87-6f30-4591-a709-a27d9798f40a", "Book6", 6, "pack://application:,,,/Images/willbook.jpg", "Book6", 9.99m },
+                    { "ed3bbf05-c76a-4046-b1e5-ebea06f4dd65", "Book7", 7, "pack://application:,,,/Images/willbook.jpg", "Book7", 9.99m },
+                    { "7efa693b-6481-449c-bc73-30baa71e29e1", "Book8", 8, "pack://application:,,,/Images/willbook.jpg", "Book8", 9.99m },
+                    { "8335b6b5-30bc-45f8-9a6d-87230f09083e", "Book9", 9, "pack://application:,,,/Images/willbook.jpg", "Book9", 9.99m },
+                    { "9e3809fc-1a39-4d43-a697-57971492c221", "Book10", 10, "pack://application:,,,/Images/willbook.jpg", "Book10", 9.99m },
+                    { "e616523b-cfb6-47f3-ac1e-fc318ecd90e7", "Book11", 11, "pack://application:,,,/Images/willbook.jpg", "Book11", 9.99m },
+                    { "8b730119-4e7c-4c34-99fc-74e47fdffbb9", "Book12", 12, "pack://application:,,,/Images/willbook.jpg", "Book12", 9.99m },
+                    { "4e519fe6-89c1-4ea7-b587-4250343c77e5", "Book13", 13, "pack://application:,,,/Images/willbook.jpg", "Book13", 9.99m },
+                    { "6e59d3d7-248a-472f-8404-8783d7bc7b35", "Book14", 14, "pack://application:,,,/Images/willbook.jpg", "Book14", 9.99m },
+                    { "4e90558a-3374-4b1c-8549-90048b207a10", "Book15", 15, "pack://application:,,,/Images/willbook.jpg", "Book15", 9.99m }
                 });
 
             migrationBuilder.CreateIndex(

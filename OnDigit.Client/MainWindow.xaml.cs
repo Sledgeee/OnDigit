@@ -83,7 +83,7 @@ namespace OnDigit.Client
 
         private async Task<bool> CheckOnSession()
         {
-            await Task.Delay(1000);
+            await Task.Delay(500);
             var key = Registry.CurrentUser.OpenSubKey("OnDigitSession");
             if (key is null)
             {
@@ -140,14 +140,14 @@ namespace OnDigit.Client
 
             GridMenu.IsEnabled = false;
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             foreach (var edition in editionList)
             {
-                Shop.Children.Add(new ShopEditionCard(this, edition, _currentUser.Id, _reviewService, _userService));
+                Shop.Children.Add(new ShopEditionCard(this, edition, _currentUser, _reviewService, _userService));
 
                 if (((ShopEditionCard)Shop.Children[^1]).icon_favorites.Kind == PackIconKind.Heart)
-                    Favorites.Children.Add(new ShopEditionCard(this, edition, _currentUser.Id, _reviewService, _userService));
+                    Favorites.Children.Add(new ShopEditionCard(this, edition, _currentUser, _reviewService, _userService));
             }
 
             editionList.Clear();
@@ -250,7 +250,6 @@ namespace OnDigit.Client
                 UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
                 UserBalance.Text = _currentUser.Balance + "$";
                 LoginedState.Visibility = Visibility.Visible;
-                LoadBooks(await _shopService.GetAllEditionsAsync());
             }
         }
 

@@ -21,8 +21,7 @@ namespace OnDigit.Core.Models.ResetTokenModel
             builder
                 .HasOne(u => u.User)
                 .WithMany(t => t.ResetTokens)
-                .HasForeignKey(u => u.UserId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(u => u.UserId);
         }
     }
 }

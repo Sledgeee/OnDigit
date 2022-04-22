@@ -40,7 +40,7 @@ namespace OnDigit.Infrastructure.Services
             return await context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> UpdateAsync(string id, T entity) => await _nonQueryDataService.Update(id, entity);
+        public async Task<T> UpdateAsync(T entity) => await _nonQueryDataService.Update(entity);
 
         private IQueryable<T> ApplySpecification(ISpecification<T> specification) => 
             new SpecificationEvaluator().GetQuery(_dbSet, specification);

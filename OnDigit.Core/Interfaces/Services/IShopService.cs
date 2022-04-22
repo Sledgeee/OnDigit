@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OnDigit.Core.Models.CartModel;
 using OnDigit.Core.Models.EditionModel;
 using OnDigit.Core.Models.OrderModel;
 

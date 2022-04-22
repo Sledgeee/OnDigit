@@ -13,7 +13,6 @@ namespace OnDigit.Core.Models.EditionModel
         public string Name { get; set; }
         public string Description { get; set; }
         public float Rating { get; set; }
-        public int RatingCount { get; set; }
         public decimal Price { get; set; }
         public int GenreId { get; set; }
         public string ImageUri { get; set; }
@@ -44,7 +43,6 @@ namespace OnDigit.Core.Models.EditionModel
                     (Name == e.Name) &&
                     (Description == e.Description) &&
                     (Rating == e.Rating) &&
-                    (RatingCount == e.RatingCount) &&
                     (Price == e.Price) &&
                     (DateCreated == e.DateCreated) &&
                     (GenreId == e.GenreId) &&

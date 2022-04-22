@@ -27,14 +27,12 @@ namespace OnDigit.Core.Models.UserModel
             builder
                 .HasMany(o => o.Orders)
                 .WithOne(u => u.User)
-                .HasForeignKey(u => u.UserId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(u => u.UserId);
 
             builder
                 .HasMany(r => r.Reviews)
                 .WithOne(u => u.User)
-                .HasForeignKey(u => u.UserId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(u => u.UserId);
 
             builder
                 .HasMany(ulh => ulh.UserLogins)
@@ -44,8 +42,7 @@ namespace OnDigit.Core.Models.UserModel
             builder
                 .HasMany(s => s.Sessions)
                 .WithOne(u => u.User)
-                .HasForeignKey(s => s.UserId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(s => s.UserId);
         }
     }
 }

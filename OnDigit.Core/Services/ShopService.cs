@@ -10,13 +10,11 @@ namespace OnDigit.Core.Services
     public class ShopService : IShopService
     {
         private readonly IDataService<Edition> _editionService;
-        private readonly IReviewService _reviewService;
         private readonly IOrderService _orderService;
 
-        public ShopService(IDataService<Edition> editionService, IReviewService reviewService, IOrderService orderService)
+        public ShopService(IDataService<Edition> editionService, IOrderService orderService)
         {
             _editionService = editionService;
-            _reviewService = reviewService;
             _orderService = orderService;
         }
 

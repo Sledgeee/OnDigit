@@ -1,8 +1,11 @@
 ﻿using JetBrains.Annotations;
+using MaterialDesignThemes.Wpf;
 using OnDigit.Client.Windows.Shop.Controls;
 using OnDigit.Core.Genres;
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.ReviewModel;
+using OnDigit.Core.Models.UserModel;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -19,20 +22,23 @@ namespace OnDigit.Client.Windows.Shop
     {
         private readonly Edition _edition;
         private readonly IReviewService _reviewService;
-        private readonly string _userId;
+        private readonly User _currentUser;
         private readonly MainWindow _mainWindow;
+        private readonly ShopEditionCard _shopEditionCard;
 
         public BookInfoWindow(Edition edition,
-                              string userId,
+                              User currentUser,
                               IReviewService reviewService,
-                              MainWindow mainWindow)
+                              MainWindow mainWindow,
+                              ShopEditionCard shopEditionCard)
         {
             InitializeComponent();
             this.DataContext = this;
             _edition = edition;
             _reviewService = reviewService;
-            _userId = userId;
+            _currentUser = currentUser;
             _mainWindow = mainWindow;
+            _shopEditionCard = shopEditionCard;
             Initialize();
         }
 
@@ -42,7 +48,6 @@ namespace OnDigit.Client.Windows.Shop
             _description = _edition.Description;
             _price = _edition.Price + "$";
             _imageUri = _edition.ImageUri;
-            _ratingCount = _edition.RatingCount;
             _genre = typeof(Genres).GetFields().Where(x => x.IsLiteral).Select(x => x.Name).ToArray()[_edition.GenreId - 1].Replace("_", " ");
 
             if (_mainWindow.UserCart.Editions.Contains(_edition))
@@ -51,12 +56,106 @@ namespace OnDigit.Client.Windows.Shop
                 AddToCart.Content = "Remove from cart";
             }
 
-            ReviewsPanel.Children.Add(new BookReviewCard());
-            ReviewsPanel.Children.Add(new BookReviewCard());
-            ReviewsPanel.Children.Add(new BookReviewCard());
-            ReviewsPanel.Children.Add(new BookReviewCard());
-            ReviewsPanel.Children.Add(new BookReviewCard());
-            ReviewsPanel.Children.Add(new BookReviewCard());
+            SetStars(_edition.Rating);
+
+            _ratingCount = _edition.Reviews.Count;
+
+            var collection = _edition.Reviews.OrderByDescending(x => x.DateCreated);
+
+            foreach(var item in collection)
+                ReviewsPanel.Children.Add(new BookReviewCard(item.User.Name + " " + item.User.Surname, item.Text, item.Stars));
+        }
+
+        public void UpdateBookInfo(Edition edition, Review review, User user)
+        {
+            review.User = user;
+            SetStars(edition.Rating);
+            _edition.Reviews.Add(review);
+            _ratingCount = _edition.Reviews.Count;
+            tbRatingCount.Text = _ratingCount.ToString();
+            tbReviewCount.Text = _ratingCount.ToString();
+            _shopEditionCard.SetStars(edition.Rating);
+            _shopEditionCard.UpdateRating(edition.Reviews.Count);
+
+            ReviewsPanel.Children.Clear();
+
+            var collection = _edition.Reviews.OrderByDescending(x => x.DateCreated);
+
+            foreach (var item in collection)
+                ReviewsPanel.Children.Add(new BookReviewCard(item.User.Name + " " + item.User.Surname, item.Text, item.Stars));
+        }
+
+        private void SetStars(float rating)
+        {
+            if (rating == 0)
+                return;
+
+            else if (rating > 0 && rating < 1)
+                star_1.Kind = PackIconKind.StarHalfFull;
+
+            else if (rating == 1)
+                star_1.Kind = PackIconKind.Star;
+
+            else if (rating > 1 && rating < 2)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.StarHalfFull;
+            }
+
+            else if (rating == 2)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+            }
+
+            else if (rating > 2 && rating < 3)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.StarHalfFull;
+            }
+
+            else if (rating == 3)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+
+            }
+
+            else if (rating > 3 && rating < 4)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.StarHalfFull;
+            }
+
+            else if (rating == 4)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.Star;
+            }
+
+            else if (rating == 5)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.Star;
+                star_5.Kind = PackIconKind.Star;
+            }
+
+            else if (rating > 4 && rating < 5)
+            {
+                star_1.Kind = PackIconKind.Star;
+                star_2.Kind = PackIconKind.Star;
+                star_3.Kind = PackIconKind.Star;
+                star_4.Kind = PackIconKind.Star;
+                star_5.Kind = PackIconKind.StarHalfFull;
+            }
         }
 
         private string _bookName;
@@ -149,7 +248,7 @@ namespace OnDigit.Client.Windows.Shop
         private void CreateReview_Click(object sender, RoutedEventArgs e)
         {
             this.Effect = new BlurEffect();
-            new CreateReviewWindow(_reviewService, _userId).ShowDialog();
+            new CreateReviewWindow(this, _reviewService, _currentUser, _edition).ShowDialog();
             this.Effect = null;
         }
 

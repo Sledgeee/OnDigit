@@ -9,6 +9,7 @@ using MaterialDesignThemes.Wpf;
 using OnDigit.Core.Interfaces.Services;
 using System.Windows.Media.Effects;
 using OnDigit.Core.Models.UserFavoriteModel;
+using OnDigit.Core.Models.UserModel;
 
 namespace OnDigit.Client.Windows.Shop.Controls
 {
@@ -19,23 +20,27 @@ namespace OnDigit.Client.Windows.Shop.Controls
     {
         private readonly Edition _edition;
         private readonly MainWindow _mainWindow;
-        private readonly string _userId;
+        private readonly User _currentUser;
         private readonly IReviewService _reviewService;
         private readonly IUserService _userService;
 
-        public ShopEditionCard(MainWindow reference, Edition edition, string userId, IReviewService reviewService, IUserService userService)
+        public ShopEditionCard(MainWindow mainWindow, 
+            Edition edition, 
+            User currentUser, 
+            IReviewService reviewService,  
+            IUserService userService)
         {
             InitializeComponent();
             this.DataContext = this;
 
-            _mainWindow = reference;
-            _userId = userId;
+            _mainWindow = mainWindow;
+            _currentUser = currentUser;
             _reviewService = reviewService;
             _userService = userService;
             _edition = edition;
             _editionName = edition.Name;
             _editionPrice = edition.Price.ToString() + "$";
-            _ratingCount = edition.RatingCount;
+            _ratingCount = edition.Reviews.Count;
             _imageUri = edition.ImageUri;
 
             string trailer = "_" + _edition.Id.Replace("-", "");
@@ -45,7 +50,7 @@ namespace OnDigit.Client.Windows.Shop.Controls
             {
                 Edition = _edition,
                 EditionId = _edition.Id,
-                UserId = userId,
+                UserId = _currentUser.Id,
                 User = null
             }))
             {
@@ -54,40 +59,40 @@ namespace OnDigit.Client.Windows.Shop.Controls
 
             button_favorites.Name += trailer;
             button_favorites.Click += ButtonOnClick;
-            SetStars();
+            SetStars(edition.Rating);
         }
 
-        private void SetStars()
+        public void SetStars(float rating)
         {
-            if (_edition.Rating == 0)
+            if (rating == 0)
                 return;
 
-            else if (_edition.Rating > 0 && _edition.Rating < 1)
+            else if (rating > 0 && rating < 1)
                 star_1.Kind = PackIconKind.StarHalfFull;
 
-            else if (_edition.Rating == 1)
+            else if (rating == 1)
                 star_1.Kind = PackIconKind.Star;
 
-            else if (_edition.Rating > 1 && _edition.Rating < 2)
+            else if (rating > 1 && rating < 2)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.StarHalfFull;
             }
 
-            else if (_edition.Rating == 2)
+            else if (rating == 2)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.Star;
             }
 
-            else if (_edition.Rating > 2 && _edition.Rating < 3)
+            else if (rating > 2 && rating < 3)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.Star;
                 star_3.Kind = PackIconKind.StarHalfFull;
             }
 
-            else if (_edition.Rating == 3)
+            else if (rating == 3)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.Star;
@@ -95,7 +100,7 @@ namespace OnDigit.Client.Windows.Shop.Controls
 
             }
 
-            else if (_edition.Rating > 3 && _edition.Rating < 4)
+            else if (rating > 3 && rating < 4)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.Star;
@@ -103,7 +108,7 @@ namespace OnDigit.Client.Windows.Shop.Controls
                 star_4.Kind = PackIconKind.StarHalfFull;
             }
 
-            else if (_edition.Rating == 4)
+            else if (rating == 4)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.Star;
@@ -111,7 +116,7 @@ namespace OnDigit.Client.Windows.Shop.Controls
                 star_4.Kind = PackIconKind.Star;
             }
 
-            else if (_edition.Rating == 5)
+            else if (rating == 5)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.Star;
@@ -120,7 +125,7 @@ namespace OnDigit.Client.Windows.Shop.Controls
                 star_5.Kind = PackIconKind.Star;
             }
 
-            else if (_edition.Rating > 4 && _edition.Rating < 5)
+            else if (rating > 4 && rating < 5)
             {
                 star_1.Kind = PackIconKind.Star;
                 star_2.Kind = PackIconKind.Star;
@@ -130,20 +135,33 @@ namespace OnDigit.Client.Windows.Shop.Controls
             }
         }
 
+        public void UpdateRating(int ratingCount)
+        {
+            _ratingCount = ratingCount;
+            tbRatingCount.Text = ratingCount.ToString();
+        }
+
+        private void ShowBookInfoWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _mainWindow.Effect = new BlurEffect();
+            new BookInfoWindow(_edition, _currentUser, _reviewService, _mainWindow, this).ShowDialog();
+            _mainWindow.Effect = null;
+        }
+
         private async void ButtonOnClick(object sender, EventArgs e)
         {
             var button = (Button)sender;
             if (button is not null)
                 if (icon_favorites.Kind == PackIconKind.HeartOutline)
                 {
-                    await _userService.SetFavoriteEditionAsync(_userId, _edition.Id);
-                    _edition.UserFavorites.Add(new UserFavorite() { Edition = _edition, EditionId = _edition.Id, UserId = _userId, User = null });
+                    await _userService.SetFavoriteEditionAsync(_currentUser.Id, _edition.Id);
+                    _edition.UserFavorites.Add(new UserFavorite() { Edition = _edition, EditionId = _edition.Id, UserId = _currentUser.Id, User = null });
                     icon_favorites.Kind = PackIconKind.Heart;
                 }
                 else
                 {
-                    await _userService.DeleteFavoriteEditionAsync(_userId, _edition.Id);
-                    _edition.UserFavorites.Remove(new UserFavorite() { Edition = _edition, EditionId = _edition.Id, UserId = _userId, User = null });
+                    await _userService.DeleteFavoriteEditionAsync(_currentUser.Id, _edition.Id);
+                    _edition.UserFavorites.Remove(new UserFavorite() { Edition = _edition, EditionId = _edition.Id, UserId = _currentUser.Id, User = null });
                     icon_favorites.Kind = PackIconKind.HeartOutline;
                 }
         }
@@ -201,13 +219,6 @@ namespace OnDigit.Client.Windows.Shop.Controls
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler is not null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void ShowBookInfoWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _mainWindow.Effect = new BlurEffect();
-            new BookInfoWindow(_edition, _userId, _reviewService, _mainWindow).ShowDialog();
-            _mainWindow.Effect = null;
         }
     }
 }
