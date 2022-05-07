@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.BookModel;
 using System;
 
 namespace OnDigit.Core.Models.GenreModel
@@ -8,7 +8,7 @@ namespace OnDigit.Core.Models.GenreModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Edition> Editions { get; set; } = new List<Edition>();
+        public ICollection<Book> Books { get; set; } = new List<Book>();
 
         public void Dispose()
         {

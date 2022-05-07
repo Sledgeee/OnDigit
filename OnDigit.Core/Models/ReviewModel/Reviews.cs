@@ -6,11 +6,11 @@ namespace OnDigit.Core.Models.ReviewModel
 {
     public class Reviews
     {
-        internal class ReviewEdition : Specification<Review>
+        internal class ReviewBook : Specification<Review>
         {
-            public ReviewEdition(string editionId)
+            public ReviewBook(string bookId)
             {
-                Query.Include(u => u.User).Where(e => e.EditionId == editionId);
+                Query.Include(u => u.User).Where(e => e.BookId == bookId);
             }
         }
     }

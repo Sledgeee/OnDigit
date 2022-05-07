@@ -3,7 +3,7 @@ using MaterialDesignThemes.Wpf;
 using OnDigit.Client.Windows.Shop.Controls;
 using OnDigit.Core.Genres;
 using OnDigit.Core.Interfaces.Services;
-using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.BookModel;
 using OnDigit.Core.Models.ReviewModel;
 using OnDigit.Core.Models.UserModel;
 using System;
@@ -20,66 +20,66 @@ namespace OnDigit.Client.Windows.Shop
     /// </summary>
     public partial class BookInfoWindow : Window
     {
-        private readonly Edition _edition;
+        private readonly Book _book;
         private readonly IReviewService _reviewService;
         private readonly User _currentUser;
         private readonly MainWindow _mainWindow;
-        private readonly ShopEditionCard _shopEditionCard;
+        private readonly ShopBookCard _shopBookCard;
 
-        public BookInfoWindow(Edition edition,
+        public BookInfoWindow(Book book,
                               User currentUser,
                               IReviewService reviewService,
                               MainWindow mainWindow,
-                              ShopEditionCard shopEditionCard)
+                              ShopBookCard shopBookCard)
         {
             InitializeComponent();
             this.DataContext = this;
-            _edition = edition;
+            _book = book;
             _reviewService = reviewService;
             _currentUser = currentUser;
             _mainWindow = mainWindow;
-            _shopEditionCard = shopEditionCard;
+            _shopBookCard = shopBookCard;
             Initialize();
         }
 
         private void Initialize()
         {
-            _bookName = _edition.Name;
-            _description = _edition.Description;
-            _price = _edition.Price + "$";
-            _imageUri = _edition.ImageUri;
-            _genre = typeof(Genres).GetFields().Where(x => x.IsLiteral).Select(x => x.Name).ToArray()[_edition.GenreId - 1].Replace("_", " ");
+            _bookName = _book.Name;
+            _description = _book.Description;
+            _price = "$" + _book.Price;
+            _imageUri = _book.ImageUri;
+            _genre = typeof(Genres).GetFields().Where(x => x.IsLiteral).Select(x => x.Name).ToArray()[_book.GenreId - 1].Replace("_", " ");
 
-            if (_mainWindow.UserCart.Editions.Contains(_edition))
+            if (_mainWindow.UserCart.Books.ContainsKey(_book))
             {
                 AddToCartCheck.Visibility = Visibility.Visible;
                 AddToCart.Content = "Remove from cart";
             }
 
-            SetStars(_edition.Rating);
+            SetStars(_book.Rating);
 
-            _ratingCount = _edition.Reviews.Count;
+            _ratingCount = _book.Reviews.Count;
 
-            var collection = _edition.Reviews.OrderByDescending(x => x.DateCreated);
+            var collection = _book.Reviews.OrderByDescending(x => x.DateCreated);
 
             foreach(var item in collection)
                 ReviewsPanel.Children.Add(new BookReviewCard(item.User.Name + " " + item.User.Surname, item.Text, item.Stars));
         }
 
-        public void UpdateBookInfo(Edition edition, Review review, User user)
+        public void UpdateBookInfo(Book book, Review review, User user)
         {
             review.User = user;
-            SetStars(edition.Rating);
-            _edition.Reviews.Add(review);
-            _ratingCount = _edition.Reviews.Count;
+            SetStars(book.Rating);
+            _book.Reviews.Add(review);
+            _ratingCount = _book.Reviews.Count;
             tbRatingCount.Text = _ratingCount.ToString();
             tbReviewCount.Text = _ratingCount.ToString();
-            _shopEditionCard.SetStars(edition.Rating);
-            _shopEditionCard.UpdateRating(edition.Reviews.Count);
+            _shopBookCard.SetStars(book.Rating);
+            _shopBookCard.UpdateRating(book.Reviews.Count);
 
             ReviewsPanel.Children.Clear();
 
-            var collection = _edition.Reviews.OrderByDescending(x => x.DateCreated);
+            var collection = _book.Reviews.OrderByDescending(x => x.DateCreated);
 
             foreach (var item in collection)
                 ReviewsPanel.Children.Add(new BookReviewCard(item.User.Name + " " + item.User.Surname, item.Text, item.Stars));
@@ -248,7 +248,7 @@ namespace OnDigit.Client.Windows.Shop
         private void CreateReview_Click(object sender, RoutedEventArgs e)
         {
             this.Effect = new BlurEffect();
-            new CreateReviewWindow(this, _reviewService, _currentUser, _edition).ShowDialog();
+            new CreateReviewWindow(this, _reviewService, _currentUser, _book).ShowDialog();
             this.Effect = null;
         }
 
@@ -258,13 +258,15 @@ namespace OnDigit.Client.Windows.Shop
             {
                 AddToCart.Content = "Remove from cart";
                 AddToCartCheck.Visibility = Visibility.Visible;
-                _mainWindow.UserCart.AddEdition(_edition);
+                _shopBookCard.UpdateCartIcon(PackIconKind.Cart);
+                _mainWindow.UserCart.AddBook(_book, 1);
             }
             else
             {
                 AddToCart.Content = "Add to cart";
                 AddToCartCheck.Visibility = Visibility.Collapsed;
-                _mainWindow.UserCart.RemoveEdition(_edition);
+                _shopBookCard.UpdateCartIcon(PackIconKind.CartOutline);
+                _mainWindow.UserCart.RemoveBook(_book);
             }
         }
 

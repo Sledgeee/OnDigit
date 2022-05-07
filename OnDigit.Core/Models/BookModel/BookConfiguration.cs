@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace OnDigit.Core.Models.EditionModel
+namespace OnDigit.Core.Models.BookModel
 {
-    public class EditionConfiguration : IEntityTypeConfiguration<Edition>
+    public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
-        public void Configure(EntityTypeBuilder<Edition> builder)
+        public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.HasKey(e => e.Id);
 
@@ -30,6 +30,10 @@ namespace OnDigit.Core.Models.EditionModel
                 .IsRequired();
 
             builder
+                .Property(e => e.IsAvailable)
+                .HasDefaultValue(false);
+
+            builder
                 .Property(e => e.GenreId)
                 .IsRequired();
 
@@ -40,8 +44,8 @@ namespace OnDigit.Core.Models.EditionModel
 
             builder
                 .HasMany(r => r.Reviews)
-                .WithOne(e => e.Edition)
-                .HasForeignKey(e => e.EditionId)
+                .WithOne(e => e.Book)
+                .HasForeignKey(e => e.BookId)
                 .OnDelete(DeleteBehavior.ClientCascade);
         }
     }

@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace OnDigit.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,13 +23,26 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Stocks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stocks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -39,7 +54,7 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Editions",
+                name: "Books",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -47,15 +62,17 @@ namespace OnDigit.Infrastructure.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<float>(type: "real", nullable: false, defaultValue: 0f),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    StockPackageId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Editions", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Editions_Genres_GenreId",
+                        name: "FK_Books_Genres_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
@@ -70,7 +87,8 @@ namespace OnDigit.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "Processing")
                 },
                 constraints: table =>
                 {
@@ -79,8 +97,7 @@ namespace OnDigit.Infrastructure.Migrations
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -98,8 +115,7 @@ namespace OnDigit.Infrastructure.Migrations
                         name: "FK_ResetToken_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -152,17 +168,16 @@ namespace OnDigit.Infrastructure.Migrations
                     Stars = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EditionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    BookId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Editions_EditionId",
-                        column: x => x.EditionId,
-                        principalTable: "Editions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Reviews_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reviews_Users_UserId",
                         column: x => x.UserId,
@@ -172,19 +187,45 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StockPackages",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    StockId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockPackages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StockPackages_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StockPackages_Stocks_StockId",
+                        column: x => x.StockId,
+                        principalTable: "Stocks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserFavorites",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EditionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    BookId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserFavorites", x => new { x.UserId, x.EditionId });
+                    table.PrimaryKey("PK_UserFavorites", x => new { x.UserId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_UserFavorites_Editions_EditionId",
-                        column: x => x.EditionId,
-                        principalTable: "Editions",
+                        name: "FK_UserFavorites_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -196,23 +237,25 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderEditions",
+                name: "OrdersBooks",
                 columns: table => new
                 {
                     OrderNumber = table.Column<int>(type: "int", nullable: false),
-                    EditionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    BookId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderEditions", x => new { x.OrderNumber, x.EditionId });
+                    table.PrimaryKey("PK_OrdersBooks", x => new { x.OrderNumber, x.BookId });
                     table.ForeignKey(
-                        name: "FK_OrderEditions_Editions_EditionId",
-                        column: x => x.EditionId,
-                        principalTable: "Editions",
+                        name: "FK_OrdersBooks_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderEditions_Orders_OrderNumber",
+                        name: "FK_OrdersBooks_Orders_OrderNumber",
                         column: x => x.OrderNumber,
                         principalTable: "Orders",
                         principalColumn: "Number",
@@ -242,41 +285,82 @@ namespace OnDigit.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Editions",
-                columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price" },
+                table: "Stocks",
+                columns: new[] { "Id", "City", "Street" },
                 values: new object[,]
                 {
-                    { "88e62c99-3be5-40c1-9658-804a4fadc93a", "Book1", 1, "pack://application:,,,/Images/willbook.jpg", "Book1", 9.99m },
-                    { "e8751eb7-c933-4bc3-b602-1253dcddbf85", "Book2", 2, "pack://application:,,,/Images/willbook.jpg", "Book2", 9.99m },
-                    { "b5b0fa49-a41e-4921-9805-f32dd5b8cba4", "Book3", 3, "pack://application:,,,/Images/willbook.jpg", "Book3", 9.99m },
-                    { "6d155705-3211-48c3-9490-f302f08f571c", "Book4", 4, "pack://application:,,,/Images/willbook.jpg", "Book4", 9.99m },
-                    { "41c434e9-7d15-47a7-88c1-26184aa2fe1f", "Book5", 5, "pack://application:,,,/Images/willbook.jpg", "Book5", 9.99m },
-                    { "8d23c292-d3c4-4e89-b23d-54b3ac199f35", "Book6", 6, "pack://application:,,,/Images/willbook.jpg", "Book6", 9.99m },
-                    { "92e2caf6-4ab1-4c35-9726-36ffb10272f8", "Book7", 7, "pack://application:,,,/Images/willbook.jpg", "Book7", 9.99m },
-                    { "7b60ec8e-4c83-4873-aa95-02d52e3b464c", "Book8", 8, "pack://application:,,,/Images/willbook.jpg", "Book8", 9.99m },
-                    { "0421dd86-4094-4139-8944-6ea1d05059d0", "Book9", 9, "pack://application:,,,/Images/willbook.jpg", "Book9", 9.99m },
-                    { "2abe0f0f-727b-4d09-8e9b-4a20fec3ab3e", "Book10", 10, "pack://application:,,,/Images/willbook.jpg", "Book10", 9.99m },
-                    { "66ce45d1-0a3d-4358-acf8-134c1bf95e78", "Book11", 11, "pack://application:,,,/Images/willbook.jpg", "Book11", 9.99m },
-                    { "2da890fe-c66e-4caf-8372-28327709bf0f", "Book12", 12, "pack://application:,,,/Images/willbook.jpg", "Book12", 9.99m },
-                    { "19e7eca2-6cab-4629-9e35-d63045356cf5", "Book13", 13, "pack://application:,,,/Images/willbook.jpg", "Book13", 9.99m },
-                    { "71941193-50f3-40b1-aa47-39e0fdfda8d3", "Book14", 14, "pack://application:,,,/Images/willbook.jpg", "Book14", 9.99m },
-                    { "ac95b139-4c23-4f7b-8c50-c3f9f9ad0ac3", "Book15", 15, "pack://application:,,,/Images/willbook.jpg", "Book15", 9.99m }
+                    { 1, "Khmelnytskyi", "Institutska 11/3" },
+                    { 2, "Polonne", "Gerasymchuka 12" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "Description", "GenreId", "ImageUri", "Name", "Price", "StockPackageId" },
+                values: new object[,]
+                {
+                    { "04d6a1d0-2371-4ac1-b02b-1c3d6235a1ca", "Book description18", 14, "pack://application:,,,/Images/willbook.jpg", "Book18", 9.99m, null },
+                    { "055c86ee-226d-47a9-99a3-f33a846a11ac", "Book description16", 1, "pack://application:,,,/Images/willbook.jpg", "Book16", 9.99m, null },
+                    { "0acfe7e3-4386-4d86-a4bd-a7ab92b69752", "Book description13", 5, "pack://application:,,,/Images/willbook.jpg", "Book13", 9.99m, null },
+                    { "17018893-e88b-4395-969e-5bf0c0729dfd", "Book description5", 11, "pack://application:,,,/Images/willbook.jpg", "Book5", 9.99m, null },
+                    { "315a7f9c-038b-4189-9096-56ec0a8a7d6d", "Book description9", 5, "pack://application:,,,/Images/willbook.jpg", "Book9", 9.99m, null },
+                    { "336f32a5-ed86-458a-8a3f-123737f6becb", "Book description6", 13, "pack://application:,,,/Images/willbook.jpg", "Book6", 9.99m, null },
+                    { "3e5f4b04-f71b-449c-bfba-15e83eb9ab13", "Book description2", 9, "pack://application:,,,/Images/willbook.jpg", "Book2", 9.99m, null },
+                    { "42d90b2a-f63d-4f11-bb0d-16feaf7152f2", "Book description3", 9, "pack://application:,,,/Images/willbook.jpg", "Book3", 9.99m, null },
+                    { "486b0b35-ca79-42d3-aa1e-016ee05acc72", "Book description19", 12, "pack://application:,,,/Images/willbook.jpg", "Book19", 9.99m, null },
+                    { "63af3195-bb7a-43c5-8cda-0f92115b0831", "Book description17", 7, "pack://application:,,,/Images/willbook.jpg", "Book17", 9.99m, null },
+                    { "68cbca3f-7cba-4713-9677-33fdafaa3d48", "Book description1", 1, "pack://application:,,,/Images/willbook.jpg", "Book1", 9.99m, null },
+                    { "80597f36-d7ca-4d01-a801-9443643cc2b2", "Book description11", 13, "pack://application:,,,/Images/willbook.jpg", "Book11", 9.99m, null },
+                    { "83ddc51b-85ed-4974-8942-1ccf4cedf691", "Book description15", 9, "pack://application:,,,/Images/willbook.jpg", "Book15", 9.99m, null },
+                    { "8cf43f33-0230-4819-b22a-496cd8ed69b1", "Book description8", 13, "pack://application:,,,/Images/willbook.jpg", "Book8", 9.99m, null },
+                    { "8d08172a-6577-4ea3-a0b8-a5643ab80391", "Book description14", 1, "pack://application:,,,/Images/willbook.jpg", "Book14", 9.99m, null },
+                    { "967569be-5358-4274-886d-43cc52751e67", "Book description7", 6, "pack://application:,,,/Images/willbook.jpg", "Book7", 9.99m, null },
+                    { "b5d2c12b-aa6b-4257-bdcd-5236d7d12388", "Book description10", 6, "pack://application:,,,/Images/willbook.jpg", "Book10", 9.99m, null },
+                    { "cb9d22a0-e3ab-44ee-a093-330dd05e1f16", "Book description12", 6, "pack://application:,,,/Images/willbook.jpg", "Book12", 9.99m, null },
+                    { "e169d412-f8af-4770-8aa7-8fe5d6c5a89f", "Book description4", 8, "pack://application:,,,/Images/willbook.jpg", "Book4", 9.99m, null },
+                    { "fca422fb-c417-46a4-b7cb-da0f48fd8447", "Book description20", 4, "pack://application:,,,/Images/willbook.jpg", "Book20", 9.99m, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StockPackages",
+                columns: new[] { "Id", "BookId", "Quantity", "StockId" },
+                values: new object[,]
+                {
+                    { "100ecedc-d5e2-4f1b-a375-6c0fdd1d9d07", "cb9d22a0-e3ab-44ee-a093-330dd05e1f16", 875, 2 },
+                    { "13358875-9baf-4891-910e-ae2e6ecd314d", "b5d2c12b-aa6b-4257-bdcd-5236d7d12388", 1809, 2 },
+                    { "155e97d3-2a2b-4eee-9687-0db4970c68c7", "e169d412-f8af-4770-8aa7-8fe5d6c5a89f", 29, 2 },
+                    { "1d176b50-5ea8-438b-8d46-0253171efd9e", "967569be-5358-4274-886d-43cc52751e67", 1524, 1 },
+                    { "219df57d-2c7b-4afe-aea4-75b5bb93ef76", "486b0b35-ca79-42d3-aa1e-016ee05acc72", 1077, 1 },
+                    { "3ff51c29-e942-4422-b58a-dd3a2c1b1be1", "fca422fb-c417-46a4-b7cb-da0f48fd8447", 605, 1 },
+                    { "492b0ae6-556b-4b77-8047-3459e5773c5e", "68cbca3f-7cba-4713-9677-33fdafaa3d48", 1007, 1 },
+                    { "4a8111fc-ee67-4abc-aee1-2503f7c4be98", "0acfe7e3-4386-4d86-a4bd-a7ab92b69752", 545, 1 },
+                    { "4c30ada8-2723-4295-bd8c-9e0ce3c49b90", "17018893-e88b-4395-969e-5bf0c0729dfd", 1093, 1 },
+                    { "641f5546-105f-42a5-af28-1007d55cbdad", "8cf43f33-0230-4819-b22a-496cd8ed69b1", 156, 1 },
+                    { "6475268c-e5ee-47c1-9c77-64ebabf0e0e3", "80597f36-d7ca-4d01-a801-9443643cc2b2", 1055, 1 },
+                    { "6c79ff3a-d322-4413-a0f5-886c9d71a2d2", "055c86ee-226d-47a9-99a3-f33a846a11ac", 760, 1 },
+                    { "765aa234-25fc-45c7-abbd-fae34706c559", "83ddc51b-85ed-4974-8942-1ccf4cedf691", 1682, 2 },
+                    { "a0af9e2d-a4f6-4806-9ff7-cb7f4bfe34a1", "315a7f9c-038b-4189-9096-56ec0a8a7d6d", 1150, 1 },
+                    { "b3550b46-f3ae-4e56-a397-a039dea53ce2", "3e5f4b04-f71b-449c-bfba-15e83eb9ab13", 757, 2 },
+                    { "bf94de80-ae6a-4787-aa91-ec5b5a586d8f", "42d90b2a-f63d-4f11-bb0d-16feaf7152f2", 1979, 1 },
+                    { "cc7de689-6eb0-46bc-bfae-01b4f9ec7960", "8d08172a-6577-4ea3-a0b8-a5643ab80391", 1156, 1 },
+                    { "e84fbf17-ca4d-4d3f-a11f-9b6f32b81201", "63af3195-bb7a-43c5-8cda-0f92115b0831", 803, 2 },
+                    { "f12e68aa-036f-455b-9e4f-c640202bceaa", "336f32a5-ed86-458a-8a3f-123737f6becb", 1987, 1 },
+                    { "f415fbb9-0053-49b6-b1d9-2e2876ff9d6f", "04d6a1d0-2371-4ac1-b02b-1c3d6235a1ca", 1455, 2 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Editions_GenreId",
-                table: "Editions",
+                name: "IX_Books_GenreId",
+                table: "Books",
                 column: "GenreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderEditions_EditionId",
-                table: "OrderEditions",
-                column: "EditionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
                 table: "Orders",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrdersBooks_BookId",
+                table: "OrdersBooks",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResetToken_UserId",
@@ -286,9 +370,9 @@ namespace OnDigit.Infrastructure.Migrations
                 filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_EditionId",
+                name: "IX_Reviews_BookId",
                 table: "Reviews",
-                column: "EditionId");
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserId",
@@ -301,9 +385,20 @@ namespace OnDigit.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserFavorites_EditionId",
+                name: "IX_StockPackages_BookId",
+                table: "StockPackages",
+                column: "BookId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StockPackages_StockId",
+                table: "StockPackages",
+                column: "StockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFavorites_BookId",
                 table: "UserFavorites",
-                column: "EditionId");
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersLoginHistory_UserId",
@@ -314,7 +409,7 @@ namespace OnDigit.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderEditions");
+                name: "OrdersBooks");
 
             migrationBuilder.DropTable(
                 name: "ResetToken");
@@ -326,6 +421,9 @@ namespace OnDigit.Infrastructure.Migrations
                 name: "Sessions");
 
             migrationBuilder.DropTable(
+                name: "StockPackages");
+
+            migrationBuilder.DropTable(
                 name: "UserFavorites");
 
             migrationBuilder.DropTable(
@@ -335,7 +433,10 @@ namespace OnDigit.Infrastructure.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Editions");
+                name: "Stocks");
+
+            migrationBuilder.DropTable(
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Users");

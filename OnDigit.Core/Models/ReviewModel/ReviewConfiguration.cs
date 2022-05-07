@@ -28,7 +28,7 @@ namespace OnDigit.Core.Models.ReviewModel
                 .IsRequired();
 
             builder
-                .Property(r => r.EditionId)
+                .Property(r => r.BookId)
                 .IsRequired();
         }
     }

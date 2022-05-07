@@ -15,7 +15,7 @@ namespace OnDigit.Core.Models.GenreModel
                 .HasMaxLength(150);
 
             builder
-                .HasMany(e => e.Editions)
+                .HasMany(e => e.Books)
                 .WithOne(g => g.Genre)
                 .HasForeignKey(g => g.GenreId);
         }

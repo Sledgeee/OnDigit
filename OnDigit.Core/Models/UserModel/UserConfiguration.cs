@@ -11,8 +11,6 @@ namespace OnDigit.Core.Models.UserModel
 
             builder.Property(u => u.Email).HasMaxLength(256).IsRequired();
 
-            builder.Property(u => u.Balance).HasColumnType("decimal(18,2)").HasDefaultValue(0).IsRequired();
-
             builder.Property(upd => upd.Name).IsRequired().HasMaxLength(50);
 
             builder.Property(upd => upd.Surname).IsRequired().HasMaxLength(50);

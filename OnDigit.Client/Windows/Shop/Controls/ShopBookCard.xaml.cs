@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Input;
-using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.BookModel;
 using MaterialDesignThemes.Wpf;
 using OnDigit.Core.Interfaces.Services;
 using System.Windows.Media.Effects;
@@ -14,18 +14,18 @@ using OnDigit.Core.Models.UserModel;
 namespace OnDigit.Client.Windows.Shop.Controls
 {
     /// <summary>
-    /// Interaction logic for ShopEditionCard.xaml
+    /// Interaction logic for ShopBookCard.xaml
     /// </summary>
-    public partial class ShopEditionCard : UserControl
+    public partial class ShopBookCard : UserControl
     {
-        private readonly Edition _edition;
+        private readonly Book _book;
         private readonly MainWindow _mainWindow;
         private readonly User _currentUser;
         private readonly IReviewService _reviewService;
         private readonly IUserService _userService;
 
-        public ShopEditionCard(MainWindow mainWindow, 
-            Edition edition, 
+        public ShopBookCard(MainWindow mainWindow, 
+            Book book, 
             User currentUser, 
             IReviewService reviewService,  
             IUserService userService)
@@ -37,19 +37,19 @@ namespace OnDigit.Client.Windows.Shop.Controls
             _currentUser = currentUser;
             _reviewService = reviewService;
             _userService = userService;
-            _edition = edition;
-            _editionName = edition.Name;
-            _editionPrice = edition.Price.ToString() + "$";
-            _ratingCount = edition.Reviews.Count;
-            _imageUri = edition.ImageUri;
+            _book = book;
+            _bookName = book.Name;
+            _bookPrice = "$" + book.Price;
+            _ratingCount = book.Reviews.Count;
+            _imageUri = book.ImageUri;
 
-            string trailer = "_" + _edition.Id.Replace("-", "");
+            string trailer = "_" + _book.Id.Replace("-", "");
             icon_favorites.Name += trailer;
 
-            if (_edition.UserFavorites.Contains(new UserFavorite()
+            if (_book.UserFavorites.Contains(new UserFavorite()
             {
-                Edition = _edition,
-                EditionId = _edition.Id,
+                Book = _book,
+                BookId = _book.Id,
                 UserId = _currentUser.Id,
                 User = null
             }))
@@ -57,9 +57,14 @@ namespace OnDigit.Client.Windows.Shop.Controls
                 icon_favorites.Kind = PackIconKind.Heart;
             }
 
+            if (_mainWindow.UserCart.Books.ContainsKey(book))
+            {
+                icon_cart.Kind = PackIconKind.Cart;
+            }
+
             button_favorites.Name += trailer;
             button_favorites.Click += ButtonOnClick;
-            SetStars(edition.Rating);
+            SetStars(book.Rating);
         }
 
         public void SetStars(float rating)
@@ -141,10 +146,15 @@ namespace OnDigit.Client.Windows.Shop.Controls
             tbRatingCount.Text = ratingCount.ToString();
         }
 
+        public void UpdateCartIcon(PackIconKind kind)
+        {
+            icon_cart.Kind = kind;
+        }
+
         private void ShowBookInfoWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _mainWindow.Effect = new BlurEffect();
-            new BookInfoWindow(_edition, _currentUser, _reviewService, _mainWindow, this).ShowDialog();
+            new BookInfoWindow(_book, _currentUser, _reviewService, _mainWindow, this).ShowDialog();
             _mainWindow.Effect = null;
         }
 
@@ -154,37 +164,37 @@ namespace OnDigit.Client.Windows.Shop.Controls
             if (button is not null)
                 if (icon_favorites.Kind == PackIconKind.HeartOutline)
                 {
-                    await _userService.SetFavoriteEditionAsync(_currentUser.Id, _edition.Id);
-                    _edition.UserFavorites.Add(new UserFavorite() { Edition = _edition, EditionId = _edition.Id, UserId = _currentUser.Id, User = null });
+                    await _userService.SetFavoriteBookAsync(_currentUser.Id, _book.Id);
+                    _book.UserFavorites.Add(new UserFavorite() { Book = _book, BookId = _book.Id, UserId = _currentUser.Id, User = null });
                     icon_favorites.Kind = PackIconKind.Heart;
                 }
                 else
                 {
-                    await _userService.DeleteFavoriteEditionAsync(_currentUser.Id, _edition.Id);
-                    _edition.UserFavorites.Remove(new UserFavorite() { Edition = _edition, EditionId = _edition.Id, UserId = _currentUser.Id, User = null });
+                    await _userService.DeleteFavoriteBookAsync(_currentUser.Id, _book.Id);
+                    _book.UserFavorites.Remove(new UserFavorite() { Book = _book, BookId = _book.Id, UserId = _currentUser.Id, User = null });
                     icon_favorites.Kind = PackIconKind.HeartOutline;
                 }
         }
 
-        private string _editionName;
-        public string EditionName
+        private string _bookName;
+        public string BookName
         {
-            get { return _editionName; }
+            get { return _bookName; }
             set
             {
-                _editionName = value;
-                OnPropertyChanged(nameof(EditionName));
+                _bookName = value;
+                OnPropertyChanged(nameof(BookName));
             }
         }
 
-        private string _editionPrice;
-        public string EditionPrice
+        private string _bookPrice;
+        public string BookPrice
         {
-            get { return _editionPrice; }
+            get { return _bookPrice; }
             set
             {
-                _editionPrice = value;
-                OnPropertyChanged(nameof(EditionPrice));
+                _bookPrice = value;
+                OnPropertyChanged(nameof(BookPrice));
             }
         }
 
@@ -219,6 +229,22 @@ namespace OnDigit.Client.Windows.Shop.Controls
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler is not null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void AddToCart_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            if (button is not null)
+                if (icon_cart.Kind == PackIconKind.CartOutline)
+                {
+                    icon_cart.Kind = PackIconKind.Cart;
+                    _mainWindow.UserCart.AddBook(_book, 1);
+                }
+                else
+                {
+                    icon_cart.Kind = PackIconKind.CartOutline;
+                    _mainWindow.UserCart.RemoveBook(_book);
+                }
         }
     }
 }

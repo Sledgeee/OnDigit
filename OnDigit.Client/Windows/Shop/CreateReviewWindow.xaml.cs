@@ -6,7 +6,7 @@ using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using OnDigit.Client.Windows.Shop.Controls;
 using OnDigit.Core.Interfaces.Services;
-using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.BookModel;
 using OnDigit.Core.Models.ReviewModel;
 using OnDigit.Core.Models.UserModel;
 
@@ -19,14 +19,14 @@ namespace OnDigit.Client.Windows.Shop
     {
         private readonly IReviewService _reviewService;
         private readonly User _currentUser;
-        private readonly Edition _edition;
+        private readonly Book _book;
         private readonly BookInfoWindow _bookInfoWindow;
 
-        public CreateReviewWindow(BookInfoWindow bookInfoWindow, IReviewService reviewService, User currentUser, Edition edition)
+        public CreateReviewWindow(BookInfoWindow bookInfoWindow, IReviewService reviewService, User currentUser, Book book)
         {
             InitializeComponent();
             _reviewService = reviewService;
-            _edition = edition;
+            _book = book;
             _currentUser = currentUser;
             _bookInfoWindow = bookInfoWindow;
         }
@@ -64,14 +64,14 @@ namespace OnDigit.Client.Windows.Shop
                 Text = new TextRange(CommentField.Document.ContentStart, CommentField.Document.ContentEnd).Text,
                 Stars = CalculateStars(),
                 UserId = _currentUser.Id,
-                EditionId = _edition.Id
+                BookId = _book.Id
             };
 
-            _edition.Rating = (_edition.Rating * _edition.Reviews.Count + review.Stars) / (_edition.Reviews.Count + 1);
+            _book.Rating = (_book.Rating * _book.Reviews.Count + review.Stars) / (_book.Reviews.Count + 1);
 
-            await _reviewService.AddReviewAsync(review, _edition);
+            await _reviewService.AddReviewAsync(review, _book);
 
-            _bookInfoWindow.UpdateBookInfo(_edition, review, _currentUser);
+            _bookInfoWindow.UpdateBookInfo(_book, review, _currentUser);
 
             CloseWindow_Click(sender, e);
         }

@@ -48,7 +48,7 @@
             </Grid>
             <Grid Grid.Column="3">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                    <WrapPanel x:Name="OrderedEditions" Orientation="Horizontal" HorizontalAlignment="Right"/>
+                    <WrapPanel x:Name="OrderedBooks" Orientation="Horizontal" HorizontalAlignment="Right"/>
                 </ScrollViewer>
             </Grid>
         </Grid>

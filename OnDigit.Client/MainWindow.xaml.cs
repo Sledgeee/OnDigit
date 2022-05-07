@@ -13,11 +13,12 @@ using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.UserModel;
 using Microsoft.Win32;
 using OnDigit.Core.Models.SessionModel;
-using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.BookModel;
 using System.Windows.Media;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
 using OnDigit.Core.Models.CartModel;
+using System.Linq;
 
 namespace OnDigit.Client
 {
@@ -31,8 +32,8 @@ namespace OnDigit.Client
         private readonly IUserService _userService; 
         private readonly IOrderService _orderService;
         private readonly IReviewService _reviewService;
-        private Session _currentSession;
-        public Cart UserCart { get; set; } = new Cart();
+        private Session _currentSession = new();
+        internal Cart UserCart = new();
 
         public MainWindow(IAuthenticationService authenticationService,
                           IShopService shopService, 
@@ -49,7 +50,6 @@ namespace OnDigit.Client
             _orderService = orderService;
             _reviewService = reviewService;
             Initialize();
-
         }
 
         private async void Initialize()
@@ -60,25 +60,7 @@ namespace OnDigit.Client
                 SignInDialog();
             }
             ItemShop.IsSelected = true;
-        }
-
-        private void SpinnersPropsChange(string spinner, bool spin, Visibility visibility)
-        {
-            switch(spinner)
-            {
-                case "SpinnerBooks":
-                    SpinnerBooks_1.Spin = spin;
-                    SpinnerBooks_2.Spin = spin;
-                    SpinnerBooks_1.Visibility = visibility;
-                    SpinnerBooks_2.Visibility = visibility;
-                    break;
-                case "SpinnerSession":
-                    SpinnerSession_1.Spin = spin;
-                    SpinnerSession_2.Spin = spin;
-                    SpinnerSession_1.Visibility = visibility;
-                    SpinnerSession_2.Visibility = visibility;
-                    break;
-            }
+            UpdateOrders();
         }
 
         private async Task<bool> CheckOnSession()
@@ -87,7 +69,8 @@ namespace OnDigit.Client
             var key = Registry.CurrentUser.OpenSubKey("OnDigitSession");
             if (key is null)
             {
-                SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
+                ProfileLoadingAnimation.IsPlaying = false;
+                ProfileLoadingAnimation.Visibility = Visibility.Collapsed;
                 return false;
             }
 
@@ -105,20 +88,21 @@ namespace OnDigit.Client
                         if (_currentUser is not null)
                         {
                             UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
-                            UserBalance.Text = _currentUser.Balance + "$";
                             LoginedState.Visibility = Visibility.Visible;
 
                             foreach (var order in _currentUser.Orders)
                                 Orders.Children.Add(new OrderCard(order));
 
-                            SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
+                            ProfileLoadingAnimation.IsPlaying = false;
+                            ProfileLoadingAnimation.Visibility = Visibility.Collapsed;
                             return true;
                         }
                     }
                 }
             }
 
-            SpinnersPropsChange("SpinnerSession", false, Visibility.Collapsed);
+            ProfileLoadingAnimation.IsPlaying = false;
+            ProfileLoadingAnimation.Visibility = Visibility.Collapsed;
             return false;
         }
 
@@ -126,34 +110,57 @@ namespace OnDigit.Client
         {
             Orders.Children.Clear();
 
-            _currentUser.Orders = await _shopService.LoadCurrentUserOrdersAsync(_currentUser.Id);
+            _currentUser.Orders = await _shopService.GetCurrentUserOrdersAsync(_currentUser.Id);
 
             foreach (var order in _currentUser.Orders)
-                Orders.Children.Add(new OrderCard(order));
+                Orders.Children.Add(new OrderCard(order) { Name = "OrderCard" + order.Number });
         }
 
-        private async void LoadBooks(ICollection<Edition> editionList)
+        private async void LoadBooks(ICollection<Book> bookList)
         {
-            SpinnersPropsChange("SpinnerBooks", true, Visibility.Visible);
+            ShopLoadingAnimation.IsPlaying = true;
+            ShopLoadingAnimation.Visibility = Visibility.Visible;
 
             this.Shop.Effect = new BlurEffect();
 
             GridMenu.IsEnabled = false;
 
-            await Task.Delay(500);
+            await Task.Delay(1000);
 
-            foreach (var edition in editionList)
+            foreach (var book in bookList)
             {
-                Shop.Children.Add(new ShopEditionCard(this, edition, _currentUser, _reviewService, _userService));
+                Shop.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService));
 
-                if (((ShopEditionCard)Shop.Children[^1]).icon_favorites.Kind == PackIconKind.Heart)
-                    Favorites.Children.Add(new ShopEditionCard(this, edition, _currentUser, _reviewService, _userService));
+                if (((ShopBookCard)Shop.Children[^1]).icon_favorites.Kind == PackIconKind.Heart)
+                    Favorites.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService));
             }
 
-            editionList.Clear();
             GridMenu.IsEnabled = true;
             this.Shop.Effect = null;
-            SpinnersPropsChange("SpinnerBooks", false, Visibility.Collapsed);
+            ShopLoadingAnimation.IsPlaying = false;
+            ShopLoadingAnimation.Visibility = Visibility.Collapsed;
+        }
+
+        private async void LoadSearchResult(ICollection<Book> bookList)
+        {
+            ShopLoadingAnimation.IsPlaying = true;
+            ShopLoadingAnimation.Visibility = Visibility.Visible;
+
+            this.Shop.Effect = new BlurEffect();
+
+            GridMenu.IsEnabled = false;
+
+            await Task.Delay(1000);
+
+            foreach (var book in bookList)
+            {
+                Search.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService));
+            }
+
+            GridMenu.IsEnabled = true;
+            this.Shop.Effect = null;
+            ShopLoadingAnimation.IsPlaying = false;
+            ShopLoadingAnimation.Visibility = Visibility.Collapsed;
         }
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
@@ -173,19 +180,21 @@ namespace OnDigit.Client
             switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
             {
                 case "ItemShop":
-                    SearchBox.Text = string.Empty;
-                    SwitchToOtherTab(Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Brushes.Orange, Brushes.White, Brushes.White, Brushes.White);
-                    LoadBooks(await _shopService.GetAllEditionsAsync());
+                    SwitchToOtherTab(Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Brushes.Orange, Brushes.White, Brushes.White, Brushes.White, Brushes.White);
+                    LoadBooks(await _shopService.GetAllBooksAsync());
+                    break;
+                case "ItemSearch":
+                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Brushes.White, Brushes.Orange, Brushes.White, Brushes.White, Brushes.White);
                     break;
                 case "ItemFavorites":
-                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Brushes.White, Brushes.Orange, Brushes.White, Brushes.White);
-                    LoadBooks(await _shopService.GetAllEditionsAsync());
+                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Brushes.White, Brushes.White, Brushes.Orange, Brushes.White, Brushes.White);
+                    LoadBooks(await _shopService.GetAllBooksAsync());
                     break;
                 case "ItemOrders":
-                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Brushes.White, Brushes.White, Brushes.Orange, Brushes.White);
+                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Brushes.White, Brushes.White, Brushes.White, Brushes.Orange, Brushes.White);
                     break;
                 case "ItemCart":
-                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Brushes.White, Brushes.White, Brushes.White, Brushes.Orange);
+                    SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Brushes.White, Brushes.White, Brushes.White, Brushes.White, Brushes.Orange);
                     UpdateCartSelection();
                     break;
             }
@@ -193,24 +202,28 @@ namespace OnDigit.Client
 
         public void UpdateCartSelection()
         {
+            int i = 1;
             CartWrap.Children.Clear();
-            foreach (var edition in UserCart.Editions)
-                CartWrap.Children.Add(new CartEditionCard(this, UserCart, edition));
-            CartTotalPrice.Text = UserCart.TotalPrice + "$";
-            CartEditionsCount.Text = UserCart.Editions.Count.ToString();
+            foreach (var book in UserCart.Books)
+                CartWrap.Children.Add(new CartBookCard(this, book.Key, book.Value) { Name = "CartItem" +  i++});
+            CartTotalPrice.Text = "$" + UserCart.TotalPrice;
+            CartBooksCount.Text = UserCart.Books.Sum(x => x.Value).ToString();
             SuccessOrder.Visibility = Visibility.Collapsed;
         }
 
-        private void SwitchToOtherTab(Visibility shopVisibility, Visibility favoritesVisibility, Visibility ordersVisibility, Visibility cartVisibility,
-                                      Brush brushShop, Brush brushFavorites, Brush brushOrders, Brush brushCart)
+        private void SwitchToOtherTab(Visibility shopVisibility, Visibility searchVisibility, Visibility favoritesVisibility, Visibility ordersVisibility, Visibility cartVisibility,
+                                      Brush brushShop, Brush brushSearch, Brush brushFavorites, Brush brushOrders, Brush brushCart)
         {
             Shop.Children.Clear();
             Favorites.Children.Clear();
-            if (shopVisibility == Visibility.Visible)
+
+            if (searchVisibility == Visibility.Visible)
                 SearchBar.Visibility = Visibility.Visible;
             else
                 SearchBar.Visibility = Visibility.Collapsed;
+
             Shop.Visibility = shopVisibility;
+            Search.Visibility = searchVisibility;
             Favorites.Visibility = favoritesVisibility;
             Orders.Visibility = ordersVisibility;
             Cart.Visibility = cartVisibility;
@@ -222,6 +235,8 @@ namespace OnDigit.Client
             ItemOrdersText.Foreground = brushOrders;
             ItemCartIcon.Foreground = brushCart;
             ItemCartText.Foreground = brushCart;
+            ItemSearchIcon.Foreground = brushSearch;
+            ItemSearchText.Foreground = brushSearch;
         }
 
         private async void Logout_Click(object sender, RoutedEventArgs e)
@@ -231,12 +246,15 @@ namespace OnDigit.Client
             Registry.CurrentUser.DeleteSubKey("OnDigitSession");
             LoginedState.Visibility = Visibility.Collapsed;
             UserFullname.Text = string.Empty;
-            UserBalance.Text = string.Empty;
             Shop.Children.Clear();
             SignInDialog();
+            if (!string.IsNullOrEmpty(UserFullname.Text) && ItemShop.IsSelected)
+            {
+                LoadBooks(await _shopService.GetAllBooksAsync());
+            }
         }
 
-        private async void SignInDialog()
+        private void SignInDialog()
         {
             this.Effect = new BlurEffect();
             new SignIn(this, _authenticationService)
@@ -248,7 +266,6 @@ namespace OnDigit.Client
             if (_currentUser is not null)
             {
                 UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
-                UserBalance.Text = _currentUser.Balance + "$";
                 LoginedState.Visibility = Visibility.Visible;
             }
         }
@@ -263,9 +280,10 @@ namespace OnDigit.Client
             {
                 this.WindowState = WindowState.Maximized;
                 MaximizeBtnIcon.Kind = PackIconKind.WindowRestore;
-                Shop.Margin = new Thickness(115, 90, 0, 50);
-                Favorites.Margin = new Thickness(115, 90, 0, 50);
-                Orders.Margin = new Thickness(115, 90, 0, 50);
+                ShopScrollViewer.Margin = new Thickness(0, 60, 0, 10);
+                Shop.Margin = new Thickness(115, 30, 0, 50);
+                Favorites.Margin = new Thickness(115, 30, 0, 50);
+                Orders.Margin = new Thickness(115, 30, 0, 50);
                 SelectedBooks.Height = new GridLength(750);
                 SelectedBooksBorder.Height = 725;
             }
@@ -274,9 +292,10 @@ namespace OnDigit.Client
                 
                 this.WindowState = WindowState.Normal;
                 MaximizeBtnIcon.Kind = PackIconKind.WindowMaximize;
-                Shop.Margin = new Thickness(83, 72, 0, 10);
-                Favorites.Margin = new Thickness(83, 72, 0, 10);
-                Orders.Margin = new Thickness(83, 72, 0, 10);
+                ShopScrollViewer.Margin = new Thickness(0, 60, 0, 0);
+                Shop.Margin = new Thickness(83, 12, 0, 10);
+                Favorites.Margin = new Thickness(83, 12, 0, 10);
+                Orders.Margin = new Thickness(83, 12, 0, 10);
                 SelectedBooks.Height = new GridLength(615);
                 SelectedBooksBorder.Height = 600;
             }
@@ -287,14 +306,13 @@ namespace OnDigit.Client
             if (string.IsNullOrEmpty(SearchBox.Text) is true)
                 return;
 
-            ICollection<Edition> searchedEditions = await _shopService.SearchEditionsAsync(SearchBox.Text);
+            ICollection<Book> searchedBooks = await _shopService.SearchBooksAsync(SearchBox.Text);
 
-            Shop.Children.Clear();
+            Search.Children.Clear();
 
-            if (searchedEditions is not null)
-                LoadBooks(searchedEditions);
+            if (searchedBooks is not null)
+                LoadSearchResult(searchedBooks);
 
-            ItemSearch.IsSelected = true;
             ItemShopIcon.Foreground = Brushes.White;
             ItemShopText.Foreground = Brushes.White;
         }
@@ -311,16 +329,18 @@ namespace OnDigit.Client
             {
                 ScrollViewerCart.Effect = new BlurEffect();
                 BorderCart.Effect = new BlurEffect();
-                SpinnersPropsChange("SpinnerBooks", true, Visibility.Visible);
+                ShopLoadingAnimation.IsPlaying = true;
+                ShopLoadingAnimation.Visibility = Visibility.Visible;
                 await Task.Delay(1000);
                 await _orderService.CreateOrderAsync(_currentUser.Id, UserCart);
                 CartWrap.Children.Clear();
-                CartTotalPrice.Text = "0$";
-                CartEditionsCount.Text = "0";
+                CartTotalPrice.Text = "$0";
+                CartBooksCount.Text = "0";
                 UserCart = new();
                 SuccessOrder.Visibility = Visibility.Visible;
                 UpdateOrders();
-                SpinnersPropsChange("SpinnerBooks", false, Visibility.Collapsed);
+                ShopLoadingAnimation.IsPlaying = false;
+                ShopLoadingAnimation.Visibility = Visibility.Collapsed;
                 ScrollViewerCart.Effect = null;
                 BorderCart.Effect = null;
             }
@@ -338,12 +358,12 @@ namespace OnDigit.Client
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            PropertyChangedEventHandler? handler = PropertyChanged;
             if (handler is not null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }

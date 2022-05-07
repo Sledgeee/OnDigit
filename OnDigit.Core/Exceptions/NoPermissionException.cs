@@ -4,16 +4,16 @@ namespace OnDigit.Core.Exceptions
 {
     public class NoPermissionException : Exception
     {
-        public string EditionId { get; set; }
+        public string BookId { get; set; }
 
-        public NoPermissionException(string editionId)
+        public NoPermissionException(string bookId)
         {
-             EditionId = editionId;
+             BookId = bookId;
         }
 
-        public NoPermissionException(string message, string editionId) : base(message)
+        public NoPermissionException(string message, string bookId) : base(message)
         {
-            EditionId = editionId;
+            BookId = bookId;
         }
     }
 }

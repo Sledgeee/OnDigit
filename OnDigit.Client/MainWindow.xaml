@@ -6,6 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:OnDigit.Client"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Icon="/Images/logo.png"
         Title="Shop"
@@ -35,6 +36,13 @@
         </EventTrigger>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
             <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard Duration="00:00:3" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation From="0" To="1"/>
+                </Storyboard>
+            </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
 
@@ -69,14 +77,15 @@
             </StackPanel>
         </Grid>
 
-        <Grid Margin="0,25,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <Grid Margin="0 25 0 0" Grid.ColumnSpan="2" Grid.RowSpan="2">
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer x:Name="ShopScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0 60 0 0">
                 <StackPanel>
-                    <WrapPanel x:Name="Shop" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83 72 0 10"/>
-                    <WrapPanel x:Name="Favorites" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83 72 0 10"/>
-                    <WrapPanel x:Name="Orders" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="83 72 0 10"/>
-                    <StackPanel x:Name="Cart" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 83 0 0">
+                    <WrapPanel x:Name="Shop" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83 12 0 10"/>
+                    <WrapPanel x:Name="Search" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83 12 0 10"/>
+                    <WrapPanel x:Name="Favorites" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83 12 0 10"/>
+                    <WrapPanel x:Name="Orders" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="83 12 0 10"/>
+                    <StackPanel x:Name="Cart" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 23 0 0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
@@ -85,8 +94,8 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <TextBlock Text="Editions count: " FontSize="24" Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="CartEditionsCount" Text="0" FontSize="24" Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="Books count: " FontSize="24" Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="CartBooksCount" Text="0" FontSize="24" Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
                             </StackPanel>
 
                             <Grid Grid.Row="1">
@@ -118,33 +127,39 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerBooks_1" SpinDuration="1" Height="90" Width="90" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Orange" Visibility="Collapsed"/>
-            <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerBooks_2" SpinDuration="2" Height="50" Width="50" Margin="50 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Orange" Visibility="Collapsed"/>
+            <hc:AnimationPath Data="M512 0C229.12 0 0 229.12 0 512c0 226.56 146.56 417.92 350.08 485.76 25.6 4.48 35.2-10.88 35.2-24.32 0-12.16-0.64-52.48-0.64-95.36-128.64 23.68-161.92-31.36-172.16-60.16-5.76-14.72-30.72-60.16-52.48-72.32-17.92-9.6-43.52-33.28-0.64-33.92 40.32-0.64 69.12 37.12 78.72 52.48 46.08 77.44 119.68 55.68 149.12 42.24 4.48-33.28 17.92-55.68 32.64-68.48-113.92-12.8-232.96-56.96-232.96-252.8 0-55.68 19.84-101.76 52.48-137.6-5.12-12.8-23.04-65.28 5.12-135.68 0 0 42.88-13.44 140.8 52.48 40.96-11.52 84.48-17.28 128-17.28 43.52 0 87.04 5.76 128 17.28 97.92-66.56 140.8-52.48 140.8-52.48 28.16 70.4 10.24 122.88 5.12 135.68 32.64 35.84 52.48 81.28 52.48 137.6 0 196.48-119.68 240-233.6 252.8 18.56 16 34.56 46.72 34.56 94.72 0 68.48-0.64 123.52-0.64 140.8 0 13.44 9.6 29.44 35.2 24.32A512.832 512.832 0 0 0 1024 512c0-282.88-229.12-512-512-512z"
+                                  Duration="00:00:01"
+                                  Stretch="Uniform" StrokeThickness="2"
+                                  Stroke="Orange"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Height="150" Margin="80 0 0 0"
+                                  PathLength="150"
+                                  x:Name="ShopLoadingAnimation"/>
 
             <Grid Height="60" VerticalAlignment="Top" Background="#242424">
                 <Grid.Effect>
                     <DropShadowEffect Color="#121212" ShadowDepth="0"/>
                 </Grid.Effect>
-                <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerSession_1" Spin="True" SpinDuration="1" Height="34" Width="34" Margin="0 0 43 0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange"/>
-                <fa:ImageAwesome Icon="CircleOutlineNotch" x:Name="SpinnerSession_2" Spin="True" SpinDuration="2" Height="20" Width="20" Margin="0 0 50 0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange"/>
+
+                <hc:AnimationPath Data="M512 0C229.12 0 0 229.12 0 512c0 226.56 146.56 417.92 350.08 485.76 25.6 4.48 35.2-10.88 35.2-24.32 0-12.16-0.64-52.48-0.64-95.36-128.64 23.68-161.92-31.36-172.16-60.16-5.76-14.72-30.72-60.16-52.48-72.32-17.92-9.6-43.52-33.28-0.64-33.92 40.32-0.64 69.12 37.12 78.72 52.48 46.08 77.44 119.68 55.68 149.12 42.24 4.48-33.28 17.92-55.68 32.64-68.48-113.92-12.8-232.96-56.96-232.96-252.8 0-55.68 19.84-101.76 52.48-137.6-5.12-12.8-23.04-65.28 5.12-135.68 0 0 42.88-13.44 140.8 52.48 40.96-11.52 84.48-17.28 128-17.28 43.52 0 87.04 5.76 128 17.28 97.92-66.56 140.8-52.48 140.8-52.48 28.16 70.4 10.24 122.88 5.12 135.68 32.64 35.84 52.48 81.28 52.48 137.6 0 196.48-119.68 240-233.6 252.8 18.56 16 34.56 46.72 34.56 94.72 0 68.48-0.64 123.52-0.64 140.8 0 13.44 9.6 29.44 35.2 24.32A512.832 512.832 0 0 0 1024 512c0-282.88-229.12-512-512-512z"
+                                  Duration="00:00:01"
+                                  Stretch="Uniform" StrokeThickness="1"
+                                  Stroke="Orange"
+                                  HorizontalAlignment="Right"
+                                  Height="50" Margin="0 0 50 0"
+                                  PathLength="100"
+                                  x:Name="ProfileLoadingAnimation"/>
 
                 <StackPanel x:Name="LoginedState" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden">
                     <TextBlock x:Name="UserFullname" VerticalAlignment="Center" Margin="0 0 0 3" FontSize="21" Foreground="White"/>
-                    <TextBlock Text=" | Balance " VerticalAlignment="Center" Margin="0 0 0 3" FontSize="21" Foreground="White"/>
-                    <TextBlock x:Name="UserBalance" VerticalAlignment="Center" Margin="0 0 0 3" FontSize="21" Foreground="White"/>
                     <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10" Foreground="White">
                         <StackPanel Width="150">
-                            <Button Content="Profile" FontSize="16"/>
-                            <Button Content="Settings" FontSize="16"/>
-                            <Button Content="Get Feedback" FontSize="16"/>
-                            <Separator/>
-                            <Button Content="Logout" Click="Logout_Click" FontSize="16"/>
+                            <Button Content="Logout" FontSize="16" Click="Logout_Click"/>
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>
-                <StackPanel x:Name="SearchBar" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBox x:Name="SearchBox" FontSize="16" Width="600" Height="32" TextAlignment="Left" Padding="15 5 0 0" Foreground="Black" Background="White" materialDesign:HintAssist.Hint="Search..." VerticalAlignment="Center" HorizontalAlignment="Center"  Style="{StaticResource MaterialDesignTextBox}"/>
-                    <Button x:Name="ActivateSearch" FontSize="16" Content="Search" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ButtonAssist.CornerRadius="0 10 10 0" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="ActivateSearch_Click"/>
+                <StackPanel x:Name="SearchBar" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
+                    <hc:SearchBar hc:InfoElement.Placeholder="Search"  FontSize="16" hc:InfoElement.Necessary="True" x:Name="SearchBox" Width="600" Height="32" Style="{StaticResource SearchBarExtendBaseStyle}" BorderThickness="1" VerticalAlignment="Center" ShowClearButton="True" IsEnabled="True" SearchStarted="ActivateSearch_Click"/>
                 </StackPanel>
             </Grid>
             <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#242424">
@@ -168,32 +183,37 @@
                             <materialDesign:PackIcon Kind="ArrowLeft" Width="30" Height="30" Foreground="White"/>
                         </Button>
                     </Grid>
-                    <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
+                    <ListView x:Name="ListViewMenu" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
                         <ListViewItem x:Name="ItemShop" Height="60">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon x:Name="ItemShopIcon" Kind="Shop" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
                                 <TextBlock x:Name="ItemShopText" Text="Shop" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
+                        <ListViewItem x:Name="ItemSearch" Height="60">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon x:Name="ItemSearchIcon" Kind="Search" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
+                                <TextBlock x:Name="ItemSearchText" Text="Search" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
+                            </StackPanel>
+                        </ListViewItem>
                         <ListViewItem x:Name="ItemFavorites" Height="60">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon x:Name="ItemFavoritesIcon" Kind="Heart" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
-                                <TextBlock x:Name="ItemFavoritesText" Text="My favorites" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
+                                <TextBlock x:Name="ItemFavoritesText" Text="Your Favorites" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem x:Name="ItemCart" Height="60">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon x:Name="ItemCartIcon" Kind="Cart" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
-                                <TextBlock x:Name="ItemCartText" Text="My cart" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
+                                <TextBlock x:Name="ItemCartText" Text="Your Cart" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem x:Name="ItemOrders" Height="60">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon x:Name="ItemOrdersIcon" Kind="OrderNumericDescending" Height="30" Width="30" Margin="9 7 0 0" Foreground="White"/>
-                                <TextBlock x:Name="ItemOrdersText" Text="My orders" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
+                                <TextBlock x:Name="ItemOrdersText" Text="Your Orders" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="ItemSearch" Height="60" Visibility="Collapsed"/>
                     </ListView>
                 </StackPanel>
             </Grid>

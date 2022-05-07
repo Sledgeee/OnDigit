@@ -3,8 +3,8 @@ using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.CartModel;
-using OnDigit.Core.Models.EditionModel;
-using OnDigit.Core.Models.OrderEditionModel;
+using OnDigit.Core.Models.BookModel;
+using OnDigit.Core.Models.OrderBookModel;
 using OnDigit.Core.Models.OrderModel;
 using OnDigit.Infrastructure.Data;
 using System.Collections.Generic;
@@ -27,16 +27,16 @@ namespace OnDigit.Infrastructure.Services
         public async Task CreateOrderAsync(string userId, Cart cart)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            Order order = (await context.AddAsync(new Order() { UserId = userId, TotalPrice = cart.TotalPrice })).Entity;
+            Order order = (await context.AddAsync(new Order() { UserId = userId })).Entity;
             await context.SaveChangesAsync();
-            await CreateOrder(order.Number, cart.Editions);
+            await CreateOrder(order.Number, cart.Books);
         }
 
-        private async Task CreateOrder(int orderNumber, ICollection<Edition> editions)
+        private async Task CreateOrder(int orderNumber, Dictionary<Book, int> books)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            foreach (var edition in editions)
-                await context.AddAsync(new OrderEdition() { EditionId = edition.Id, OrderNumber = orderNumber });
+            foreach (var book in books)
+                await context.AddAsync(new OrdersBooks() { BookId = book.Key.Id, Quantity = book.Value, UnitPrice = book.Key.Price, OrderNumber = orderNumber });
             await context.SaveChangesAsync();
         }
 

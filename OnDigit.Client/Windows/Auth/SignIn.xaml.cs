@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using OnDigit.Core.Interfaces.Services;
-using OnDigit.Client.Windows.Reset;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -67,11 +66,6 @@ namespace OnDigit.Client.Windows.Auth
         {
             this.Close();
             new SignUp(_mainWindow, _authenticationService).ShowDialog();
-        }
-        private void ResetBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-            new ResetWindow(_mainWindow, _authenticationService).ShowDialog();
         }
     }
 }

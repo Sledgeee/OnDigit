@@ -20,14 +20,14 @@ namespace OnDigit.Client.Windows.Shop.Controls
             InitializeComponent();
             this.DataContext = this;
             _orderNumber = order.Number;
-            _orderPrice = order.TotalPrice + "$";
+            _orderPrice = "$" + order.TotalPrice;
             _orderDate = order.DateOrder.ToString("dd/MM/yyyy HH:mm:ss");
 
-            foreach (var item in order.OrdersEditions)
+            foreach (var item in order.OrdersBooks)
             {
-                OrderedEditions.Children.Add(new Image()
+                OrderedBooks.Children.Add(new Image()
                 {
-                    Source = new BitmapImage(new Uri(item.Edition.ImageUri)),
+                    Source = new BitmapImage(new Uri(item.Book.ImageUri)),
                     Margin = new Thickness(7)
                 });
             }

@@ -35,18 +35,18 @@ namespace OnDigit.Infrastructure.Services
         public async Task<User> GetByIdAsync(string id)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Users.Include(x => x.UserLogins)
+            return await context.Users.AsNoTracking().Include(x => x.UserLogins)
                 .Include(x => x.Reviews)
-                .Include(x => x.Orders).ThenInclude(x => x.Editions)
+                .Include(x => x.Orders).ThenInclude(x => x.Books)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<User> GetByEmailAsync(string email)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Users.Include(x => x.UserLogins)
+            return await context.Users.AsNoTracking().Include(x => x.UserLogins)
                 .Include(x => x.Reviews)
-                .Include(x => x.Orders).ThenInclude(x => x.Editions)
+                .Include(x => x.Orders).ThenInclude(x => x.Books)
                 .FirstOrDefaultAsync(e => e.Email == email);
         }
 
@@ -71,30 +71,30 @@ namespace OnDigit.Infrastructure.Services
         public async Task<ICollection<User>> GetListBySpecAsync(ISpecification<User> specification) =>
             await ApplySpecification(specification).ToListAsync();
 
-        public async Task<ICollection<UserFavorite>> GetFavoriteEditionsAsync(string userId)
+        public async Task<ICollection<UserFavorite>> GetFavoriteBooksAsync(string userId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
         }
 
-        public async Task SetFavoriteEditionAsync(string userId, string editionId)
+        public async Task SetFavoriteBookAsync(string userId, string bookId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             await context.UserFavorites.AddAsync(new UserFavorite()
             {
                 UserId = userId,
-                EditionId = editionId
+                BookId = bookId
             });
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteFavoriteEditionAsync(string userId, string editionId)
+        public async Task DeleteFavoriteBookAsync(string userId, string bookId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             context.UserFavorites.Remove(new UserFavorite()
             {
                 UserId = userId,
-                EditionId = editionId
+                BookId = bookId
             });
             await context.SaveChangesAsync();
         }
@@ -124,7 +124,7 @@ namespace OnDigit.Infrastructure.Services
         public async Task<Session> GetSessionInfo(string pcId, string userId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Sessions.Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).FirstOrDefaultAsync();
+            return await context.Sessions.AsNoTracking().Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).FirstOrDefaultAsync();
         }
 
         public async Task UpdateSessionInfo(Session session)
