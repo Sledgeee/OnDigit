@@ -22,6 +22,11 @@ namespace OnDigit.Client
 
         public App() => _host = CreateHostBuilder().Build();
 
+        /// <summary>
+        ///  Host
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[]? args = null) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(c =>
