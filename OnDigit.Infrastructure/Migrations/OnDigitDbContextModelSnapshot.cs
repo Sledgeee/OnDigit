@@ -2,9 +2,10 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnDigit.Infrastructure.Data;
+
+#nullable disable
 
 namespace OnDigit.Infrastructure.Migrations
 {
@@ -15,212 +16,321 @@ namespace OnDigit.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.15")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.BookModel.Book", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("varchar(8000)");
+
+                    b.Property<decimal>("Discount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUri")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<bool>("IsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
+                        .HasColumnType("varchar(400)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<float>("Rating")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("real")
+                        .HasColumnType("float")
                         .HasDefaultValue(0f);
 
                     b.HasKey("Id");
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Editions");
+                    b.ToTable("Books");
 
                     b.HasData(
                         new
                         {
-                            Id = "88e62c99-3be5-40c1-9658-804a4fadc93a",
+                            Id = "aae40b9b-48d8-4434-b25e-9ab651dd1f78",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book1",
-                            GenreId = 1,
+                            Description = "Book description1",
+                            Discount = 46.761175283618191m,
+                            GenreId = 13,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book1",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "e8751eb7-c933-4bc3-b602-1253dcddbf85",
+                            Id = "5949da24-f013-4835-bb47-0e0d48f85acc",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book2",
-                            GenreId = 2,
+                            Description = "Book description2",
+                            Discount = 7.785312959103844m,
+                            GenreId = 3,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book2",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "b5b0fa49-a41e-4921-9805-f32dd5b8cba4",
+                            Id = "15ec26bf-7f6a-4413-9cc8-9d6f95c32a68",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book3",
-                            GenreId = 3,
+                            Description = "Book description3",
+                            Discount = 94.359879293462153m,
+                            GenreId = 9,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book3",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "6d155705-3211-48c3-9490-f302f08f571c",
+                            Id = "50cc784e-5544-4618-ae35-3f5f201716dc",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book4",
-                            GenreId = 4,
+                            Description = "Book description4",
+                            Discount = 98.354691511853679m,
+                            GenreId = 7,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book4",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "41c434e9-7d15-47a7-88c1-26184aa2fe1f",
+                            Id = "8b4ca4b2-6574-47a2-96be-7bb79c8dda46",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book5",
-                            GenreId = 5,
+                            Description = "Book description5",
+                            Discount = 0m,
+                            GenreId = 1,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book5",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "8d23c292-d3c4-4e89-b23d-54b3ac199f35",
+                            Id = "44c93cac-2919-475f-8a26-a0b3e0833b2d",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book6",
-                            GenreId = 6,
+                            Description = "Book description6",
+                            Discount = 0m,
+                            GenreId = 3,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book6",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "92e2caf6-4ab1-4c35-9726-36ffb10272f8",
+                            Id = "0a3338aa-c487-4e35-867f-be50d0025ec5",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book7",
-                            GenreId = 7,
+                            Description = "Book description7",
+                            Discount = 0m,
+                            GenreId = 9,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book7",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "7b60ec8e-4c83-4873-aa95-02d52e3b464c",
+                            Id = "fab4d71d-f373-4bc9-ba72-2d76db654eda",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book8",
-                            GenreId = 8,
+                            Description = "Book description8",
+                            Discount = 55.725542727780803m,
+                            GenreId = 3,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book8",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "0421dd86-4094-4139-8944-6ea1d05059d0",
+                            Id = "5b970871-ce12-4cb6-ad7d-2ab891578594",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book9",
-                            GenreId = 9,
+                            Description = "Book description9",
+                            Discount = 0m,
+                            GenreId = 15,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book9",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "2abe0f0f-727b-4d09-8e9b-4a20fec3ab3e",
+                            Id = "f41123d4-6d80-44f3-b3ac-32fc45c5908c",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book10",
-                            GenreId = 10,
+                            Description = "Book description10",
+                            Discount = 90.758486602783916m,
+                            GenreId = 6,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book10",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "66ce45d1-0a3d-4358-acf8-134c1bf95e78",
+                            Id = "7cf148bf-b5ce-4d4d-84be-e66758979e6b",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book11",
+                            Description = "Book description11",
+                            Discount = 0m,
                             GenreId = 11,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book11",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "2da890fe-c66e-4caf-8372-28327709bf0f",
+                            Id = "0b250c8e-5c5c-4775-bbf3-ff9d376bca57",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book12",
-                            GenreId = 12,
+                            Description = "Book description12",
+                            Discount = 0m,
+                            GenreId = 3,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book12",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "19e7eca2-6cab-4629-9e35-d63045356cf5",
+                            Id = "5b8360fb-b5ed-4899-ae1c-540406a87ec5",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book13",
-                            GenreId = 13,
+                            Description = "Book description13",
+                            Discount = 0m,
+                            GenreId = 9,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book13",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "71941193-50f3-40b1-aa47-39e0fdfda8d3",
+                            Id = "641df715-63da-4daf-9c47-cce2a72fc2cc",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book14",
-                            GenreId = 14,
+                            Description = "Book description14",
+                            Discount = 0m,
+                            GenreId = 4,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book14",
                             Price = 9.99m,
                             Rating = 0f
                         },
                         new
                         {
-                            Id = "ac95b139-4c23-4f7b-8c50-c3f9f9ad0ac3",
+                            Id = "487d9911-f1cb-418a-9088-edf511048933",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Book15",
-                            GenreId = 15,
+                            Description = "Book description15",
+                            Discount = 98.487406619821419m,
+                            GenreId = 12,
                             ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
                             Name = "Book15",
+                            Price = 9.99m,
+                            Rating = 0f
+                        },
+                        new
+                        {
+                            Id = "65597569-7489-4524-b7ae-13410a433b97",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Book description16",
+                            Discount = 0m,
+                            GenreId = 3,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
+                            Name = "Book16",
+                            Price = 9.99m,
+                            Rating = 0f
+                        },
+                        new
+                        {
+                            Id = "2ad5afc3-8902-40ac-aaee-4c0d1474ad4f",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Book description17",
+                            Discount = 35.0854781691850881m,
+                            GenreId = 5,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
+                            Name = "Book17",
+                            Price = 9.99m,
+                            Rating = 0f
+                        },
+                        new
+                        {
+                            Id = "61389d2f-0770-4e62-8f6c-df9d6bf702f0",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Book description18",
+                            Discount = 0m,
+                            GenreId = 1,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
+                            Name = "Book18",
+                            Price = 9.99m,
+                            Rating = 0f
+                        },
+                        new
+                        {
+                            Id = "c1f1cada-6f61-4ac1-8c54-7da7b6c59273",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Book description19",
+                            Discount = 0m,
+                            GenreId = 11,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
+                            Name = "Book19",
+                            Price = 9.99m,
+                            Rating = 0f
+                        },
+                        new
+                        {
+                            Id = "40502086-38c3-4b05-9d0c-521a41c0f457",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Book description20",
+                            Discount = 0m,
+                            GenreId = 14,
+                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            IsAvailable = true,
+                            Name = "Book20",
                             Price = 9.99m,
                             Rating = 0f
                         });
@@ -230,13 +340,11 @@ namespace OnDigit.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.HasKey("Id");
 
@@ -266,7 +374,7 @@ namespace OnDigit.Infrastructure.Migrations
                         new
                         {
                             Id = 5,
-                            Name = "Scientific Book"
+                            Name = "Scientific book"
                         },
                         new
                         {
@@ -291,17 +399,17 @@ namespace OnDigit.Infrastructure.Migrations
                         new
                         {
                             Id = 10,
-                            Name = "Children's Books"
+                            Name = "Childrens book"
                         },
                         new
                         {
                             Id = 11,
-                            Name = "Documentary Literature"
+                            Name = "Documentary literature"
                         },
                         new
                         {
                             Id = 12,
-                            Name = "Education Book"
+                            Name = "Education book"
                         },
                         new
                         {
@@ -311,47 +419,86 @@ namespace OnDigit.Infrastructure.Migrations
                         new
                         {
                             Id = 14,
-                            Name = "Business Literature"
+                            Name = "Business literature"
                         },
                         new
                         {
                             Id = 15,
-                            Name = "Religious Literature"
+                            Name = "Religious literature"
                         });
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.OrderEditionModel.OrderEdition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.OrderBookModel.OrdersBooks", b =>
                 {
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("EditionId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("BookId")
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
-                    b.HasKey("OrderNumber", "EditionId");
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
-                    b.HasIndex("EditionId");
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("OrderEditions");
+                    b.HasKey("OrderNumber", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("OrdersBooks");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.OrderModel.Order", b =>
                 {
                     b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContactPhone")
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
 
                     b.Property<DateTime>("DateOrder")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<decimal>("TotalPrice")
+                    b.Property<string>("DeliveryAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int>("DeliveryCompany")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<string>("Fullname")
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<int>("OrderStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("PayStatus")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("TotalBooksQuantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.HasKey("Number");
 
@@ -360,81 +507,181 @@ namespace OnDigit.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("OnDigit.Core.Models.PaymentModel.Payment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CardNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime>("DatePayment")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TIMESTAMP")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderNumber")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.PaymentModel.Wallet", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CVV")
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<string>("CardNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime>("DateAdded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TIMESTAMP")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("ExpiryDate")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("UserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Wallets");
+                });
+
             modelBuilder.Entity("OnDigit.Core.Models.ResetTokenModel.ResetToken", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .IsUnique();
 
-                    b.ToTable("ResetToken");
+                    b.ToTable("ResetTokens");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.ReviewModel.Review", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("BookId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("EditionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("varchar(8000)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EditionId");
+                    b.HasIndex("BookId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("OnDigit.Core.Models.SaleModel.Sale", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("BookId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
+
+                    b.Property<DateTime>("DateSaled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TIMESTAMP")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Sales");
+                });
+
             modelBuilder.Entity("OnDigit.Core.Models.SessionModel.Session", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsCanceledInAdvance")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("MACHINE_KEY")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.HasKey("Id");
 
@@ -446,14 +693,14 @@ namespace OnDigit.Infrastructure.Migrations
             modelBuilder.Entity("OnDigit.Core.Models.UserFavoriteModel.UserFavorite", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<string>("EditionId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("BookId")
+                        .HasColumnType("varchar(255)");
 
-                    b.HasKey("UserId", "EditionId");
+                    b.HasKey("UserId", "BookId");
 
-                    b.HasIndex("EditionId");
+                    b.HasIndex("BookId");
 
                     b.ToTable("UserFavorites");
                 });
@@ -461,16 +708,17 @@ namespace OnDigit.Infrastructure.Migrations
             modelBuilder.Entity("OnDigit.Core.Models.UserLoginHistoryModel.UserLoginHistory", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DateLogined")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.HasKey("Id");
 
@@ -482,50 +730,252 @@ namespace OnDigit.Infrastructure.Migrations
             modelBuilder.Entity("OnDigit.Core.Models.UserModel.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("Balance")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.WarehouseModel.Package", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("BookId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Packages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "cb7c0527-c506-421c-b080-4c84df55199f",
+                            BookId = "aae40b9b-48d8-4434-b25e-9ab651dd1f78",
+                            Quantity = 273,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "4407e6cc-3325-4879-aae0-c7d41e15a493",
+                            BookId = "5949da24-f013-4835-bb47-0e0d48f85acc",
+                            Quantity = 150,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "f8991fb3-a5bb-467a-852c-13c13e3a06df",
+                            BookId = "15ec26bf-7f6a-4413-9cc8-9d6f95c32a68",
+                            Quantity = 286,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "e1154206-eab2-48d7-8d85-e548486d3d29",
+                            BookId = "50cc784e-5544-4618-ae35-3f5f201716dc",
+                            Quantity = 112,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "ffe2c158-c2ed-4914-bba6-12bbda2599ae",
+                            BookId = "8b4ca4b2-6574-47a2-96be-7bb79c8dda46",
+                            Quantity = 70,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "4e2884c3-f298-4403-8aac-f437fc1f8738",
+                            BookId = "44c93cac-2919-475f-8a26-a0b3e0833b2d",
+                            Quantity = 498,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "11659f1d-251a-4da8-b8d7-d0e44569d3b5",
+                            BookId = "0a3338aa-c487-4e35-867f-be50d0025ec5",
+                            Quantity = 198,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "2db20c9d-26cd-4043-acf1-311b0be71a4d",
+                            BookId = "fab4d71d-f373-4bc9-ba72-2d76db654eda",
+                            Quantity = 163,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "3120a7dc-c4c7-4360-82de-a9f9fd4f011d",
+                            BookId = "5b970871-ce12-4cb6-ad7d-2ab891578594",
+                            Quantity = 271,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "dcc391d3-22f1-4fef-9b1d-e2fe6e077d59",
+                            BookId = "f41123d4-6d80-44f3-b3ac-32fc45c5908c",
+                            Quantity = 191,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "b5dca308-b39c-4a0e-a399-3e4a7c552fa3",
+                            BookId = "7cf148bf-b5ce-4d4d-84be-e66758979e6b",
+                            Quantity = 497,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "caa7f19c-ce84-4e2f-bfd2-901c37c251ce",
+                            BookId = "0b250c8e-5c5c-4775-bbf3-ff9d376bca57",
+                            Quantity = 207,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "ae534b40-61d2-4864-94b0-5ff57fe22352",
+                            BookId = "5b8360fb-b5ed-4899-ae1c-540406a87ec5",
+                            Quantity = 87,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "8bb4cc9f-ca88-4851-b7a7-5a508e1279d2",
+                            BookId = "641df715-63da-4daf-9c47-cce2a72fc2cc",
+                            Quantity = 356,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "b40277f3-4fce-4639-b961-52dea978fd6d",
+                            BookId = "487d9911-f1cb-418a-9088-edf511048933",
+                            Quantity = 251,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "5c9bc3e0-fe08-433b-bd2d-552d7e754692",
+                            BookId = "65597569-7489-4524-b7ae-13410a433b97",
+                            Quantity = 132,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "03f52ced-cb27-4aa6-9abc-e29b845c1670",
+                            BookId = "2ad5afc3-8902-40ac-aaee-4c0d1474ad4f",
+                            Quantity = 318,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "2d3d143f-ab2b-4eb7-a1a9-80fcb9211f56",
+                            BookId = "61389d2f-0770-4e62-8f6c-df9d6bf702f0",
+                            Quantity = 245,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "217ff197-8bda-486e-b48d-d9ec777f56a8",
+                            BookId = "c1f1cada-6f61-4ac1-8c54-7da7b6c59273",
+                            Quantity = 296,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "31389067-7bc5-4a47-ace0-785dbd440217",
+                            BookId = "40502086-38c3-4b05-9d0c-521a41c0f457",
+                            Quantity = 346,
+                            WarehouseId = 1
+                        });
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.WarehouseModel.Warehouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Khmelnytskyi",
+                            Street = "Institutska 11/3"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "Polonne",
+                            Street = "Gerasymchuka 12"
+                        });
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.BookModel.Book", b =>
                 {
                     b.HasOne("OnDigit.Core.Models.GenreModel.Genre", "Genre")
-                        .WithMany("Editions")
+                        .WithMany("Books")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -533,21 +983,21 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("Genre");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.OrderEditionModel.OrderEdition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.OrderBookModel.OrdersBooks", b =>
                 {
-                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
-                        .WithMany("OrdersEditions")
-                        .HasForeignKey("EditionId")
+                    b.HasOne("OnDigit.Core.Models.BookModel.Book", "Book")
+                        .WithMany("OrdersBooks")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OnDigit.Core.Models.OrderModel.Order", "Order")
-                        .WithMany("OrdersEditions")
+                        .WithMany("OrdersBooks")
                         .HasForeignKey("OrderNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Edition");
+                    b.Navigation("Book");
 
                     b.Navigation("Order");
                 });
@@ -561,21 +1011,49 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("OnDigit.Core.Models.PaymentModel.Payment", b =>
+                {
+                    b.HasOne("OnDigit.Core.Models.OrderModel.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("OnDigit.Core.Models.PaymentModel.Payment", "OrderNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
+                        .WithMany("Payments")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.PaymentModel.Wallet", b =>
+                {
+                    b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
+                        .WithMany("Wallets")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OnDigit.Core.Models.ResetTokenModel.ResetToken", b =>
                 {
                     b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
                         .WithOne("ResetToken")
-                        .HasForeignKey("OnDigit.Core.Models.ResetTokenModel.ResetToken", "UserId");
+                        .HasForeignKey("OnDigit.Core.Models.ResetTokenModel.ResetToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.ReviewModel.Review", b =>
                 {
-                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
+                    b.HasOne("OnDigit.Core.Models.BookModel.Book", "Book")
                         .WithMany("Reviews")
-                        .HasForeignKey("EditionId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OnDigit.Core.Models.UserModel.User", "User")
@@ -584,9 +1062,20 @@ namespace OnDigit.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Edition");
+                    b.Navigation("Book");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.SaleModel.Sale", b =>
+                {
+                    b.HasOne("OnDigit.Core.Models.BookModel.Book", "Book")
+                        .WithMany("Sales")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.SessionModel.Session", b =>
@@ -602,9 +1091,9 @@ namespace OnDigit.Infrastructure.Migrations
 
             modelBuilder.Entity("OnDigit.Core.Models.UserFavoriteModel.UserFavorite", b =>
                 {
-                    b.HasOne("OnDigit.Core.Models.EditionModel.Edition", "Edition")
+                    b.HasOne("OnDigit.Core.Models.BookModel.Book", "Book")
                         .WithMany("UserFavorites")
-                        .HasForeignKey("EditionId")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -614,7 +1103,7 @@ namespace OnDigit.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Edition");
+                    b.Navigation("Book");
 
                     b.Navigation("User");
                 });
@@ -630,28 +1119,55 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnDigit.Core.Models.EditionModel.Edition", b =>
+            modelBuilder.Entity("OnDigit.Core.Models.WarehouseModel.Package", b =>
                 {
-                    b.Navigation("OrdersEditions");
+                    b.HasOne("OnDigit.Core.Models.BookModel.Book", "Book")
+                        .WithOne("Package")
+                        .HasForeignKey("OnDigit.Core.Models.WarehouseModel.Package", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnDigit.Core.Models.WarehouseModel.Warehouse", "Warehouse")
+                        .WithMany("Packages")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.BookModel.Book", b =>
+                {
+                    b.Navigation("OrdersBooks");
+
+                    b.Navigation("Package");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Sales");
 
                     b.Navigation("UserFavorites");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.GenreModel.Genre", b =>
                 {
-                    b.Navigation("Editions");
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.OrderModel.Order", b =>
                 {
-                    b.Navigation("OrdersEditions");
+                    b.Navigation("OrdersBooks");
+
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("OnDigit.Core.Models.UserModel.User", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Payments");
 
                     b.Navigation("ResetToken");
 
@@ -662,6 +1178,13 @@ namespace OnDigit.Infrastructure.Migrations
                     b.Navigation("UserFavorites");
 
                     b.Navigation("UserLogins");
+
+                    b.Navigation("Wallets");
+                });
+
+            modelBuilder.Entity("OnDigit.Core.Models.WarehouseModel.Warehouse", b =>
+                {
+                    b.Navigation("Packages");
                 });
 #pragma warning restore 612, 618
         }

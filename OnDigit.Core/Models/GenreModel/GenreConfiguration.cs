@@ -9,15 +9,12 @@ namespace OnDigit.Core.Models.GenreModel
         {
             builder.HasKey(g => g.Id);
 
-            builder
-                .Property(g => g.Name)
-                .IsRequired()
-                .HasMaxLength(150);
+            builder.Property(x => x.Name).HasMaxLength(500);
 
             builder
-                .HasMany(e => e.Editions)
+                .HasMany(e => e.Books)
                 .WithOne(g => g.Genre)
-                .HasForeignKey(g => g.GenreId);
+                .HasForeignKey(e => e.GenreId);
         }
     }
 }

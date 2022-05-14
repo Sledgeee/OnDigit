@@ -1,5 +1,5 @@
 ﻿using System;
-using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.BookModel;
 using OnDigit.Core.Models.ReviewModel;
 using OnDigit.Core.Models.UserModel;
 
@@ -19,10 +19,10 @@ namespace OnDigit.Core.Extensions
                 throw new ArgumentNullException($"{nameof(review)} not found");
         }
 
-        public static void EditionNullChecking(this Edition edition)
+        public static void BookNullChecking(this Book book)
         {
-            if (edition is null)
-                throw new ArgumentNullException($"{nameof(edition)} not found");
+            if (book is null)
+                throw new ArgumentNullException($"{nameof(book)} not found");
         }
     }
 }

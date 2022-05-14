@@ -12,10 +12,12 @@ namespace OnDigit.Core.Models.UserLoginHistoryModel
 
             builder
                 .Property(ulh => ulh.UserId)
+                .HasMaxLength(450)
                 .IsRequired();
 
             builder
                 .Property(ulh => ulh.DateLogined)
+                .HasColumnType("TIMESTAMP")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .IsRequired();
         }

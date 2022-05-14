@@ -7,15 +7,11 @@ namespace OnDigit.Core.Models.UserFavoriteModel
     {
         public void Configure(EntityTypeBuilder<UserFavorite> builder)
         {
-            builder.HasKey(x => new { x.UserId, x.EditionId });
-
-            builder.Property(x => x.UserId).IsRequired();
-
-            builder.Property(x => x.EditionId).IsRequired();
+            builder.HasKey(x => new { x.UserId, x.BookId });
 
             builder.HasOne(x => x.User).WithMany(x => x.UserFavorites).HasForeignKey(x => x.UserId);
 
-            builder.HasOne(x => x.Edition).WithMany(x => x.UserFavorites).HasForeignKey(x => x.EditionId);
+            builder.HasOne(x => x.Book).WithMany(x => x.UserFavorites).HasForeignKey(x => x.BookId);
         }
     }
 }

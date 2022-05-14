@@ -12,6 +12,7 @@ namespace OnDigit.Core.Models.ReviewModel
 
             builder
                 .Property(r => r.Text)
+                .HasMaxLength(8000)
                 .IsRequired();
 
             builder
@@ -20,15 +21,17 @@ namespace OnDigit.Core.Models.ReviewModel
 
             builder
                 .Property(r => r.DateCreated)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .IsRequired();
+                .HasColumnType("TIMESTAMP")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder
                 .Property(r => r.UserId)
+                .HasMaxLength(450)
                 .IsRequired();
 
             builder
-                .Property(r => r.EditionId)
+                .Property(r => r.BookId)
+                .HasMaxLength(450)
                 .IsRequired();
         }
     }

@@ -11,10 +11,12 @@ namespace OnDigit.Core.Models.SessionModel
 
             builder
                 .Property(s => s.UserId)
+                .HasMaxLength(450)
                 .IsRequired();
 
             builder
                 .Property(s => s.MACHINE_KEY)
+                .HasMaxLength(450)
                 .IsRequired();
 
             builder

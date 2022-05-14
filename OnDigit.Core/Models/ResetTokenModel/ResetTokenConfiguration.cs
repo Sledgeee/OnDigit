@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnDigit.Core.Models.UserModel;
 
 namespace OnDigit.Core.Models.ResetTokenModel
 {
@@ -12,10 +11,12 @@ namespace OnDigit.Core.Models.ResetTokenModel
 
             builder
                 .Property(t => t.UserId)
+                .HasMaxLength(450)
                 .IsRequired();
 
             builder
                 .Property(t => t.Token)
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder

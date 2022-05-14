@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnDigit.Core.Genres;
-using OnDigit.Core.Models.EditionModel;
+using OnDigit.Core.Models.BookModel;
 using OnDigit.Core.Models.GenreModel;
+using OnDigit.Core.Models.WarehouseModel;
+using System;
+using System.Collections.Generic;
 
 namespace OnDigit.Infrastructure.Data
 {
@@ -9,210 +11,125 @@ namespace OnDigit.Infrastructure.Data
     {
         public static void Seed(this ModelBuilder builder)
         {
-            SeedGenres(builder);
-            SeedEditions(builder);
-        }
+            var books = new List<Book>();
+            var packages = new List<Package>();
+            var random = new Random();
 
-        public static void SeedGenres(ModelBuilder builder) =>
+            var warehouses = new List<Warehouse>()
+            {
+                new Warehouse()
+                {
+                    Id = 1,
+                    City = "Khmelnytskyi",
+                    Street = "Institutska 11/3"
+                },
+                new Warehouse()
+                {
+                    Id = 2,
+                    City = "Polonne",
+                    Street = "Gerasymchuka 12"
+                }
+            };
+
+            for (int i = 1; i <= 20; i++)
+            {
+                books.Add(new Book()
+                {
+                    Name = "Book" + i,
+                    Description = "Book description" + i,
+                    Price = 9.99m,
+                    GenreId = random.Next(1, 16),
+                    Discount = random.Next(0, 2) > 0 ? random.Next(1, 100) + (decimal)random.NextDouble() : 0,
+                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
+                });
+                packages.Add(new Package()
+                {
+                    BookId = books[^1].Id,
+                    Quantity = random.Next(0, 500),
+                    WarehouseId = warehouses[random.Next(0, 2)].Id
+                });
+                books[^1].IsAvailable = packages[^1].Quantity > 0 ? true : false;
+            }
+
+            builder.Entity<Warehouse>().HasData(warehouses);
+            builder.Entity<Book>().HasData(books);
+            builder.Entity<Package>().HasData(packages);
             builder.Entity<Genre>().HasData(
                 new Genre()
                 {
                     Id = (int)Genres.Detective,
-                    Name = "Detective"
+                    Name = Genres.Detective.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Fantasy,
-                    Name = "Fantasy"
-                }, 
+                    Name = Genres.Fantasy.ToString()
+                },
                 new Genre()
                 {
                     Id = (int)Genres.Adventures,
-                    Name = "Adventures"
+                    Name = Genres.Adventures.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Novel,
-                    Name = "Novel"
+                    Name = Genres.Novel.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Scientific_book,
-                    Name = "Scientific Book"
+                    Name = Genres.Scientific_book.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Folklore,
-                    Name = "Folklore"
+                    Name = Genres.Folklore.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Humor,
-                    Name = "Humor"
+                    Name = Genres.Humor.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Poetry,
-                    Name = "Poetry"
+                    Name = Genres.Poetry.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Prose,
-                    Name = "Prose"
+                    Name = Genres.Prose.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Childrens_book,
-                    Name = "Children's Books"
+                    Name = Genres.Childrens_book.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Documentary_literature,
-                    Name = "Documentary Literature"
+                    Name = Genres.Documentary_literature.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Education_book,
-                    Name = "Education Book"
+                    Name = Genres.Education_book.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Equipment,
-                    Name = "Equipment"
+                    Name = Genres.Equipment.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Business_literature,
-                    Name = "Business Literature"
+                    Name = Genres.Business_literature.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Religious_literature,
-                    Name = "Religious Literature"
+                    Name = Genres.Religious_literature.ToString().Replace("_", " ")
                 });
-
-        public static void SeedEditions(ModelBuilder builder)
-        {
-            builder.Entity<Edition>().HasData(new Edition()
-                {
-                    Name = "Book1",
-                    Description = "Book1",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Detective,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book2",
-                    Description = "Book2",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Fantasy,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book3",
-                    Description = "Book3",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Adventures,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book4",
-                    Description = "Book4",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Novel,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book5",
-                    Description = "Book5",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Scientific_book,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book6",
-                    Description = "Book6",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Folklore,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book7",
-                    Description = "Book7",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Humor,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book8",
-                    Description = "Book8",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Poetry,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book9",
-                    Description = "Book9",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Prose,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book10",
-                    Description = "Book10",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Childrens_book,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book11",
-                    Description = "Book11",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Documentary_literature,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book12",
-                    Description = "Book12",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Education_book,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book13",
-                    Description = "Book13",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Equipment,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book14",
-                    Description = "Book14",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Business_literature,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                },
-                new Edition()
-                {
-                    Name = "Book15",
-                    Description = "Book15",
-                    Price = 9.99m,
-                    GenreId = (int)Genres.Religious_literature,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
-                });
-        } 
+        }
     }
 }

@@ -1,35 +1,39 @@
-﻿using OnDigit.Core.Models.EditionModel;
+﻿using OnDigit.Core.Models.BookModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace OnDigit.Core.Models.CartModel
 {
-    public class Cart : IDisposable
+    public sealed class Cart : IDisposable
     {
         public Cart()
         {
-            Editions = new List<Edition>();
+            Books = new Dictionary<Book, int>();
         }
 
-        public decimal TotalPrice { get; set; }
-        public ICollection<Edition> Editions { get; set; }
+        public decimal TotalAmount { get; set; }
+        public int TotalBooksQuantity { get; set; }
+        public Dictionary<Book, int> Books { get; set; }
 
-        public void AddEdition(Edition edition)
+        public void AddBook(Book book, int quantity)
         {
-            Editions.Add(edition);
-            TotalPrice = Editions.Sum(x => x.Price);
+            Books.Add(book, quantity);
+            TotalAmount = Books.Sum(x => x.Key.Price * x.Value);
+            TotalBooksQuantity = Books.Sum(x => x.Value);
         }
 
-        public void RemoveEdition(Edition edition)
+        public void RemoveBook(Book book)
         {
-            Editions.Remove(edition);
-            TotalPrice = Editions.Sum(x => x.Price);
+            Books.Remove(book);
+            TotalAmount = Books.Sum(x => x.Key.Price * x.Value);
+            TotalBooksQuantity = Books.Sum(x => x.Value);
         }
 
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
         }
     }
 }

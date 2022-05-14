@@ -12,6 +12,7 @@ using OnDigit.Core.Models.UserLoginHistoryModel;
 using OnDigit.Core.Models.SessionModel;
 using Microsoft.Win32;
 using System;
+using OnDigit.Core.Models.PaymentModel;
 
 namespace OnDigit.Infrastructure.Services
 {
@@ -37,7 +38,8 @@ namespace OnDigit.Infrastructure.Services
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             return await context.Users.Include(x => x.UserLogins)
                 .Include(x => x.Reviews)
-                .Include(x => x.Orders).ThenInclude(x => x.Editions)
+                .Include(x => x.Orders).ThenInclude(x => x.Books)
+                .Include(x => x.Wallets)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
@@ -46,8 +48,24 @@ namespace OnDigit.Infrastructure.Services
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             return await context.Users.Include(x => x.UserLogins)
                 .Include(x => x.Reviews)
-                .Include(x => x.Orders).ThenInclude(x => x.Editions)
+                .Include(x => x.Orders).ThenInclude(x => x.Books)
+                .Include(x => x.Wallets)
                 .FirstOrDefaultAsync(e => e.Email == email);
+        }
+
+        public async Task<ICollection<Wallet>> GetUserWallet(string userId)
+        {
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Wallets.Where(x => x.UserId == userId).ToListAsync();
+        }
+
+        public async Task<bool> RemoveCard(string userId, string cardId)
+        {
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            var entity = await context.Wallets.FirstAsync(x => x.Id == cardId && x.UserId == userId);
+            context.Remove(entity);
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task AddLoginToHistory(string userId)
@@ -71,30 +89,38 @@ namespace OnDigit.Infrastructure.Services
         public async Task<ICollection<User>> GetListBySpecAsync(ISpecification<User> specification) =>
             await ApplySpecification(specification).ToListAsync();
 
-        public async Task<ICollection<UserFavorite>> GetFavoriteEditionsAsync(string userId)
+        public async Task<ICollection<UserFavorite>> GetFavoriteBooksAsync(string userId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
         }
 
-        public async Task SetFavoriteEditionAsync(string userId, string editionId)
+        public async Task<bool> AddNewCard(Wallet wallet)
+        {
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            await context.Wallets.AddAsync(wallet);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task SetFavoriteBookAsync(string userId, string bookId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             await context.UserFavorites.AddAsync(new UserFavorite()
             {
                 UserId = userId,
-                EditionId = editionId
+                BookId = bookId
             });
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteFavoriteEditionAsync(string userId, string editionId)
+        public async Task DeleteFavoriteBookAsync(string userId, string bookId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             context.UserFavorites.Remove(new UserFavorite()
             {
                 UserId = userId,
-                EditionId = editionId
+                BookId = bookId
             });
             await context.SaveChangesAsync();
         }
@@ -124,12 +150,13 @@ namespace OnDigit.Infrastructure.Services
         public async Task<Session> GetSessionInfo(string pcId, string userId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Sessions.Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).FirstOrDefaultAsync();
+            return await context.Sessions.Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).OrderByDescending(x => x.EndDate).FirstOrDefaultAsync();
         }
 
         public async Task UpdateSessionInfo(Session session)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            session.IsCanceledInAdvance = true;
             context.Sessions.Update(session);
             await context.SaveChangesAsync();
         }

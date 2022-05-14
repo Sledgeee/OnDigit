@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="OnDigit.Client.UI.Shop.Controls.ShopBookCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OnDigit.Client.UI.Shop.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+
+    <materialDesign:Card Width="240" Height="410" UniformCornerRadius="3" Background="{DynamicResource MaterialDesignPaper}" Margin="4" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+        <StackPanel>
+            <Button x:Name="button_favorites" Background="Transparent" BorderThickness="0" Width="25" HorizontalAlignment="Right" Margin="0 8 17 0"  ToolTip="Add to favorites">
+                <materialDesign:PackIcon x:Name="icon_favorites" Margin="-16 0" Kind="HeartOutline" Height="25" Width="25" Foreground="Orange"/>
+            </Button>
+            <Image Source="{Binding ImageUri}" Margin="0 5 0 0" Height="216" MouseLeftButtonDown="ShowBookInfoWindow_MouseLeftButtonDown" ToolTip="Open a book page"/>
+            <TextBlock Text="{Binding BookName}" TextWrapping="WrapWithOverflow" Margin="10 5 0 -5" FontSize="18" MouseLeftButtonDown="ShowBookInfoWindow_MouseLeftButtonDown" ToolTip="Open a book page"/>
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="10 10 0 0">
+                <materialDesign:PackIcon x:Name="star_1" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
+                <materialDesign:PackIcon x:Name="star_2" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
+                <materialDesign:PackIcon x:Name="star_3" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
+                <materialDesign:PackIcon x:Name="star_4" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
+                <materialDesign:PackIcon x:Name="star_5" Kind="StarOutline" Width="20" Height="20" Foreground="Orange"/>
+                <TextBlock x:Name="tbRatingCount" Margin="10 -1 0 0" Text="{Binding RatingCount, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Foreground="White"/>
+            </StackPanel>
+            <StackPanel Margin="10 10 0 0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="BPrice" Text="{Binding StringFormat=${0}, Path=BookPrice}" Grid.Column="0" FontSize="18"/>
+                        <TextBlock x:Name="BPriceDiscounted" Text="{Binding StringFormat=${0}, Path=BookPriceDiscounted}" FontSize="18" Foreground="Red"/>
+                    </StackPanel>
+                    <Button x:Name="AddToCartButton" Background="Transparent" Grid.Column="1" BorderThickness="0" Click="AddToCart_Click" ToolTip="Add to cart" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon x:Name="icon_cart" Width="28" Height="26" Kind="CartOutline" Foreground="#FF00A912"/>
+                    </Button>
+                </Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="WarehouseStatus" Text="Available" FontSize="18" Foreground="#FFC50101"/>
+                    <materialDesign:PackIcon x:Name="WarehouseStatusIcon" Kind="TruckFast" Margin="10 0 0 0" Width="24" Height="24" Foreground="#FF00A912"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </materialDesign:Card>
+</UserControl>

@@ -1,10 +1,9 @@
 ﻿using System;
 using OnDigit.Core.Models.UserModel;
-using OnDigit.Core.Interfaces;
 
 namespace OnDigit.Core.Models.UserLoginHistoryModel
 {
-    public class UserLoginHistory : EntityObject
+    public sealed class UserLoginHistory : EntityObject
     {
         public string UserId { get; set; }
         public User User { get; set; }
@@ -13,6 +12,7 @@ namespace OnDigit.Core.Models.UserLoginHistoryModel
         public override void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
             base.Dispose();
         }
     }
