@@ -11,15 +11,15 @@ namespace OnDigit.Core.Models.UserModel
 
             builder.Property(u => u.Email).HasMaxLength(256).IsRequired();
 
-            builder.Property(upd => upd.Name).IsRequired().HasMaxLength(50);
+            builder.Property(upd => upd.Name).IsRequired().HasMaxLength(100);
 
-            builder.Property(upd => upd.Surname).IsRequired().HasMaxLength(50);
+            builder.Property(upd => upd.Surname).IsRequired().HasMaxLength(100);
 
-            builder.Property(upd => upd.Gender).IsRequired();
+            builder.Property(upd => upd.Gender).HasMaxLength(10).IsRequired();
 
-            builder.Property(u => u.PasswordHash).IsRequired();
+            builder.Property(u => u.PasswordHash).HasMaxLength(450).IsRequired();
 
-            builder.Property(u => u.DateCreated).HasDefaultValueSql("CURRENT_TIMESTAMP").IsRequired();
+            builder.Property(u => u.DateCreated).HasColumnType("TIMESTAMP").HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder
                 .HasMany(o => o.Orders)
@@ -40,6 +40,16 @@ namespace OnDigit.Core.Models.UserModel
                 .HasMany(s => s.Sessions)
                 .WithOne(u => u.User)
                 .HasForeignKey(s => s.UserId);
+
+            builder
+                .HasMany(p => p.Payments)
+                .WithOne(u => u.User)
+                .HasForeignKey(p => p.UserId);
+
+            builder
+                .HasMany(p => p.Wallets)
+                .WithOne(u => u.User)
+                .HasForeignKey(p => p.UserId);
         }
     }
 }

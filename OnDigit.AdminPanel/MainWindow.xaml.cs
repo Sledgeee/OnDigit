@@ -1,5 +1,4 @@
 ﻿using HandyControl.Controls;
-using JetBrains.Annotations;
 using OnDigit.Core.Interfaces.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,6 +11,12 @@ using System.Windows.Media;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using OnDigit.Core.Models.OrderModel;
+using System.Collections.Generic;
+using OnDigit.Core.Models.BookModel;
+using OnDigit.Core.Models.UserModel;
+using OnDigit.Core.Models.PaymentModel;
+using OnDigit.Core.Models.WarehouseModel;
 
 #nullable disable
 
@@ -28,9 +33,14 @@ namespace OnDigit.AdminPanel
         private readonly IDashboardService _dashboardService;
         private Func<double, string> _yFormatter;
         private Func<double, string> _xFormatter;
-        private Dashboard.Dashboard _dashboard;
-        private int _refreshingTimerStartValue = 15;
-        private DispatcherTimer _refreshingTimer;
+        private readonly Dashboard.Dashboard _dashboard;
+        private int _refreshingTimerStartValue = 30;
+        private readonly DispatcherTimer _refreshingTimer;
+        private ICollection<Order> _orders;
+        private ICollection<Book> _books;
+        private ICollection<User> _users;
+        private ICollection<Payment> _payments;
+        private ICollection<Warehouse> _warehouses;
 
         public MainWindow(IAdminService adminService, IShopService shopService, IUserService userService, IDashboardService dashboardService)
         {
@@ -41,6 +51,11 @@ namespace OnDigit.AdminPanel
             _userService = userService;
             _dashboardService = dashboardService;
             _dashboard = new Dashboard.Dashboard(_dashboardService);
+            _orders = new List<Order>();
+            _books = new List<Book>();
+            _users = new List<User>();
+            _payments = new List<Payment>();
+            _warehouses = new List<Warehouse>();
 
             YFormatter = val => val.ToString("N") + "$";
             XFormatter = val => new DateTime((long)val).ToString("dd.MM.yy HH:mm");
@@ -48,30 +63,28 @@ namespace OnDigit.AdminPanel
             _refreshingTimer = new DispatcherTimer();
 
             DashboardMenuItem.IsSelected = true;
-          
+
             StartTimer(_refreshingTimer);
 
             DataContext = this;
         }
 
-        private enum TimerStatus
+        public enum TimerStatus
         {
             Off = 0,
             On = 1
         }
 
-        private Task StartTimer(DispatcherTimer timer)
+        private async void StartTimer(DispatcherTimer timer)
         {
-            TimerSetStatus(timer, refreshingTimer_Tick, TimerStatus.On);
+            await TimerSetStatus(timer, RefreshingTimer_Tick, TimerStatus.On);
 
             StartDate.SelectedDate = DateTime.Today;
             EndDate.SelectedDate = DateTime.Today.AddDays(1);
-            LoadData();
-
-            return Task.CompletedTask;
+            await LoadData();
         }
 
-        private Task TimerSetStatus(DispatcherTimer timer, EventHandler eventHandler, TimerStatus status)
+        private static Task TimerSetStatus(DispatcherTimer timer, EventHandler eventHandler, TimerStatus status)
         {
             switch (status)
             {
@@ -84,18 +97,18 @@ namespace OnDigit.AdminPanel
                     timer.Tick += eventHandler;
                     timer.Start();
                     break;
-            }       
+            }
 
             return Task.CompletedTask;
         }
 
-        private void refreshingTimer_Tick(object sender, EventArgs e)
+        private async void RefreshingTimer_Tick(object sender, EventArgs e)
         {
-            this.Title = "Admin-Panel | Refreshing on " + _refreshingTimerStartValue--;
+            this.Title = "Admin-Panel | Dashboard refreshing on " + _refreshingTimerStartValue--;
             if (_refreshingTimerStartValue == 0)
             {
-                LoadData();
-                _refreshingTimerStartValue = 15;
+                await LoadData();
+                _refreshingTimerStartValue = 30;
             }
         }
 
@@ -122,79 +135,84 @@ namespace OnDigit.AdminPanel
         private async void SideMenuItem_Selected(object sender, RoutedEventArgs e)
         {
             LeftSideMenu.IsEnabled = false;
+            DataGridUsers.Visibility = Visibility.Collapsed;
+            DataGridBooks.Visibility = Visibility.Collapsed;
+            DataGridOrders.Visibility = Visibility.Collapsed;
+            DataGridWarehouses.Visibility = Visibility.Collapsed;
+            DataGridPayments.Visibility = Visibility.Collapsed;
+            Dashboard.Visibility = Visibility.Collapsed;
+
+            DataGridUsers.ItemsSource = null;
+            DataGridOrders.ItemsSource = null;
+            DataGridBooks.ItemsSource = null;
+            DataGridWarehouses.ItemsSource = null;
+            DataGridPayments.ItemsSource = null;
+
             switch ((sender as SideMenuItem)?.Header)
             {
                 case "Dashboard":
-                    DataGridUsers.Visibility = Visibility.Collapsed;
-                    DataGridBooks.Visibility = Visibility.Collapsed;
-                    DataGridOrders.Visibility = Visibility.Collapsed;
-                    DataGridStocks.Visibility = Visibility.Collapsed;
-                    SearchBar.Visibility = Visibility.Collapsed;
                     Dashboard.Visibility = Visibility.Visible;
                     break;
                 case "Users":
-                    Dashboard.Visibility = Visibility.Collapsed;
-                    DataGridOrders.Visibility = Visibility.Collapsed;
-                    DataGridBooks.Visibility = Visibility.Collapsed;
-                    DataGridStocks.Visibility = Visibility.Collapsed;
+                    LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                     DataGridUsers.Visibility = Visibility.Visible;
-                    SearchBar.Visibility = Visibility.Visible;
-                    DataGridUsers.ItemsSource = await _userService.GetAllAsync();
 
+                    _users = await _userService.GetAllAsync();
+                    LoadingAnimation.IsPlaying = false;
                     LoadingAnimation.Visibility = Visibility.Collapsed;
+                    DataGridUsers.ItemsSource = _users;
                     break;
                 case "Orders":
-                    Dashboard.Visibility = Visibility.Collapsed;
-                    DataGridUsers.Visibility = Visibility.Collapsed;
-                    DataGridBooks.Visibility = Visibility.Collapsed;
-                    DataGridStocks.Visibility = Visibility.Collapsed;
+                    LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                     DataGridOrders.Visibility = Visibility.Visible;
-                    SearchBar.Visibility = Visibility.Visible;
-                    DataGridOrders.ItemsSource = await _adminService.GetAllOrdersAsync();
 
+                    _orders = await _adminService.GetAllOrdersAsync();
+                    LoadingAnimation.IsPlaying = false;
                     LoadingAnimation.Visibility = Visibility.Collapsed;
+                    DataGridOrders.ItemsSource = _orders;
                     break;
                 case "Books":
-                    Dashboard.Visibility = Visibility.Collapsed;
-                    DataGridUsers.Visibility = Visibility.Collapsed;
-                    DataGridOrders.Visibility = Visibility.Collapsed;
-                    DataGridStocks.Visibility = Visibility.Collapsed;
+
+                    LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(1000);
-                    SearchBar.Visibility = Visibility.Visible;
+                    await Task.Delay(500);
                     DataGridBooks.Visibility = Visibility.Visible;
 
-                    var books = await _shopService.GetAllBooksAsync();
-
-                    foreach (var book in books)
-                    {
-                        book.IsAvailable = book.StockPackage.Quantity > 0 ? true : false;
-                    }
-
-                    DataGridBooks.ItemsSource = books;
-
+                    _books = await _shopService.GetAllBooksAsync();
+                    LoadingAnimation.IsPlaying = false;
                     LoadingAnimation.Visibility = Visibility.Collapsed;
+                    DataGridBooks.ItemsSource = _books;
                     break;
-                case "Stocks":
-                    Dashboard.Visibility = Visibility.Collapsed;
-                    DataGridUsers.Visibility = Visibility.Collapsed;
-                    DataGridOrders.Visibility = Visibility.Collapsed;
-                    DataGridBooks.Visibility = Visibility.Collapsed;
+                case "Warehouses":
+                    LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(1000);
-                    SearchBar.Visibility = Visibility.Visible;
-                    DataGridStocks.Visibility = Visibility.Visible;
-                    DataGridStocks.ItemsSource = await _adminService.GetAllStocksAsync();
+                    await Task.Delay(500);
+                    DataGridWarehouses.Visibility = Visibility.Visible;
 
+                    _warehouses = await _adminService.GetAllWarehousesAsync();
+                    LoadingAnimation.IsPlaying = false;
                     LoadingAnimation.Visibility = Visibility.Collapsed;
+                    DataGridWarehouses.ItemsSource = _warehouses;
+                    break;
+                case "Payments":
+                    LoadingAnimation.IsPlaying = true;
+                    LoadingAnimation.Visibility = Visibility.Visible;
+
+                    await Task.Delay(500);
+                    DataGridPayments.Visibility = Visibility.Visible;
+
+                    _payments = await _adminService.GetAllPaymentsAsync();
+                    LoadingAnimation.IsPlaying = false;
+                    LoadingAnimation.Visibility = Visibility.Collapsed;
+                    DataGridPayments.ItemsSource = _payments;
                     break;
             }
             LeftSideMenu.IsEnabled = true;
@@ -210,19 +228,15 @@ namespace OnDigit.AdminPanel
 
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler? handler = PropertyChanged;
-            if (handler is not null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private Task LoadData()
+        private async Task LoadData()
         {
-            _dashboard.LoadData(StartDate.SelectedDate.Value, EndDate.SelectedDate.Value);
+            await _dashboard.LoadData(StartDate.SelectedDate.Value, EndDate.SelectedDate.Value);
 
             NumUsers.Text = _dashboard.NumUsers.ToString();
             NumOrders.Text = _dashboard.NumOrders.ToString();
@@ -231,9 +245,9 @@ namespace OnDigit.AdminPanel
 
             ChartGrossRevenue.Series.Clear();
 
-            if (_dashboard.GrossRevenueList.Count > 0)
+            if (_dashboard.GrossRevenueList.Count > 1)
             {
-                ChartValues<DateTimePoint> values = new ChartValues<DateTimePoint>();
+                ChartValues<DateTimePoint> values = new();
 
                 foreach (var item in _dashboard.GrossRevenueList)
                 {
@@ -251,7 +265,7 @@ namespace OnDigit.AdminPanel
             }
             else
             {
-                RevenueGrossPeakLabel.Text = "Current revenue gross peak $0";
+                RevenueGrossPeakLabel.Text = "Current revenue gross peak $" + (_dashboard.GrossRevenueList.Count == 1 ? _dashboard.GrossRevenueList[^1].TotalAmount : 0);
             }
 
             ChartBestSellingBooks.Series.Clear();
@@ -260,8 +274,8 @@ namespace OnDigit.AdminPanel
                 {
                     ChartBestSellingBooks.Series.Add(new PieSeries()
                     {
-                        Title = item.Key,
-                        Values = new ChartValues<ObservableValue> { new ObservableValue(item.Value) },
+                        Title = item.Book.Name,
+                        Values = new ChartValues<ObservableValue> { new ObservableValue(item.Quantity) },
                         DataLabels = true
                     });
                 }
@@ -275,13 +289,11 @@ namespace OnDigit.AdminPanel
                 });
 
             DataGridRecentOrders.ItemsSource = _dashboard.RecentOrdersList;
-
-            return Task.CompletedTask;
         }
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        private async void Ok_Click(object sender, RoutedEventArgs e)
         {
-            LoadData();
+            await LoadData();
         }
 
         private void Custom_Click(object sender, RoutedEventArgs e)
@@ -298,76 +310,59 @@ namespace OnDigit.AdminPanel
             btnOk.Visibility = Visibility.Hidden;
         }
 
-        private void Today_Click(object sender, RoutedEventArgs e)
+        private async void Today_Click(object sender, RoutedEventArgs e)
         {
             StartDate.SelectedDate = DateTime.Today;
             EndDate.SelectedDate = DateTime.Today.AddDays(1).AddSeconds(-1);
-            LoadData();
+            await LoadData();
             DisableCustom();
         }
 
-        private void Last7Days_Click(object sender, RoutedEventArgs e)
+        private async void Last7Days_Click(object sender, RoutedEventArgs e)
         {
             StartDate.SelectedDate = DateTime.Today.AddDays(-7);
             EndDate.SelectedDate = DateTime.Today.AddDays(1).AddSeconds(-1);
-            LoadData();
+            await LoadData();
             DisableCustom();
         }
 
-        private void Last30Days_Click(object sender, RoutedEventArgs e)
+        private async void Last30Days_Click(object sender, RoutedEventArgs e)
         {
             StartDate.SelectedDate = DateTime.Today.AddDays(-30);
             EndDate.SelectedDate = DateTime.Today.AddDays(1).AddSeconds(-1);
-            LoadData();
+            await LoadData();
             DisableCustom();
         }
 
-        private void ThisMonth_Click(object sender, RoutedEventArgs e)
+        private async void ThisMonth_Click(object sender, RoutedEventArgs e)
         {
             StartDate.SelectedDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
             EndDate.SelectedDate = DateTime.Today.AddDays(1).AddSeconds(-1);
-            LoadData();
+            await LoadData();
             DisableCustom();
         }
 
         private void ShowFAQ_Click(object sender, RoutedEventArgs e)
         {
-            HandyControl.Controls.MessageBox.Show("Revenue is calculated only with 'COMPLETED' orders! 'Processing' and 'Blocked' orders are not taken into account", "FAQ", MessageBoxButton.OK, MessageBoxImage.Information);
+            HandyControl.Controls.MessageBox.Show("Revenue is calculated only with 'Completed' orders! Orders with other statutes are not taken into account", "FAQ", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void SearchBar_SearchStarted(object sender, HandyControl.Data.FunctionEventArgs<string> e)
+        private async void BlockOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (DataGridBooks.Visibility == Visibility.Visible)
-            {
-                //for (int i = 0; i < DataGridBooks.Items.Count; i++)
-                //{
-                //    DataGridRow row = DataGridBooks.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
-                    
-                //    var content = DataGridBooks.Columns[3].GetCellContent(row) as TextBlock;
+            int number = ((Order)DataGridOrders.SelectedItem).Number;
 
-                //    if (content != null && content.Text.Equals(SearchBar.Text))
-                //    {
-                //        object item = DataGridBooks.Items[i];
-                //        DataGridBooks.SelectedIndex = i;
-                //        DataGridBooks.ScrollIntoView(item);
-                //        row.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
-                //        return;
-                //    }
-                    
-                //}
-            }
-            else if (DataGridUsers.Visibility == Visibility.Visible)
+            foreach (var order in _orders)
             {
-
+                if (order.Number == number)
+                {
+                    order.OrderStatus = OrderStatus.Blocked;
+                    break;
+                }
             }
-            else if (DataGridOrders.Visibility == Visibility.Visible)
-            {
 
-            }
-            else
-            {
+            DataGridOrders.Items.Refresh();
 
-            }
+            await _adminService.ChangeOrderStatus(number, OrderStatus.Blocked);
         }
     }
 }

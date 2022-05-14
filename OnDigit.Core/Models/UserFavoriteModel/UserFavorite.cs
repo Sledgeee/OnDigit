@@ -5,7 +5,7 @@ using System;
 
 namespace OnDigit.Core.Models.UserFavoriteModel
 {
-    public class UserFavorite : IDisposable
+    public sealed class UserFavorite : IDisposable
     {
         public string UserId { get; set; }
         public User User { get; set; }
@@ -15,6 +15,7 @@ namespace OnDigit.Core.Models.UserFavoriteModel
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
         }
 
         public override bool Equals(object obj)
@@ -27,6 +28,11 @@ namespace OnDigit.Core.Models.UserFavoriteModel
                 UserFavorite uf = obj as UserFavorite;
                 return (UserId == uf.UserId) && (BookId == uf.BookId);
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(UserId, BookId);
         }
     }
 }

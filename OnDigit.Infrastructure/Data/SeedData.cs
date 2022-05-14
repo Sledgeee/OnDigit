@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnDigit.Core.Genres;
 using OnDigit.Core.Models.BookModel;
 using OnDigit.Core.Models.GenreModel;
-using OnDigit.Core.Models.OrderBookModel;
-using OnDigit.Core.Models.OrderModel;
-using OnDigit.Core.Models.StockModel;
+using OnDigit.Core.Models.WarehouseModel;
 using System;
 using System.Collections.Generic;
 
@@ -14,25 +11,19 @@ namespace OnDigit.Infrastructure.Data
     {
         public static void Seed(this ModelBuilder builder)
         {
-            SeedAll(builder);
-        }
-            
-
-        public static void SeedAll(ModelBuilder builder)
-        {
             var books = new List<Book>();
-            var packages = new List<StockPackage>();
+            var packages = new List<Package>();
             var random = new Random();
 
-            var stocks = new List<Stock>()
+            var warehouses = new List<Warehouse>()
             {
-                new Stock()
+                new Warehouse()
                 {
                     Id = 1,
                     City = "Khmelnytskyi",
                     Street = "Institutska 11/3"
                 },
-                new Stock()
+                new Warehouse()
                 {
                     Id = 2,
                     City = "Polonne",
@@ -47,96 +38,98 @@ namespace OnDigit.Infrastructure.Data
                     Name = "Book" + i,
                     Description = "Book description" + i,
                     Price = 9.99m,
-                    GenreId = random.Next(1, 15),
+                    GenreId = random.Next(1, 16),
+                    Discount = random.Next(0, 2) > 0 ? random.Next(1, 100) + (decimal)random.NextDouble() : 0,
                     ImageUri = "pack://application:,,,/Images/willbook.jpg"
                 });
-                packages.Add(new StockPackage()
+                packages.Add(new Package()
                 {
                     BookId = books[^1].Id,
-                    Quantity = random.Next(1, 2000),
-                    StockId = stocks[random.Next(0, 2)].Id
+                    Quantity = random.Next(0, 500),
+                    WarehouseId = warehouses[random.Next(0, 2)].Id
                 });
+                books[^1].IsAvailable = packages[^1].Quantity > 0 ? true : false;
             }
 
-            builder.Entity<Stock>().HasData(stocks);
+            builder.Entity<Warehouse>().HasData(warehouses);
             builder.Entity<Book>().HasData(books);
-            builder.Entity<StockPackage>().HasData(packages);
+            builder.Entity<Package>().HasData(packages);
             builder.Entity<Genre>().HasData(
                 new Genre()
                 {
                     Id = (int)Genres.Detective,
-                    Name = "Detective"
+                    Name = Genres.Detective.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Fantasy,
-                    Name = "Fantasy"
+                    Name = Genres.Fantasy.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Adventures,
-                    Name = "Adventures"
+                    Name = Genres.Adventures.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Novel,
-                    Name = "Novel"
+                    Name = Genres.Novel.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Scientific_book,
-                    Name = "Scientific Book"
+                    Name = Genres.Scientific_book.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Folklore,
-                    Name = "Folklore"
+                    Name = Genres.Folklore.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Humor,
-                    Name = "Humor"
+                    Name = Genres.Humor.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Poetry,
-                    Name = "Poetry"
+                    Name = Genres.Poetry.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Prose,
-                    Name = "Prose"
+                    Name = Genres.Prose.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Childrens_book,
-                    Name = "Children's Books"
+                    Name = Genres.Childrens_book.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Documentary_literature,
-                    Name = "Documentary Literature"
+                    Name = Genres.Documentary_literature.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Education_book,
-                    Name = "Education Book"
+                    Name = Genres.Education_book.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Equipment,
-                    Name = "Equipment"
+                    Name = Genres.Equipment.ToString()
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Business_literature,
-                    Name = "Business Literature"
+                    Name = Genres.Business_literature.ToString().Replace("_", " ")
                 },
                 new Genre()
                 {
                     Id = (int)Genres.Religious_literature,
-                    Name = "Religious Literature"
+                    Name = Genres.Religious_literature.ToString().Replace("_", " ")
                 });
-        } 
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace OnDigit.Core.Interfaces.Services
 {
     public interface IReviewService
     {
-        Task<ICollection<Review>> GetReviewListsAsync(string bookId);
+        Task<ICollection<Review>> GetReviewsListAsync(string bookId);
         Task AddReviewAsync(Review review, Book book);
         Task DeleteReviewAsync(string id);
     }

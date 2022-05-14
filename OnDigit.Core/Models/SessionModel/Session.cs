@@ -3,7 +3,7 @@ using OnDigit.Core.Models.UserModel;
 
 namespace OnDigit.Core.Models.SessionModel
 {
-    public class Session : EntityObject
+    public sealed class Session : EntityObject
     {
         public string UserId { get; set; }
         public User User { get; set; }
@@ -15,6 +15,8 @@ namespace OnDigit.Core.Models.SessionModel
         public override void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
+            base.Dispose();
         }
     }
 }

@@ -4,11 +4,17 @@ namespace OnDigit.Core.Models
 {
     public class EntityObject : IDisposable
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public EntityObject()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
+        public string Id { get; set; }
 
         public virtual void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
         }
     }
 }

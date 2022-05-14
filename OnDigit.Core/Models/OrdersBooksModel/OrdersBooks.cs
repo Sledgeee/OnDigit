@@ -4,7 +4,7 @@ using System;
 
 namespace OnDigit.Core.Models.OrderBookModel
 {
-    public class OrdersBooks : IDisposable
+    public sealed class OrdersBooks : IDisposable
     {
         public int OrderNumber { get; set; }
         public Order Order { get; set; }
@@ -16,6 +16,7 @@ namespace OnDigit.Core.Models.OrderBookModel
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
         }
     }
 }

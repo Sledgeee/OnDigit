@@ -5,31 +5,44 @@ using System.Collections.Generic;
 using OnDigit.Core.Models.OrderBookModel;
 using System;
 using OnDigit.Core.Models.UserFavoriteModel;
-using OnDigit.Core.Models.StockModel;
+using OnDigit.Core.Models.WarehouseModel;
+using OnDigit.Core.Models.SaleModel;
 
 namespace OnDigit.Core.Models.BookModel
 {
-    public class Book : EntityObject
+    public sealed class Book : EntityObject
     {
+        public Book()
+        {
+            Orders = new List<Order>();
+            Reviews = new List<Review>();
+            Sales = new List<Sale>();
+            OrdersBooks = new List<OrdersBooks>();
+            UserFavorites = new List<UserFavorite>();
+        }
+
         public string Name { get; set; }
         public string Description { get; set; }
         public float Rating { get; set; }
         public decimal Price { get; set; }
+        public decimal Discount { get; set; } // in %
         public string ImageUri { get; set; }
         public DateTime DateCreated { get; set; }
         public int GenreId { get; set; }
-        public Genre Genre { get; set; }
         public bool IsAvailable { get; set; }
-        public string StockPackageId { get; set; }
-        public StockPackage StockPackage { get; set; }
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
-        public ICollection<Review> Reviews { get; set; } = new List<Review>();
-        public List<OrdersBooks> OrdersBooks { get; set; } = new List<OrdersBooks>();
-        public List<UserFavorite> UserFavorites { get; set; } = new List<UserFavorite>();
+
+        public Genre Genre { get; set; }
+        public Package Package { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Sale> Sales { get; set; }
+        public List<OrdersBooks> OrdersBooks { get; set; }
+        public List<UserFavorite> UserFavorites { get; set; }
 
         public override void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
             base.Dispose();
         }
 

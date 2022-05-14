@@ -1,10 +1,12 @@
 ﻿using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.OrderModel;
+using OnDigit.Core.Models.SaleModel;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+
+#nullable disable
 
 namespace OnDigit.AdminPanel.Dashboard
 {
@@ -29,7 +31,7 @@ namespace OnDigit.AdminPanel.Dashboard
         public int NumBooks { get; private set; }
         public int NumOrders { get; private set; }
         public int NumReviews { get; private set; }
-        public List<KeyValuePair<string, int>> TopBooksList { get; private set; }
+        public List<Sale> TopBooksList { get; private set; }
         public List<RevenueByDate> GrossRevenueList { get; private set; }
         public List<Order> RecentOrdersList { get; private set; }
 

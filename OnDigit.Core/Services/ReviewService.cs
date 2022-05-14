@@ -18,8 +18,8 @@ namespace OnDigit.Core.Services
             _bookService = bookService;
         }
 
-        public async Task<ICollection<Review>> GetReviewListsAsync(string bookId) =>
-            await _reviewService.GetListBySpecAsync(new Reviews.ReviewBook(bookId));
+        public async Task<ICollection<Review>> GetReviewsListAsync(string bookId) =>
+            await _reviewService.GetListBySpecAsync(new Reviews.SearchReviewForBook(bookId));
 
         public async Task AddReviewAsync(Review review, Book book)
         {

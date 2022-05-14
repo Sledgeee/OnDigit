@@ -12,6 +12,7 @@ using OnDigit.Core.Models.UserLoginHistoryModel;
 using OnDigit.Core.Models.SessionModel;
 using Microsoft.Win32;
 using System;
+using OnDigit.Core.Models.PaymentModel;
 
 namespace OnDigit.Infrastructure.Services
 {
@@ -35,19 +36,36 @@ namespace OnDigit.Infrastructure.Services
         public async Task<User> GetByIdAsync(string id)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Users.AsNoTracking().Include(x => x.UserLogins)
+            return await context.Users.Include(x => x.UserLogins)
                 .Include(x => x.Reviews)
                 .Include(x => x.Orders).ThenInclude(x => x.Books)
+                .Include(x => x.Wallets)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<User> GetByEmailAsync(string email)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Users.AsNoTracking().Include(x => x.UserLogins)
+            return await context.Users.Include(x => x.UserLogins)
                 .Include(x => x.Reviews)
                 .Include(x => x.Orders).ThenInclude(x => x.Books)
+                .Include(x => x.Wallets)
                 .FirstOrDefaultAsync(e => e.Email == email);
+        }
+
+        public async Task<ICollection<Wallet>> GetUserWallet(string userId)
+        {
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            return await context.Wallets.Where(x => x.UserId == userId).ToListAsync();
+        }
+
+        public async Task<bool> RemoveCard(string userId, string cardId)
+        {
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            var entity = await context.Wallets.FirstAsync(x => x.Id == cardId && x.UserId == userId);
+            context.Remove(entity);
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task AddLoginToHistory(string userId)
@@ -75,6 +93,14 @@ namespace OnDigit.Infrastructure.Services
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
             return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
+        }
+
+        public async Task<bool> AddNewCard(Wallet wallet)
+        {
+            using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            await context.Wallets.AddAsync(wallet);
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task SetFavoriteBookAsync(string userId, string bookId)
@@ -124,12 +150,13 @@ namespace OnDigit.Infrastructure.Services
         public async Task<Session> GetSessionInfo(string pcId, string userId)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.Sessions.AsNoTracking().Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).FirstOrDefaultAsync();
+            return await context.Sessions.Where(x => x.UserId == userId && x.MACHINE_KEY == pcId).OrderByDescending(x => x.EndDate).FirstOrDefaultAsync();
         }
 
         public async Task UpdateSessionInfo(Session session)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
+            session.IsCanceledInAdvance = true;
             context.Sessions.Update(session);
             await context.SaveChangesAsync();
         }

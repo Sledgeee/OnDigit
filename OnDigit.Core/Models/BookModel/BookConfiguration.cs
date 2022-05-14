@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace OnDigit.Core.Models.BookModel
 {
@@ -17,6 +16,7 @@ namespace OnDigit.Core.Models.BookModel
 
             builder
                 .Property(e => e.Description)
+                .HasMaxLength(8000)
                 .IsRequired();
 
             builder
@@ -27,7 +27,12 @@ namespace OnDigit.Core.Models.BookModel
             builder
                 .Property(e => e.Price)
                 .HasColumnType("decimal(18,2)")
-                .IsRequired();
+                .HasDefaultValue(0);
+
+            builder
+                .Property(e => e.Discount)
+                .HasColumnType("decimal(18,2)")
+                .HasDefaultValue(0);
 
             builder
                 .Property(e => e.IsAvailable)
@@ -38,15 +43,25 @@ namespace OnDigit.Core.Models.BookModel
                 .IsRequired();
 
             builder
+                .Property(e => e.ImageUri)
+                .HasMaxLength(500)
+                .IsRequired();
+
+            builder
                 .Property(e => e.DateCreated)
                 .IsRequired()
+                .HasColumnType("TIMESTAMP")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder
                 .HasMany(r => r.Reviews)
                 .WithOne(e => e.Book)
-                .HasForeignKey(e => e.BookId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(e => e.BookId);
+
+            builder
+               .HasMany(r => r.Sales)
+               .WithOne(e => e.Book)
+               .HasForeignKey(e => e.BookId);
         }
     }
 }

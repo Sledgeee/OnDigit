@@ -6,9 +6,11 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:conv="clr-namespace:OnDigit.AdminPanel.Converter"
         x:Class="OnDigit.AdminPanel.MainWindow"
         Width="1600" Height="900"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Background="#2d2d30"
         Icon="/Images/logo.png">
 
@@ -21,6 +23,10 @@
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
+    <Window.Resources>
+        <conv:TypeConverter x:Key="typeConverter"/>
+        <conv:EnumToVisibilityConverter x:Key="visibilityConverter"/>
+    </Window.Resources>
 
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -49,9 +55,14 @@
                     <fa:ImageAwesome Icon="Book" Width="24" Height="24" Foreground="White"/>
                 </hc:SideMenuItem.Icon>
             </hc:SideMenuItem>
-            <hc:SideMenuItem x:Name="StockMenuItem" Header="Stocks" FontSize="21" Selected="SideMenuItem_Selected">
+            <hc:SideMenuItem x:Name="WarehouseMenuItem" Header="Warehouses" FontSize="21" Selected="SideMenuItem_Selected">
                 <hc:SideMenuItem.Icon>
                     <fa:ImageAwesome Icon="Inbox" Width="24" Height="24" Foreground="White"/>
+                </hc:SideMenuItem.Icon>
+            </hc:SideMenuItem>
+            <hc:SideMenuItem x:Name="PaymentsMenuItem" Header="Payments" FontSize="21" Selected="SideMenuItem_Selected">
+                <hc:SideMenuItem.Icon>
+                    <fa:ImageAwesome Icon="Dollar" Width="24" Height="24" Foreground="White"/>
                 </hc:SideMenuItem.Icon>
             </hc:SideMenuItem>
         </hc:SideMenu>
@@ -146,16 +157,16 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="60*"/>
                             <RowDefinition Height="25*"/>
-                            <RowDefinition Height="30*"/>
-                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="35*"/>
+                            <RowDefinition Height="5"/>
                             <RowDefinition Height="25*"/>
-                            <RowDefinition Height="30*"/>
-                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="35*"/>
+                            <RowDefinition Height="5"/>
                             <RowDefinition Height="25*"/>
-                            <RowDefinition Height="30*"/>
-                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="35*"/>
+                            <RowDefinition Height="5"/>
                             <RowDefinition Height="25*"/>
-                            <RowDefinition Height="30*"/>
+                            <RowDefinition Height="35*"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0" Text="Total counters for all time" TextWrapping="Wrap" Foreground="Orange" FontSize="21" FontWeight="Bold" VerticalAlignment="Center" Margin="20 0 0 0"/>
@@ -181,8 +192,9 @@
                                 <DataGridTextColumn Header="Number" Binding="{Binding Path=Number}" IsReadOnly="True" CanUserResize="False"/>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Path=User.Name}" IsReadOnly="True" CanUserResize="False"/>
                                 <DataGridTextColumn Header="Surname" Binding="{Binding Path=User.Surname}" IsReadOnly="True" CanUserResize="False"/>
-                                <DataGridTextColumn Header="TotalPrice" Binding="{Binding StringFormat=${0}, Path=TotalPrice}" IsReadOnly="True" CanUserResize="False"/>
-                                <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" IsReadOnly="True" CanUserResize="False"/>
+                                <DataGridTextColumn Header="TotalAmount" Binding="{Binding StringFormat=${0}, Path=TotalAmount}" IsReadOnly="True" CanUserResize="False"/>
+                                <DataGridTextColumn Header="TotalBooksQuantity" Binding="{Binding Path=TotalBooksQuantity}" IsReadOnly="True" CanUserResize="False"/>
+                                <DataGridTextColumn Header="OrderStatus" Binding="{Binding Path=OrderStatus}" IsReadOnly="True" CanUserResize="False"/>
                                 <DataGridTextColumn Header="DateOrder" Binding="{Binding Path=DateOrder}" IsReadOnly="True" CanUserResize="False"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -192,37 +204,19 @@
         </Grid>
 
         <Grid Grid.Column="1" x:Name="DataGrids">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <hc:SearchBar x:Name="SearchBar" SearchStarted="SearchBar_SearchStarted" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Margin="5 5 5 0" Height="40" hc:InfoElement.Placeholder="Search" Style="{StaticResource SearchBarExtendBaseStyle}"/>
-
-            <DataGrid x:Name="DataGridUsers" Grid.Row="1" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
+            <DataGrid x:Name="DataGridUsers" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
-                    <DataGridTextColumn Header="Surname" Binding="{Binding Path=Surname}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Surname" Binding="{Binding Path=Surname}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Gender" Binding="{Binding Path=Gender}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="DateCreated" Binding="{Binding Path=DateCreated}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <DataGrid x:Name="DataGridBooks" Grid.Row="1" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
+            <DataGrid x:Name="DataGridBooks" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="200">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button FontSize="16" Content="Edit" Margin="5 0" Padding="3" Width="75" Height="Auto"/>
-                                    <Button FontSize="16" Content="Delete" Margin="5 0" Padding="3" Width="75" Height="Auto"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
                     <DataGridTemplateColumn Width="60" CanUserResize="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -234,26 +228,28 @@
                     <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Rating" Binding="{Binding Path=Rating}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Price" Binding="{Binding StringFormat=${0}, Path=Price}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="GenreId" Binding="{Binding Path=GenreId}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Genre" Binding="{Binding Path=GenreId}" IsReadOnly="True"/>
                     <DataGridCheckBoxColumn Header="IsAvailable" Binding="{Binding Path=IsAvailable}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="DateCreated" Binding="{Binding Path=DateCreated}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <DataGrid x:Name="DataGridOrders" Grid.Row="1" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed" BeginningEdit="DataGridOrders_BeginningEdit" CellEditEnding="DataGridOrders_CellEditEnding">
+            <DataGrid x:Name="DataGridOrders" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Number" Binding="{Binding Path=Number}" IsReadOnly="True" CanUserResize="False"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Path=User.Name}" IsReadOnly="True" CanUserResize="False"/>
-                    <DataGridTextColumn Header="Surname" Binding="{Binding Path=User.Surname}" IsReadOnly="True" CanUserResize="False"/>
-                    <DataGridTextColumn Header="TotalPrice" Binding="{Binding StringFormat=${0}, Path=TotalPrice}" IsReadOnly="True" CanUserResize="False"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" IsReadOnly="True" CanUserResize="False"/>
+                    <DataGridTextColumn Header="FullName" Binding="{Binding Path=Fullname}" IsReadOnly="True" CanUserResize="False"/>
+                    <DataGridTextColumn Header="TotalAmount" Binding="{Binding StringFormat=${0}, Path=TotalAmount}" IsReadOnly="True" CanUserResize="False"/>
+                    <DataGridTextColumn Header="TotalBooksQuantity" Binding="{Binding Path=TotalBooksQuantity}" IsReadOnly="True" CanUserResize="False"/>
+                    <DataGridTextColumn Header="DeliveryAddress" Binding="{Binding Path=DeliveryAddress}" IsReadOnly="True" CanUserResize="False"/>
+                    <DataGridTextColumn Header="DeliveryCompany" Binding="{Binding Path=DeliveryCompany}" IsReadOnly="True" CanUserResize="False"/>
+                    <DataGridTextColumn Header="PayStatus" Binding="{Binding Path=PayStatus}" IsReadOnly="True" CanUserResize="False"/>
+                    <DataGridTextColumn Header="OrderStatus" Binding="{Binding Path=OrderStatus}" IsReadOnly="True" CanUserResize="False"/>
                     <DataGridTextColumn Header="DateOrder" Binding="{Binding Path=DateOrder}" IsReadOnly="True" CanUserResize="False"/>
-                    <DataGridTemplateColumn Width="1*">
+                    <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button FontSize="16" Content="Block" Margin="10 0" Padding="3" Width="75" Height="Auto"/>
-                                    <Button FontSize="16" Content="Delete" Padding="3" Width="75" Height="Auto"/>
+                                <StackPanel Visibility="{Binding Path=OrderStatus, Converter={StaticResource visibilityConverter}}">
+                                    <Button FontSize="16" Content="Block" Padding="3" Width="100" Height="Auto" HorizontalAlignment="Right" Click="BlockOrder_Click"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -261,25 +257,43 @@
                 </DataGrid.Columns>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <DataGrid ItemsSource="{Binding Path=OrdersBooks}" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="BookID" Binding="{Binding Path=Book.Id}" CanUserResize="False" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Path=Book.Name}" CanUserResize="False" IsReadOnly="True"/>
-                                <DataGridTemplateColumn Width="60" CanUserResize="False" IsReadOnly="True">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding Path=Book.ImageUri}" Width="32" Height="32" Stretch="Uniform"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Price" Binding="{Binding StringFormat=${0}, Path=Book.Price}" CanUserResize="False" IsReadOnly="True"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Margin="10" Padding="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <DataGrid ItemsSource="{Binding Path=OrdersBooks}" AutoGenerateColumns="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="BookID" Binding="{Binding Path=Book.Id}" CanUserResize="False" IsReadOnly="True"/>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Book.Name}" CanUserResize="False" IsReadOnly="True"/>
+                                        <DataGridTemplateColumn Width="60" CanUserResize="False" IsReadOnly="True">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding Path=Book.ImageUri}" Width="32" Height="32" Stretch="Uniform"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Price" Binding="{Binding StringFormat=${0}, Path=Book.Price}" CanUserResize="False" IsReadOnly="True"/>
+                                        <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Quantity}" CanUserResize="False" IsReadOnly="True"/>
+                                        <DataGridCheckBoxColumn Header="Package available" Binding="{Binding Path=Book.IsAvailable}" CanUserResize="False" IsReadOnly="True"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Grid Grid.Row="1" Margin="10">
+                                    <hc:StepBar Name="ThisOrderSteps" StepIndex="{Binding Path=OrderStatus, Converter={StaticResource typeConverter}}" Visibility="{Binding Path=OrderStatus, Converter={StaticResource visibilityConverter}}">
+                                        <hc:StepBarItem Content="Payment"/>
+                                        <hc:StepBarItem Content="Delivery"/>
+                                        <hc:StepBarItem Content="Completed"/>
+                                    </hc:StepBar>
+                                </Grid>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
             </DataGrid>
 
-            <DataGrid x:Name="DataGridStocks" Grid.Row="1" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
+            <DataGrid x:Name="DataGridWarehouses" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="City" Binding="{Binding Path=City}"/>
@@ -287,7 +301,7 @@
                 </DataGrid.Columns>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <DataGrid ItemsSource="{Binding Path=StockPackages}" AutoGenerateColumns="False">
+                        <DataGrid ItemsSource="{Binding Path=Packages}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="BookID" Binding="{Binding Path=BookId}" CanUserResize="False" IsReadOnly="True"/>
                                 <DataGridTemplateColumn Width="60" CanUserResize="False" IsReadOnly="True">
@@ -303,6 +317,16 @@
                         </DataGrid>
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+
+            <DataGrid x:Name="DataGridPayments" RowHeaderWidth="60" AutoGenerateColumns="False" FontSize="16" Visibility="Collapsed">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="UserId" Binding="{Binding Path=UserId}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="OrderNumber" Binding="{Binding Path=OrderNumber}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Path=Amount}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="DatePayment" Binding="{Binding Path=DatePayment}" IsReadOnly="True"/>
+                </DataGrid.Columns>
             </DataGrid>
         </Grid>
 

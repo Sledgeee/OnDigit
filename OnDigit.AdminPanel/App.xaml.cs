@@ -29,8 +29,8 @@ namespace OnDigit.AdminPanel
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    string connectionString = context.Configuration.GetConnectionString("DefaultConnection");
-                    void configureDbContext(DbContextOptionsBuilder o) => o.UseSqlServer(connectionString);
+                string connectionString = context.Configuration.GetConnectionString("DefaultConnection");
+                void configureDbContext(DbContextOptionsBuilder o) => o.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                     services.AddDbContext<OnDigitDbContext>(configureDbContext);
                     services.AddSingleton(new OnDigitDbContextFactory(configureDbContext));
                     services.AddSingleton<MainWindow>();
@@ -42,7 +42,7 @@ namespace OnDigit.AdminPanel
                     services.AddSingleton<IShopService, ShopService>();
                     services.AddSingleton<IOrderService, OrderDataService>();
                     services.AddSingleton<IDashboardService, AdminDataService>();
-                    services.AddSingleton<IStockService, AdminDataService>();
+                    services.AddSingleton<IWarehouseService, AdminDataService>();
                     services.AddSingleton<IAdminService, AdminService>();
                     services.AddSingleton(typeof(IDataService<>), typeof(GenericDataService<>));
                 });

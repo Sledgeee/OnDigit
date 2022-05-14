@@ -4,7 +4,7 @@ using OnDigit.Core.Models.UserModel;
 
 namespace OnDigit.Core.Models.ReviewModel
 {
-    public class Review : EntityObject
+    public sealed class Review : EntityObject
     {
         public string Text { get; set; }
         public int Stars { get; set; }
@@ -17,6 +17,7 @@ namespace OnDigit.Core.Models.ReviewModel
         public override void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
             base.Dispose();
         }
     }

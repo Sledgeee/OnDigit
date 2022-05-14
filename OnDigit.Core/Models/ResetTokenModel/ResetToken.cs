@@ -4,7 +4,7 @@ using System;
 
 namespace OnDigit.Core.Models.ResetTokenModel
 {
-    public class ResetToken : EntityObject
+    public sealed class ResetToken : EntityObject
     {
         public string UserId { get; set; }
         public User User { get; set; }
@@ -13,6 +13,7 @@ namespace OnDigit.Core.Models.ResetTokenModel
         public override void Dispose()
         {
             GC.SuppressFinalize(this);
+            GC.Collect();
             base.Dispose();
         }
     }

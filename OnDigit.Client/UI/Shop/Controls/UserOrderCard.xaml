@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="OnDigit.Client.UI.Shop.Controls.UserOrderCard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:OnDigit.Client.UI.Shop.Controls"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      mc:Ignorable="d">
+
+    <Border Margin="0 10" BorderBrush="Gray" BorderThickness="2" CornerRadius="5">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="350"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*" MinWidth="750" MaxWidth="750"/>
+                    <ColumnDefinition Width="70"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" x:Name="OrderStatusBorder" BorderBrush="Green" BorderThickness="5" CornerRadius="5" Height="60" Margin="20 0 10 0"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 10">
+                        <TextBlock FontSize="16" Foreground="LightGray" Text="{Binding StringFormat=№{0} of, Path=OrderNumber}" HorizontalAlignment="Left" Margin="10 0 0 0" VerticalAlignment="Bottom"/>
+                        <TextBlock FontSize="16" Foreground="LightGray" Text="{Binding OrderDate}" HorizontalAlignment="Left" Margin="10 0 0 0" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding PStatus}" Grid.Row="1" FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="10 7 0 0" VerticalAlignment="Top"/>
+                </Grid>
+                <Grid Grid.Column="2" x:Name="GridOrderPriceNoDetails">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" FontSize="16" Foreground="LightGray" Text="Order price" HorizontalAlignment="Left" Margin="10 0 0 10" VerticalAlignment="Bottom"/>
+                    <TextBlock Grid.Row="1" FontSize="16" Foreground="White" Text="{Binding StringFormat=${0}, Path=OrderPrice}" HorizontalAlignment="Left" Margin="10 7 0 0" VerticalAlignment="Top"/>
+                </Grid>
+                <Grid Grid.Column="3" x:Name="WrapPanelOrderedBooks">
+                    <hc:ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" IsInertiaEnabled="True">
+                        <WrapPanel x:Name="OrderedBooks" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </hc:ScrollViewer>
+                </Grid>
+                <Button Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Width="50" Height="Auto" Background="Transparent" BorderBrush="Transparent" Click="Details_Click">
+                    <materialDesign:PackIcon x:Name="DetailsButtonIcon" Kind="ArrowDropDown" Foreground="White" Width="50" Height="50" HorizontalAlignment="Center"/>
+                </Button>
+            </Grid>
+            
+            <Grid Grid.Row="1" Margin="10" x:Name="GridDetails" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Information about order" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock Grid.Row="1" x:Name="DeliveryCompanyTextBlock" Text="{Binding DeliveryCompanyText}" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock Grid.Row="2" x:Name="DeliveryAddressTextBlock" Text="{Binding DeliveryAddressText}" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock Grid.Row="3" x:Name="UserFNameTextBlock" Text="{Binding UserFName}" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock Grid.Row="4" x:Name="UserPhoneTextBlock" Text="{Binding UserPhone}" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock Grid.Row="5" x:Name="UserTextBlock" Text="{Binding UserEmail}" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Books" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+
+                    <DataGrid Grid.Row="1" x:Name="ThisOrderBooks" AutoGenerateColumns="False" FontSize="16" CanUserAddRows="False" CanUserResizeRows="False" CanUserResizeColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Path=Key.ImageUri}" Width="32" Height="32" Stretch="Uniform"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Key.Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Path=Value.Item1}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Price per one" Binding="{Binding StringFormat=${0}, Path=Key.Price}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Total price" Binding="{Binding StringFormat=${0}, Path=Value.Item2}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Payment method" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Cost of delivery" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="To pay" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding PayMethod}" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="$3.50" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding StringFormat=${0}, Path=OrderPrice}" FontSize="16" Foreground="White" Margin="10" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right"/>
+                        <Button Grid.Row="3" Grid.Column="1" x:Name="PayButton" HorizontalAlignment="Right" Width="100" Margin="10 10 0 0" Content="Let's pay" Foreground="White" FontSize="16" Click="PayButton_Click"/>
+                        <Border x:Name="PayBorder" BorderBrush="Gray" BorderThickness="2" Grid.Row="4" Grid.Column="1" CornerRadius="5" Margin="0 10 0 0" Visibility="Collapsed">
+                            <Grid x:Name="PayRightNowGrid" Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel x:Name="Cards" Orientation="Vertical"/>
+
+                                <StackPanel Grid.Row="1" x:Name="CardInfo" Visibility="Collapsed">
+                                    <TextBox x:Name="CardNumber" materialDesign:HintAssist.Hint="Card number" materialDesign:HintAssist.Background="#141414" Style="{DynamicResource MaterialDesignOutlinedTextBox}" FontSize="16" Margin="20 10" MaxLength="16" TextChanged="CardNumber_TextChanged"/>
+                                    <StackPanel Orientation="Horizontal" Margin="20 10 20 20">
+                                        <TextBox x:Name="ExpiryMonth" TextAlignment="Center" materialDesign:HintAssist.Hint="Month" materialDesign:HintAssist.Background="#141414" Style="{DynamicResource MaterialDesignOutlinedTextBox}" FontSize="16" MaxLength="2" Margin="0 0 20 0" TextChanged="ExpiryMonth_TextChanged"/>
+                                        <TextBlock Text="/" FontSize="21" Margin="-10 0 10 0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="ExpiryYear" TextAlignment="Center" materialDesign:HintAssist.Hint="Year" materialDesign:HintAssist.Background="#141414" Style="{DynamicResource MaterialDesignOutlinedTextBox}" FontSize="16" MaxLength="2" Margin="0 0 20 0" TextChanged="ExpiryYear_TextChanged"/>
+                                        <PasswordBox x:Name="CVV" materialDesign:HintAssist.Hint="CVV" materialDesign:HintAssist.Background="#141414" Style="{DynamicResource MaterialDesignOutlinedPasswordBox}" FontSize="16" MaxLength="3"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Add" FontSize="16" HorizontalAlignment="Left" Margin="20 10 10 10" Foreground="White" Style="{DynamicResource MaterialDesignFlatMidBgButton}" Click="Add_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" x:Name="PayCancelPanel">
+                                    <Button Content="Pay" FontSize="16" HorizontalAlignment="Left" Margin="10" Foreground="White" Style="{DynamicResource MaterialDesignFlatMidBgButton}" Click="Pay_Click"/>
+                                    <Button Content="Cancel" FontSize="16" HorizontalAlignment="Left" Margin="10" Foreground="White" Style="{DynamicResource MaterialDesignOutlinedButton}" Click="Cancel_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
