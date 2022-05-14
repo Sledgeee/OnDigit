@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnDigit.Core.Models.BookModel;
 using OnDigit.Core.Models.GenreModel;
+using OnDigit.Core.Models.UserModel;
 using OnDigit.Core.Models.WarehouseModel;
 using System;
 using System.Collections.Generic;

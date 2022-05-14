@@ -60,6 +60,7 @@ namespace OnDigit.Infrastructure.Services
             foreach (var book in books)
             {
                 await CreateSales(book.Key.Id, book.Value.Item1);
+                book.Key.Package = await ChangePackageQuantity(book.Key.Id, book.Value.Item1);
             }
         }
 

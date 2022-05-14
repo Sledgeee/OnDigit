@@ -35,7 +35,7 @@
                         <TextBlock FontSize="16" Foreground="LightGray" Text="{Binding StringFormat=№{0} of, Path=OrderNumber}" HorizontalAlignment="Left" Margin="10 0 0 0" VerticalAlignment="Bottom"/>
                         <TextBlock FontSize="16" Foreground="LightGray" Text="{Binding OrderDate}" HorizontalAlignment="Left" Margin="10 0 0 0" VerticalAlignment="Bottom"/>
                     </StackPanel>
-                    <TextBlock Text="{Binding PStatus}" Grid.Row="1" FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="10 7 0 0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="Paystatus" Text="{Binding PStatus}" Grid.Row="1" FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="10 7 0 0" VerticalAlignment="Top"/>
                 </Grid>
                 <Grid Grid.Column="2" x:Name="GridOrderPriceNoDetails">
                     <Grid.RowDefinitions>

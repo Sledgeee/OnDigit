@@ -77,10 +77,12 @@ namespace OnDigit.Client
                 Orders.Children.Add(new UserOrderCard(this, order, _orderService, _userService));
         }
 
-        private void LoadBooks(ICollection<Book> bookList)
+        private async void LoadBooks(ICollection<Book> bookList)
         {
             ShopLoadingAnimation.IsPlaying = true;
             ShopLoadingAnimation.Visibility = Visibility.Visible;
+
+            await Task.Delay(500);
 
             this.Shop.Effect = new BlurEffect();
 
@@ -350,7 +352,7 @@ namespace OnDigit.Client
                     cartOrderPanel.TotalAmount,
                     cartOrderPanel.DeliveryCompany, 
                     cartOrderPanel.DeliveryAddress,
-                    cartOrderPanel.CardToPay);
+                    cartOrderPanel.PayRightNowRB.IsChecked == true ? cartOrderPanel.CardToPay : null);
             }
 
             CartWrap.Children.Clear();

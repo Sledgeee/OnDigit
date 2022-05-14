@@ -118,7 +118,9 @@ namespace OnDigit.Client.UI.Shop.Controls
         {
             CardToPay = null;
             if ((string)((RadioButton)sender).Content == "Add new card")
+            {
                 CardInfo.Visibility = Visibility.Visible;
+            }
             else
             {
                 CardInfo.Visibility = Visibility.Collapsed;

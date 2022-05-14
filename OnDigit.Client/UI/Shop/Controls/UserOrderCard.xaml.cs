@@ -2,7 +2,7 @@
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.BookModel;
 using OnDigit.Core.Models.OrderModel;
-using OnDigit.Core.Models.PaymentModel;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -324,6 +324,12 @@ namespace OnDigit.Client.UI.Shop.Controls
                 CardToPay,
                 _books
                 );
+
+            OrderStatusBorder.Background = Brushes.Green;
+            OrderStatusBorder.BorderBrush = Brushes.Green;
+            _mainWindow.CurrentUser.Orders.First(x => x.Number == OrderNumber).PayStatus = PayStatus.Paid;
+            Paystatus.Text = "Paid";
+            PayBorder.Visibility = Visibility.Collapsed;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
