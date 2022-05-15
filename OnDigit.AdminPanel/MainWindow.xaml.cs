@@ -157,7 +157,6 @@ namespace OnDigit.AdminPanel
                     LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(500);
                     DataGridUsers.Visibility = Visibility.Visible;
 
                     _users = await _userService.GetAllAsync();
@@ -169,7 +168,6 @@ namespace OnDigit.AdminPanel
                     LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(500);
                     DataGridOrders.Visibility = Visibility.Visible;
 
                     _orders = await _adminService.GetAllOrdersAsync();
@@ -182,7 +180,6 @@ namespace OnDigit.AdminPanel
                     LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(500);
                     DataGridBooks.Visibility = Visibility.Visible;
 
                     _books = await _shopService.GetAllBooksAsync();
@@ -194,7 +191,6 @@ namespace OnDigit.AdminPanel
                     LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(500);
                     DataGridWarehouses.Visibility = Visibility.Visible;
 
                     _warehouses = await _adminService.GetAllWarehousesAsync();
@@ -206,7 +202,6 @@ namespace OnDigit.AdminPanel
                     LoadingAnimation.IsPlaying = true;
                     LoadingAnimation.Visibility = Visibility.Visible;
 
-                    await Task.Delay(500);
                     DataGridPayments.Visibility = Visibility.Visible;
 
                     _payments = await _adminService.GetAllPaymentsAsync();

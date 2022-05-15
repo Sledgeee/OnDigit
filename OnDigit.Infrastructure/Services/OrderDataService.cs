@@ -46,8 +46,9 @@ namespace OnDigit.Infrastructure.Services
                 PayStatus = isPaid ? PayStatus.Paid : PayStatus.Unpaid,
                 OrderStatus = OrderStatus.Payment
             })).Entity;
+
             await context.SaveChangesAsync();
-            await CreateOrders(order.Number, books, isPaid);
+            await CreateOrdersBooks(order.Number, books, isPaid);
             if (isPaid)
             {
                 await CompleteOrder(order.Number, userId, totalAmount, cardToPay, books);
@@ -64,12 +65,15 @@ namespace OnDigit.Infrastructure.Services
             }
         }
 
-        private async Task CreateOrders(int orderNumber, Dictionary<Book, Tuple<int, decimal>> books, bool isPaid)
+        private async Task CreateOrdersBooks(int orderNumber, Dictionary<Book, Tuple<int, decimal>> books, bool isPaid)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
+
+            List<OrdersBooks> entities = new List<OrdersBooks>();
+
             foreach (var book in books)
             {
-                await context.OrdersBooks.AddAsync(new OrdersBooks()
+                entities.Add(new OrdersBooks()
                 {
                     BookId = book.Key.Id,
                     Quantity = book.Value.Item1,
@@ -82,6 +86,7 @@ namespace OnDigit.Infrastructure.Services
                     book.Key.Package = await ChangePackageQuantity(book.Key.Id, book.Value.Item1);
                 }
             }
+            await context.OrdersBooks.AddRangeAsync(entities);
             await context.SaveChangesAsync();
         }
 

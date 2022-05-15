@@ -33,7 +33,8 @@ namespace OnDigit.Client.UI.Shop.Controls
             Book book, 
             User currentUser, 
             IReviewService reviewService,  
-            IUserService userService)
+            IUserService userService,
+            bool isShopTab)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -64,16 +65,24 @@ namespace OnDigit.Client.UI.Shop.Controls
             string trailer = "_" + _book.Id.Replace("-", "");
             icon_favorites.Name += trailer;
 
-            if (_book.UserFavorites.Contains(new UserFavorite()
+            if (_book.UserFavorites.Contains(new()
             {
                 Book = _book,
                 BookId = _book.Id,
-                UserId = _currentUser.Id,
-                User = null
+                User = _currentUser,
+                UserId = _currentUser.Id
             }))
             {
                 _isFavorite = true;
                 icon_favorites.Kind = PackIconKind.Heart;
+                if (isShopTab)
+                    _mainWindow.CurrentUser.UserFavorites.Add(new()
+                    {
+                        Book = book,
+                        BookId = book.Id,
+                        User = _currentUser,
+                        UserId = _currentUser.Id
+                    });
             }
 
             if (_mainWindow.UserCart.Books.ContainsKey(book))
@@ -82,7 +91,7 @@ namespace OnDigit.Client.UI.Shop.Controls
             }
 
             button_favorites.Name += trailer;
-            button_favorites.Click += ButtonOnClick;
+            button_favorites.Click += AddToFavorites_Click;
             SetStars(book.Rating);
             SetWarehouseStatus();
         }
@@ -108,7 +117,7 @@ namespace OnDigit.Client.UI.Shop.Controls
                 WarehouseStatus.Text = "Not available";
                 WarehouseStatus.Foreground = Brushes.Gray;
                 WarehouseStatusIcon.Kind = PackIconKind.None;
-                AddToCartButton.Visibility = System.Windows.Visibility.Collapsed;
+                AddToCartButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -213,23 +222,23 @@ namespace OnDigit.Client.UI.Shop.Controls
             _mainWindow.Effect = null;
         }
 
-        private async void ButtonOnClick(object sender, EventArgs e)
+        private async void AddToFavorites_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             if (button is not null)
                 if (icon_favorites.Kind == PackIconKind.HeartOutline)
                 {
-                    await _userService.SetFavoriteBookAsync(_currentUser.Id, _book.Id);
-                    _book.UserFavorites.Add(new UserFavorite() { Book = _book, BookId = _book.Id, UserId = _currentUser.Id, User = null });
                     icon_favorites.Kind = PackIconKind.Heart;
                     _isFavorite = true;
+                    _book.UserFavorites.Add(new() { Book = _book, BookId = _book.Id, UserId = _currentUser.Id, User = _currentUser });
+                    await _userService.SetFavoriteBookAsync(_currentUser.Id, _book.Id);
                 }
                 else
                 {
-                    await _userService.DeleteFavoriteBookAsync(_currentUser.Id, _book.Id);
-                    _book.UserFavorites.Remove(new UserFavorite() { Book = _book, BookId = _book.Id, UserId = _currentUser.Id, User = null });
                     icon_favorites.Kind = PackIconKind.HeartOutline;
                     _isFavorite = false;
+                    _book.UserFavorites.Remove(new() { Book = _book, BookId = _book.Id, UserId = _currentUser.Id, User = _currentUser });
+                    await _userService.DeleteFavoriteBookAsync(_currentUser.Id, _book.Id);
                 }
         }
 

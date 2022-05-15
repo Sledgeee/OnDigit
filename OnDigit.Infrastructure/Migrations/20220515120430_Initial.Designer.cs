@@ -11,7 +11,7 @@ using OnDigit.Infrastructure.Data;
 namespace OnDigit.Infrastructure.Migrations
 {
     [DbContext(typeof(OnDigitDbContext))]
-    [Migration("20220514140844_Initial")]
+    [Migration("20220515120430_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,12 +78,12 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "aae40b9b-48d8-4434-b25e-9ab651dd1f78",
+                            Id = "72274ab2-9040-487f-8b0d-cf3f57e506bd",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description1",
-                            Discount = 46.761175283618191m,
-                            GenreId = 13,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 0m,
+                            GenreId = 5,
+                            ImageUri = "https://ondigit.pp.ua/images/1.jpg",
                             IsAvailable = true,
                             Name = "Book1",
                             Price = 9.99m,
@@ -91,12 +91,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "5949da24-f013-4835-bb47-0e0d48f85acc",
+                            Id = "415f69e7-9574-4a00-8bc5-3161572d3791",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description2",
-                            Discount = 7.785312959103844m,
-                            GenreId = 3,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 97.455822343313294m,
+                            GenreId = 6,
+                            ImageUri = "https://ondigit.pp.ua/images/2.jpg",
                             IsAvailable = true,
                             Name = "Book2",
                             Price = 9.99m,
@@ -104,12 +104,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "15ec26bf-7f6a-4413-9cc8-9d6f95c32a68",
+                            Id = "d78d2892-4dbd-4d32-b1bd-a85e3a3593ac",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description3",
-                            Discount = 94.359879293462153m,
-                            GenreId = 9,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 0m,
+                            GenreId = 3,
+                            ImageUri = "https://ondigit.pp.ua/images/3.jpg",
                             IsAvailable = true,
                             Name = "Book3",
                             Price = 9.99m,
@@ -117,12 +117,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "50cc784e-5544-4618-ae35-3f5f201716dc",
+                            Id = "3adc92f4-7ade-4249-9bab-524a63671bf9",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description4",
-                            Discount = 98.354691511853679m,
-                            GenreId = 7,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 20.73522034939494m,
+                            GenreId = 1,
+                            ImageUri = "https://ondigit.pp.ua/images/4.jpg",
                             IsAvailable = true,
                             Name = "Book4",
                             Price = 9.99m,
@@ -130,12 +130,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "8b4ca4b2-6574-47a2-96be-7bb79c8dda46",
+                            Id = "6e0c0aee-7f10-48d6-8e5f-36989df90eef",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description5",
                             Discount = 0m,
-                            GenreId = 1,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            GenreId = 4,
+                            ImageUri = "https://ondigit.pp.ua/images/5.jpg",
                             IsAvailable = true,
                             Name = "Book5",
                             Price = 9.99m,
@@ -143,12 +143,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "44c93cac-2919-475f-8a26-a0b3e0833b2d",
+                            Id = "35a7800f-7235-4853-9818-63b56896647f",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description6",
-                            Discount = 0m,
-                            GenreId = 3,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 84.43771224102149m,
+                            GenreId = 12,
+                            ImageUri = "https://ondigit.pp.ua/images/6.jpg",
                             IsAvailable = true,
                             Name = "Book6",
                             Price = 9.99m,
@@ -156,12 +156,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "0a3338aa-c487-4e35-867f-be50d0025ec5",
+                            Id = "b4da3536-ccef-4c14-86d6-947e02ebec2f",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description7",
                             Discount = 0m,
-                            GenreId = 9,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            GenreId = 3,
+                            ImageUri = "https://ondigit.pp.ua/images/7.jpg",
                             IsAvailable = true,
                             Name = "Book7",
                             Price = 9.99m,
@@ -169,12 +169,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "fab4d71d-f373-4bc9-ba72-2d76db654eda",
+                            Id = "4700dffa-1674-4f24-9dbc-f243e855f9f0",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description8",
-                            Discount = 55.725542727780803m,
-                            GenreId = 3,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 27.390384280668718m,
+                            GenreId = 10,
+                            ImageUri = "https://ondigit.pp.ua/images/8.jpg",
                             IsAvailable = true,
                             Name = "Book8",
                             Price = 9.99m,
@@ -182,12 +182,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "5b970871-ce12-4cb6-ad7d-2ab891578594",
+                            Id = "7ed19017-cdde-4ba7-81ed-377665d15a07",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description9",
-                            Discount = 0m,
-                            GenreId = 15,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 93.762391270185747m,
+                            GenreId = 3,
+                            ImageUri = "https://ondigit.pp.ua/images/9.jpg",
                             IsAvailable = true,
                             Name = "Book9",
                             Price = 9.99m,
@@ -195,12 +195,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "f41123d4-6d80-44f3-b3ac-32fc45c5908c",
+                            Id = "0ff6cbd4-6fe8-44dc-bafe-2ad3c20d823b",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description10",
-                            Discount = 90.758486602783916m,
-                            GenreId = 6,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 0m,
+                            GenreId = 9,
+                            ImageUri = "https://ondigit.pp.ua/images/10.jpg",
                             IsAvailable = true,
                             Name = "Book10",
                             Price = 9.99m,
@@ -208,12 +208,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "7cf148bf-b5ce-4d4d-84be-e66758979e6b",
+                            Id = "9b6e8ff3-733a-42d8-b3d9-1071f09b6a81",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description11",
                             Discount = 0m,
-                            GenreId = 11,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            GenreId = 6,
+                            ImageUri = "https://ondigit.pp.ua/images/11.jpg",
                             IsAvailable = true,
                             Name = "Book11",
                             Price = 9.99m,
@@ -221,12 +221,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "0b250c8e-5c5c-4775-bbf3-ff9d376bca57",
+                            Id = "5d722c96-b6f4-4bf8-835a-4eefdf4c5a3b",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description12",
-                            Discount = 0m,
-                            GenreId = 3,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 65.154772200787822m,
+                            GenreId = 2,
+                            ImageUri = "https://ondigit.pp.ua/images/12.jpg",
                             IsAvailable = true,
                             Name = "Book12",
                             Price = 9.99m,
@@ -234,12 +234,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "5b8360fb-b5ed-4899-ae1c-540406a87ec5",
+                            Id = "7c9857ea-0caa-4778-b4cb-cef4ddd37140",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description13",
-                            Discount = 0m,
-                            GenreId = 9,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 51.311348782572056m,
+                            GenreId = 4,
+                            ImageUri = "https://ondigit.pp.ua/images/13.jpg",
                             IsAvailable = true,
                             Name = "Book13",
                             Price = 9.99m,
@@ -247,12 +247,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "641df715-63da-4daf-9c47-cce2a72fc2cc",
+                            Id = "35d82638-cb15-45a6-a1cd-e17d29b80c78",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description14",
                             Discount = 0m,
-                            GenreId = 4,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            GenreId = 12,
+                            ImageUri = "https://ondigit.pp.ua/images/14.jpg",
                             IsAvailable = true,
                             Name = "Book14",
                             Price = 9.99m,
@@ -260,12 +260,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "487d9911-f1cb-418a-9088-edf511048933",
+                            Id = "ed4e80bd-81ef-45a6-9676-723f56835355",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description15",
-                            Discount = 98.487406619821419m,
-                            GenreId = 12,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 0m,
+                            GenreId = 1,
+                            ImageUri = "https://ondigit.pp.ua/images/15.jpg",
                             IsAvailable = true,
                             Name = "Book15",
                             Price = 9.99m,
@@ -273,12 +273,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "65597569-7489-4524-b7ae-13410a433b97",
+                            Id = "0ceb749d-8c2a-4322-b238-fd3a5fe0c61e",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description16",
-                            Discount = 0m,
-                            GenreId = 3,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 68.394770304273843m,
+                            GenreId = 5,
+                            ImageUri = "https://ondigit.pp.ua/images/16.jpg",
                             IsAvailable = true,
                             Name = "Book16",
                             Price = 9.99m,
@@ -286,12 +286,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "2ad5afc3-8902-40ac-aaee-4c0d1474ad4f",
+                            Id = "25fee052-f07b-46c4-8efb-f5a815bd54fa",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description17",
-                            Discount = 35.0854781691850881m,
-                            GenreId = 5,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 0m,
+                            GenreId = 10,
+                            ImageUri = "https://ondigit.pp.ua/images/17.jpg",
                             IsAvailable = true,
                             Name = "Book17",
                             Price = 9.99m,
@@ -299,12 +299,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "61389d2f-0770-4e62-8f6c-df9d6bf702f0",
+                            Id = "754922c8-5650-4519-af56-551507d6f073",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description18",
-                            Discount = 0m,
-                            GenreId = 1,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 54.362080224991553m,
+                            GenreId = 12,
+                            ImageUri = "https://ondigit.pp.ua/images/18.jpg",
                             IsAvailable = true,
                             Name = "Book18",
                             Price = 9.99m,
@@ -312,12 +312,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c1f1cada-6f61-4ac1-8c54-7da7b6c59273",
+                            Id = "297ba92e-ffab-4f95-aa46-e50551e954cd",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description19",
-                            Discount = 0m,
-                            GenreId = 11,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            Discount = 13.887434502053357m,
+                            GenreId = 12,
+                            ImageUri = "https://ondigit.pp.ua/images/19.jpg",
                             IsAvailable = true,
                             Name = "Book19",
                             Price = 9.99m,
@@ -325,12 +325,12 @@ namespace OnDigit.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "40502086-38c3-4b05-9d0c-521a41c0f457",
+                            Id = "9aec4194-8f88-4f89-80bf-63828f825b80",
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Book description20",
-                            Discount = 0m,
+                            Discount = 22.850157141686718m,
                             GenreId = 14,
-                            ImageUri = "pack://application:,,,/Images/willbook.jpg",
+                            ImageUri = "https://ondigit.pp.ua/images/20.jpg",
                             IsAvailable = true,
                             Name = "Book20",
                             Price = 9.99m,
@@ -799,143 +799,143 @@ namespace OnDigit.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cb7c0527-c506-421c-b080-4c84df55199f",
-                            BookId = "aae40b9b-48d8-4434-b25e-9ab651dd1f78",
-                            Quantity = 273,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "4407e6cc-3325-4879-aae0-c7d41e15a493",
-                            BookId = "5949da24-f013-4835-bb47-0e0d48f85acc",
-                            Quantity = 150,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "f8991fb3-a5bb-467a-852c-13c13e3a06df",
-                            BookId = "15ec26bf-7f6a-4413-9cc8-9d6f95c32a68",
-                            Quantity = 286,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "e1154206-eab2-48d7-8d85-e548486d3d29",
-                            BookId = "50cc784e-5544-4618-ae35-3f5f201716dc",
-                            Quantity = 112,
+                            Id = "026c2772-df24-4c0d-a90a-7efcdb9a4ad3",
+                            BookId = "72274ab2-9040-487f-8b0d-cf3f57e506bd",
+                            Quantity = 84,
                             WarehouseId = 1
                         },
                         new
                         {
-                            Id = "ffe2c158-c2ed-4914-bba6-12bbda2599ae",
-                            BookId = "8b4ca4b2-6574-47a2-96be-7bb79c8dda46",
-                            Quantity = 70,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = "4e2884c3-f298-4403-8aac-f437fc1f8738",
-                            BookId = "44c93cac-2919-475f-8a26-a0b3e0833b2d",
-                            Quantity = 498,
+                            Id = "cbb6d249-f7f6-46d9-afb0-a20551b35526",
+                            BookId = "415f69e7-9574-4a00-8bc5-3161572d3791",
+                            Quantity = 56,
                             WarehouseId = 2
                         },
                         new
                         {
-                            Id = "11659f1d-251a-4da8-b8d7-d0e44569d3b5",
-                            BookId = "0a3338aa-c487-4e35-867f-be50d0025ec5",
-                            Quantity = 198,
+                            Id = "2fb272f0-c927-41ca-8e4d-45bd6da2bd1f",
+                            BookId = "d78d2892-4dbd-4d32-b1bd-a85e3a3593ac",
+                            Quantity = 68,
                             WarehouseId = 2
                         },
                         new
                         {
-                            Id = "2db20c9d-26cd-4043-acf1-311b0be71a4d",
-                            BookId = "fab4d71d-f373-4bc9-ba72-2d76db654eda",
-                            Quantity = 163,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = "3120a7dc-c4c7-4360-82de-a9f9fd4f011d",
-                            BookId = "5b970871-ce12-4cb6-ad7d-2ab891578594",
-                            Quantity = 271,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "dcc391d3-22f1-4fef-9b1d-e2fe6e077d59",
-                            BookId = "f41123d4-6d80-44f3-b3ac-32fc45c5908c",
-                            Quantity = 191,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = "b5dca308-b39c-4a0e-a399-3e4a7c552fa3",
-                            BookId = "7cf148bf-b5ce-4d4d-84be-e66758979e6b",
-                            Quantity = 497,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "caa7f19c-ce84-4e2f-bfd2-901c37c251ce",
-                            BookId = "0b250c8e-5c5c-4775-bbf3-ff9d376bca57",
-                            Quantity = 207,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = "ae534b40-61d2-4864-94b0-5ff57fe22352",
-                            BookId = "5b8360fb-b5ed-4899-ae1c-540406a87ec5",
-                            Quantity = 87,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "8bb4cc9f-ca88-4851-b7a7-5a508e1279d2",
-                            BookId = "641df715-63da-4daf-9c47-cce2a72fc2cc",
-                            Quantity = 356,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = "b40277f3-4fce-4639-b961-52dea978fd6d",
-                            BookId = "487d9911-f1cb-418a-9088-edf511048933",
-                            Quantity = 251,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "5c9bc3e0-fe08-433b-bd2d-552d7e754692",
-                            BookId = "65597569-7489-4524-b7ae-13410a433b97",
-                            Quantity = 132,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = "03f52ced-cb27-4aa6-9abc-e29b845c1670",
-                            BookId = "2ad5afc3-8902-40ac-aaee-4c0d1474ad4f",
-                            Quantity = 318,
-                            WarehouseId = 1
-                        },
-                        new
-                        {
-                            Id = "2d3d143f-ab2b-4eb7-a1a9-80fcb9211f56",
-                            BookId = "61389d2f-0770-4e62-8f6c-df9d6bf702f0",
-                            Quantity = 245,
-                            WarehouseId = 2
-                        },
-                        new
-                        {
-                            Id = "217ff197-8bda-486e-b48d-d9ec777f56a8",
-                            BookId = "c1f1cada-6f61-4ac1-8c54-7da7b6c59273",
+                            Id = "fae55273-f0d1-4bc9-8717-733c84eddd5c",
+                            BookId = "3adc92f4-7ade-4249-9bab-524a63671bf9",
                             Quantity = 296,
                             WarehouseId = 2
                         },
                         new
                         {
-                            Id = "31389067-7bc5-4a47-ace0-785dbd440217",
-                            BookId = "40502086-38c3-4b05-9d0c-521a41c0f457",
-                            Quantity = 346,
+                            Id = "8903dcd8-6c92-40cb-a0cc-b10f7524e50e",
+                            BookId = "6e0c0aee-7f10-48d6-8e5f-36989df90eef",
+                            Quantity = 328,
                             WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "f3e7bafb-88df-40a4-8fdd-684a660e5c93",
+                            BookId = "35a7800f-7235-4853-9818-63b56896647f",
+                            Quantity = 4,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "dda6a3c9-14ac-493d-9656-01eccf1501ac",
+                            BookId = "b4da3536-ccef-4c14-86d6-947e02ebec2f",
+                            Quantity = 380,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "24dfd26d-c952-4635-b22c-ab63592f6375",
+                            BookId = "4700dffa-1674-4f24-9dbc-f243e855f9f0",
+                            Quantity = 292,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "2909d12d-fab3-4777-9fc7-73122041c624",
+                            BookId = "7ed19017-cdde-4ba7-81ed-377665d15a07",
+                            Quantity = 499,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "d18275a8-3f9f-4018-b7f9-2c5cd4f36b1b",
+                            BookId = "0ff6cbd4-6fe8-44dc-bafe-2ad3c20d823b",
+                            Quantity = 262,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "a776eb13-9b20-48ba-934c-25c27ad0171c",
+                            BookId = "9b6e8ff3-733a-42d8-b3d9-1071f09b6a81",
+                            Quantity = 211,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "80ac8266-6358-4a7b-9a6a-29e4b7d881b8",
+                            BookId = "5d722c96-b6f4-4bf8-835a-4eefdf4c5a3b",
+                            Quantity = 462,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "0e007779-bf77-4215-844a-78d4755e8f85",
+                            BookId = "7c9857ea-0caa-4778-b4cb-cef4ddd37140",
+                            Quantity = 66,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "fd7c78d1-006a-49b4-8eb4-bf26b42e3562",
+                            BookId = "35d82638-cb15-45a6-a1cd-e17d29b80c78",
+                            Quantity = 34,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "1322f2f3-a89b-4d93-ad86-01ca33a4e0f2",
+                            BookId = "ed4e80bd-81ef-45a6-9676-723f56835355",
+                            Quantity = 377,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "47ad52a4-5052-43d3-9df8-dbee7002bcb0",
+                            BookId = "0ceb749d-8c2a-4322-b238-fd3a5fe0c61e",
+                            Quantity = 322,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "aa82ba88-b2e8-4352-8ba2-1b9b5daa414a",
+                            BookId = "25fee052-f07b-46c4-8efb-f5a815bd54fa",
+                            Quantity = 378,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "3181d7ad-0f55-4d97-9056-82b034498f66",
+                            BookId = "754922c8-5650-4519-af56-551507d6f073",
+                            Quantity = 150,
+                            WarehouseId = 1
+                        },
+                        new
+                        {
+                            Id = "831f62c3-164a-42ed-977e-57c743a8eca2",
+                            BookId = "297ba92e-ffab-4f95-aa46-e50551e954cd",
+                            Quantity = 96,
+                            WarehouseId = 2
+                        },
+                        new
+                        {
+                            Id = "329697d6-2945-409b-b3f5-e15d07d9755e",
+                            BookId = "9aec4194-8f88-4f89-80bf-63828f825b80",
+                            Quantity = 36,
+                            WarehouseId = 2
                         });
                 });
 

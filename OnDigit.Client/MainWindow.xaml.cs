@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
-using OnDigit.Client.UI.Auth;
 using OnDigit.Client.UI.Shop.Controls;
 using OnDigit.Core.Interfaces.Services;
 using OnDigit.Core.Models.UserModel;
@@ -35,6 +34,7 @@ namespace OnDigit.Client
         private readonly IReviewService _reviewService;
         private Session _currentSession = new();
         internal Cart UserCart = new();
+        private ICollection<Book> _books;
 
         public MainWindow(User user,
                           Session session,
@@ -51,9 +51,11 @@ namespace OnDigit.Client
             _userService = userService;
             _orderService = orderService;
             _reviewService = reviewService;
+            _books = new List<Book>();
             UserFullname.Text = _currentUser.Name + " " + _currentUser.Surname;
             ThisUserCards.ItemsSource = _currentUser.Wallets;
             ItemShop.IsSelected = true;
+            Parallel.Invoke(async () => await LoadBooks());
             DataContext = this;
         }
 
@@ -77,28 +79,20 @@ namespace OnDigit.Client
                 Orders.Children.Add(new UserOrderCard(this, order, _orderService, _userService));
         }
 
-        private async void LoadBooks(ICollection<Book> bookList)
+        private async Task LoadBooks()
         {
             ShopLoadingAnimation.IsPlaying = true;
             ShopLoadingAnimation.Visibility = Visibility.Visible;
 
-            await Task.Delay(500);
+            _books = await _shopService.GetAllBooksAsync();
 
             this.Shop.Effect = new BlurEffect();
 
             GridMenu.IsEnabled = false;
 
-            foreach (var book in bookList)
+            foreach (var book in _books)
             {
-                Shop.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService));
-
-                if (((ShopBookCard)Shop.Children[^1]).icon_favorites.Kind == PackIconKind.Heart)
-                    Favorites.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService));
-            }
-
-            if (Favorites.Children.Count == 0 && Favorites.Visibility == Visibility.Visible)
-            {
-                EmptyText.Text = "So far you don't have favorite books";
+                Shop.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService, true));
             }
 
             GridMenu.IsEnabled = true;
@@ -118,7 +112,7 @@ namespace OnDigit.Client
 
             foreach (var book in bookList)
             {
-                Search.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService));
+                Search.Children.Add(new ShopBookCard(this, book, _currentUser, _reviewService, _userService, false));
             }
 
             if (Search.Children.Count == 0)
@@ -142,7 +136,7 @@ namespace OnDigit.Client
             ButtonOpenMenu.Visibility = Visibility.Visible;
         }
 
-        private async void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListViewItem item = ListViewMenu.SelectedItems.Count > 0 ? (ListViewItem)ListViewMenu.SelectedItem : null;
             if (item is null)
@@ -155,7 +149,6 @@ namespace OnDigit.Client
             {
                 case "ItemShop":
                     SwitchToOtherTab(Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Brushes.Orange, Brushes.White, Brushes.White);
-                    LoadBooks(await _shopService.GetAllBooksAsync());
                     SecondStepCart.Visibility = Visibility.Collapsed;
                     break;
                 case "ItemSearch":
@@ -184,9 +177,6 @@ namespace OnDigit.Client
         private void SwitchToOtherTab(Visibility shopVisibility, Visibility searchVisibility, Visibility favoritesVisibility, Visibility ordersVisibility, 
             Visibility cartVisibility, Visibility walletVisibility, Brush brushShop, Brush brushSearch, Brush brushCart)
         {
-            Shop.Children.Clear();
-            Favorites.Children.Clear();
-
             if (searchVisibility == Visibility.Visible)
                 SearchBar.Visibility = Visibility.Visible;
             else
@@ -439,11 +429,21 @@ namespace OnDigit.Client
             }
         }
 
-        private async void ShowFavorites_Click(object sender, RoutedEventArgs e)
+        private void ShowFavorites_Click(object sender, RoutedEventArgs e)
         {
             ListViewMenu.UnselectAll();
             SwitchToOtherTab(Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Brushes.White, Brushes.White, Brushes.White);
-            LoadBooks(await _shopService.GetAllBooksAsync());
+            //CurrentUser.UserFavorites = await _userService.GetFavoriteBooksAsync(CurrentUser.Id);
+            Favorites.Children.Clear();
+            foreach (var item in CurrentUser.UserFavorites)
+            {
+                Favorites.Children.Add(new ShopBookCard(this, item.Book, _currentUser, _reviewService, _userService, false));
+            }
+
+            if (Favorites.Children.Count == 0 && Favorites.Visibility == Visibility.Visible)
+            {
+                EmptyText.Text = "So far you don't have favorite books";
+            }
         }
 
         private void ShowWallet_Click(object sender, RoutedEventArgs e)

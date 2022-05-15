@@ -41,7 +41,7 @@ namespace OnDigit.Infrastructure.Data
                     Price = 9.99m,
                     GenreId = random.Next(1, 16),
                     Discount = random.Next(0, 2) > 0 ? random.Next(1, 100) + (decimal)random.NextDouble() : 0,
-                    ImageUri = "pack://application:,,,/Images/willbook.jpg"
+                    ImageUri = @"https://ondigit.pp.ua/images/" + i + ".jpg"
                 });
                 packages.Add(new Package()
                 {

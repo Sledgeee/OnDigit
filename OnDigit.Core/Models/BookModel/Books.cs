@@ -9,7 +9,7 @@ namespace OnDigit.Core.Models.BookModel
         {
             public BookSearch(string searchRow)
             {
-                Query.Include(x=>x.UserFavorites).Include(x => x.Reviews).Include(x=>x.Genre).Include(x => x.Package).Where(x => x.Name.Contains(searchRow)).OrderBy(x => x.DateCreated);
+                Query.Include(x=>x.UserFavorites).Include(x => x.Reviews).Include(x => x.Genre).Include(x => x.Package).Where(x => x.Name.Contains(searchRow)).OrderBy(x => x.DateCreated);
             }
         }
 

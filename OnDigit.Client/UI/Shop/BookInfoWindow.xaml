@@ -78,8 +78,8 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <StackPanel VerticalAlignment="Center" Margin="20 20 20 10" >
-                                    <Image Source="{Binding ImageUri}"/>
+                                <StackPanel VerticalAlignment="Center"  Margin="20 20 20 10">
+                                    <Image Height="350" MaxHeight="350" Source="{Binding ImageUri}"/>
                                 </StackPanel>
                             </Grid>
 
