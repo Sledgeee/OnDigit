@@ -5,18 +5,19 @@
 <h3>User orders</h3>
 <img src="https://user-images.githubusercontent.com/76629564/168478636-ffdae677-03e8-4e87-8eb8-36c00cbfd3d9.png">
 <h3>User favorites</h3>
-<img src="https://user-images.githubusercontent.com/76629564/168440960-790b75bb-30f3-4ead-98c9-8b80dad7e1fa.png">
+<img src="https://user-images.githubusercontent.com/76629564/168478977-fe96b0c6-fa51-4beb-8c46-3218aa8863ad.png">
 <h3>User wallet</h3>
 <img src="https://user-images.githubusercontent.com/76629564/168440944-d135fdae-87a6-4baa-aed9-6247c2d0a0a4.png">
 
 <h2>Search</h2>
 <h4>Succes result</h4>
-<img src="https://user-images.githubusercontent.com/76629564/168440881-32c58e1a-d430-4c7b-905e-f68af03c2ef0.png">
+<img src="https://user-images.githubusercontent.com/76629564/168479049-e190ac45-123f-42bd-b259-e3614475bc19.png">
 <h4>No result</h4>
-<img src="https://user-images.githubusercontent.com/76629564/168440898-a4b6cd7e-453a-44ea-af7d-db186d3e6ea0.png">
+<img src="https://user-images.githubusercontent.com/76629564/168479059-f28bff34-6acb-4bea-960a-4ee17d3a0cfb.png">
 
 <h2>Cart</h2>
 <h4>First step</h4>
-<img src="https://user-images.githubusercontent.com/76629564/168440913-4aa86936-6f18-4f19-875d-3e3d96a636c7.png">
+<img src="https://user-images.githubusercontent.com/76629564/168478997-b708f2c2-f7d5-4972-9349-8e11177c4ab6.png">
 <h4>Second step</h4>
-<img src="https://user-images.githubusercontent.com/76629564/168440931-bdcd31ec-f930-4ead-8ab8-77d18b16d90b.png">
+<img src="https://user-images.githubusercontent.com/76629564/168479015-3460cb55-2c33-4e2f-8555-bb83d0413949.png">
+<img src="https://user-images.githubusercontent.com/76629564/168479028-656762d4-24b7-48de-b796-fc59885591ea.png">
