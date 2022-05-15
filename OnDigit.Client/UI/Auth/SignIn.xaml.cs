@@ -109,9 +109,13 @@ namespace OnDigit.Client.UI.Auth
 
         private void SignUpBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            new SignUp(_authenticationService).ShowDialog();
-            this.Show();
+            try
+            {
+                this.Hide();
+                new SignUp(_authenticationService).ShowDialog();
+                this.Show();
+            }
+            catch (Exception) { }
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
