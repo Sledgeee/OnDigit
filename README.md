@@ -7,7 +7,7 @@
 <h3>User favorites</h3>
 <img src="https://user-images.githubusercontent.com/76629564/168478977-fe96b0c6-fa51-4beb-8c46-3218aa8863ad.png">
 <h3>User wallet</h3>
-<img src="https://user-images.githubusercontent.com/76629564/168440944-d135fdae-87a6-4baa-aed9-6247c2d0a0a4.png">
+<img src="https://user-images.githubusercontent.com/76629564/168479137-0418aedf-0034-417d-bcb7-0677606a95e2.png">
 
 <h2>Search</h2>
 <h4>Succes result</h4>
