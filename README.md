@@ -3,7 +3,7 @@
 <h2>Shop general view</h2>
 <img src="https://user-images.githubusercontent.com/76629564/168478566-dca26d63-cc18-4323-afde-15a36cbac2da.png">
 <h3>User orders</h3>
-<img src="https://user-images.githubusercontent.com/76629564/168440837-3312bafd-cb80-427e-84a2-a1811bb16c67.png">
+<img src="https://user-images.githubusercontent.com/76629564/168478636-ffdae677-03e8-4e87-8eb8-36c00cbfd3d9.png">
 <h3>User favorites</h3>
 <img src="https://user-images.githubusercontent.com/76629564/168440960-790b75bb-30f3-4ead-98c9-8b80dad7e1fa.png">
 <h3>User wallet</h3>
