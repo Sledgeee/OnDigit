@@ -25,7 +25,8 @@
     </Window.Triggers>
     <Window.Resources>
         <conv:TypeConverter x:Key="typeConverter"/>
-        <conv:EnumToVisibilityConverter x:Key="visibilityConverter"/>
+        <conv:OrderStatusToVisibility x:Key="osToVisConverter"/>
+        <conv:PayStatusToVisibility x:Key="psToVisConverter"/>
     </Window.Resources>
 
     <Grid x:Name="MainGrid">
@@ -248,8 +249,10 @@
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Visibility="{Binding Path=OrderStatus, Converter={StaticResource visibilityConverter}}">
-                                    <Button FontSize="16" Content="Block" Padding="3" Width="100" Height="Auto" HorizontalAlignment="Right" Click="BlockOrder_Click"/>
+                                <StackPanel Visibility="{Binding Path=OrderStatus, Converter={StaticResource osToVisConverter}}">
+                                    <StackPanel Visibility="{Binding Path=PayStatus, Converter={StaticResource psToVisConverter}}">
+                                        <Button FontSize="16" Content="Block" Padding="3" Width="100" Height="Auto" HorizontalAlignment="Right" Click="BlockOrder_Click"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -281,7 +284,7 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <Grid Grid.Row="1" Margin="10">
-                                    <hc:StepBar Name="ThisOrderSteps" StepIndex="{Binding Path=OrderStatus, Converter={StaticResource typeConverter}}" Visibility="{Binding Path=OrderStatus, Converter={StaticResource visibilityConverter}}">
+                                    <hc:StepBar Name="ThisOrderSteps" StepIndex="{Binding Path=OrderStatus, Converter={StaticResource typeConverter}}" Visibility="{Binding Path=OrderStatus, Converter={StaticResource osToVisConverter}}">
                                         <hc:StepBarItem Content="Payment"/>
                                         <hc:StepBarItem Content="Delivery"/>
                                         <hc:StepBarItem Content="Completed"/>

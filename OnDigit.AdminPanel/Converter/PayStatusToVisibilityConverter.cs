@@ -6,12 +6,15 @@ using System.Windows.Data;
 
 namespace OnDigit.AdminPanel.Converter
 {
-    [ValueConversion(typeof(OrderStatus), typeof(Visibility))]
-    public class EnumToVisibilityConverter : IValueConverter
+    [ValueConversion(typeof(PayStatus), typeof(Visibility))]
+    public class PayStatusToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (OrderStatus)value == OrderStatus.Blocked ? Visibility.Collapsed : Visibility.Visible;
+            if ((PayStatus)value == PayStatus.Paid)
+                return Visibility.Collapsed;
+
+            return Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

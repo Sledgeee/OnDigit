@@ -53,7 +53,7 @@ namespace OnDigit.Infrastructure.Services
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
 
-            var result = context.Orders.Where(x => x.DateOrder >= startDate && x.DateOrder <= endDate && x.OrderStatus == OrderStatus.Completed)
+            var result = context.Orders.Where(x => x.DateOrder >= startDate && x.DateOrder <= endDate && x.PayStatus == PayStatus.Paid)
                                        .GroupBy(x => x.DateOrder)
                                        .Select(g => new
                                        {
