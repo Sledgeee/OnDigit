@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -215,7 +216,7 @@ namespace OnDigit.Client.UI.Shop.Controls
             WrapPanelOrderedBooks.Visibility = WrapPanelOrderedBooks.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
             DetailsButtonIcon.Kind = DetailsButtonIcon.Kind == PackIconKind.ArrowDropDown ? PackIconKind.ArrowDropUp : PackIconKind.ArrowDropDown;
             PayBorder.Visibility = Visibility.Collapsed;
-            PayButton.Visibility = Visibility.Visible;
+            PayButton.Visibility = PStatus == "Unpaid" ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void CardSwitched_Checked(object sender, RoutedEventArgs e)
@@ -291,6 +292,9 @@ namespace OnDigit.Client.UI.Shop.Controls
 
         private async void Add_Click(object sender, RoutedEventArgs e)
         {
+            LoadingLine.IsRunning = true;
+            LoadingLine.Visibility = Visibility.Visible;
+
             await _userService.AddNewCard(new()
             {
                 UserId = _userId,
@@ -313,10 +317,16 @@ namespace OnDigit.Client.UI.Shop.Controls
             {
                 item.AddRadioButtons();
             }
+
+            LoadingLine.IsRunning = false;
+            LoadingLine.Visibility = Visibility.Collapsed;
         }
 
         private async void Pay_Click(object sender, RoutedEventArgs e)
         {
+            LoadingLine.IsRunning = true;
+            LoadingLine.Visibility = Visibility.Visible;
+
             await _orderService.CompleteOrder(
                 OrderNumber,
                 _userId,
@@ -330,6 +340,9 @@ namespace OnDigit.Client.UI.Shop.Controls
             _mainWindow.CurrentUser.Orders.First(x => x.Number == OrderNumber).PayStatus = PayStatus.Paid;
             Paystatus.Text = "Paid";
             PayBorder.Visibility = Visibility.Collapsed;
+
+            LoadingLine.IsRunning = false;
+            LoadingLine.Visibility = Visibility.Collapsed;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

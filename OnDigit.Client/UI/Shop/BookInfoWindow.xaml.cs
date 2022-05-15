@@ -87,7 +87,7 @@ namespace OnDigit.Client.UI.Shop
 
         public void SetWarehouseStatus()
         {
-            if (_book.Package.Quantity > 500)
+            if (_book.Package.Quantity > 200)
             {
                 WarehouseStatus.Text = "Available";
                 WarehouseStatusIcon.Kind = PackIconKind.TruckFast;

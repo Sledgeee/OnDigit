@@ -28,7 +28,7 @@ namespace OnDigit.Infrastructure.Services
             using OnDigitDbContext context = _contextFactory.CreateDbContext();
 
             return Task.FromResult(context.Sales
-                .Where(x => x.DateSaled <= startDate && x.DateSaled >= endDate)
+                .Where(x => x.DateSaled >= startDate && x.DateSaled <= endDate)
                 .OrderByDescending(x => x.Quantity)
                 .Include(x => x.Book)
                 .Take(5)

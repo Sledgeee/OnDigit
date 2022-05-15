@@ -436,11 +436,16 @@ namespace OnDigit.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Books",
+                columns: new[] { "Id", "Description", "Discount", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
+                values: new object[] { "0ceb749d-8c2a-4322-b238-fd3a5fe0c61e", "Book description16", 68.394770304273843m, 5, "https://ondigit.pp.ua/images/16.jpg", true, "Book16", 9.99m });
+
+            migrationBuilder.InsertData(
+                table: "Books",
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "0a3338aa-c487-4e35-867f-be50d0025ec5", "Book description7", 9, "pack://application:,,,/Images/willbook.jpg", true, "Book7", 9.99m },
-                    { "0b250c8e-5c5c-4775-bbf3-ff9d376bca57", "Book description12", 3, "pack://application:,,,/Images/willbook.jpg", true, "Book12", 9.99m }
+                    { "0ff6cbd4-6fe8-44dc-bafe-2ad3c20d823b", "Book description10", 9, "https://ondigit.pp.ua/images/10.jpg", true, "Book10", 9.99m },
+                    { "25fee052-f07b-46c4-8efb-f5a815bd54fa", "Book description17", 10, "https://ondigit.pp.ua/images/17.jpg", true, "Book17", 9.99m }
                 });
 
             migrationBuilder.InsertData(
@@ -448,8 +453,24 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "Discount", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "15ec26bf-7f6a-4413-9cc8-9d6f95c32a68", "Book description3", 94.359879293462153m, 9, "pack://application:,,,/Images/willbook.jpg", true, "Book3", 9.99m },
-                    { "2ad5afc3-8902-40ac-aaee-4c0d1474ad4f", "Book description17", 35.0854781691850881m, 5, "pack://application:,,,/Images/willbook.jpg", true, "Book17", 9.99m }
+                    { "297ba92e-ffab-4f95-aa46-e50551e954cd", "Book description19", 13.887434502053357m, 12, "https://ondigit.pp.ua/images/19.jpg", true, "Book19", 9.99m },
+                    { "35a7800f-7235-4853-9818-63b56896647f", "Book description6", 84.43771224102149m, 12, "https://ondigit.pp.ua/images/6.jpg", true, "Book6", 9.99m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "Description", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
+                values: new object[] { "35d82638-cb15-45a6-a1cd-e17d29b80c78", "Book description14", 12, "https://ondigit.pp.ua/images/14.jpg", true, "Book14", 9.99m });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "Description", "Discount", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
+                values: new object[,]
+                {
+                    { "3adc92f4-7ade-4249-9bab-524a63671bf9", "Book description4", 20.73522034939494m, 1, "https://ondigit.pp.ua/images/4.jpg", true, "Book4", 9.99m },
+                    { "415f69e7-9574-4a00-8bc5-3161572d3791", "Book description2", 97.455822343313294m, 6, "https://ondigit.pp.ua/images/2.jpg", true, "Book2", 9.99m },
+                    { "4700dffa-1674-4f24-9dbc-f243e855f9f0", "Book description8", 27.390384280668718m, 10, "https://ondigit.pp.ua/images/8.jpg", true, "Book8", 9.99m },
+                    { "5d722c96-b6f4-4bf8-835a-4eefdf4c5a3b", "Book description12", 65.154772200787822m, 2, "https://ondigit.pp.ua/images/12.jpg", true, "Book12", 9.99m }
                 });
 
             migrationBuilder.InsertData(
@@ -457,8 +478,8 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "40502086-38c3-4b05-9d0c-521a41c0f457", "Book description20", 14, "pack://application:,,,/Images/willbook.jpg", true, "Book20", 9.99m },
-                    { "44c93cac-2919-475f-8a26-a0b3e0833b2d", "Book description6", 3, "pack://application:,,,/Images/willbook.jpg", true, "Book6", 9.99m }
+                    { "6e0c0aee-7f10-48d6-8e5f-36989df90eef", "Book description5", 4, "https://ondigit.pp.ua/images/5.jpg", true, "Book5", 9.99m },
+                    { "72274ab2-9040-487f-8b0d-cf3f57e506bd", "Book description1", 5, "https://ondigit.pp.ua/images/1.jpg", true, "Book1", 9.99m }
                 });
 
             migrationBuilder.InsertData(
@@ -466,9 +487,10 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "Discount", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "487d9911-f1cb-418a-9088-edf511048933", "Book description15", 98.487406619821419m, 12, "pack://application:,,,/Images/willbook.jpg", true, "Book15", 9.99m },
-                    { "50cc784e-5544-4618-ae35-3f5f201716dc", "Book description4", 98.354691511853679m, 7, "pack://application:,,,/Images/willbook.jpg", true, "Book4", 9.99m },
-                    { "5949da24-f013-4835-bb47-0e0d48f85acc", "Book description2", 7.785312959103844m, 3, "pack://application:,,,/Images/willbook.jpg", true, "Book2", 9.99m }
+                    { "754922c8-5650-4519-af56-551507d6f073", "Book description18", 54.362080224991553m, 12, "https://ondigit.pp.ua/images/18.jpg", true, "Book18", 9.99m },
+                    { "7c9857ea-0caa-4778-b4cb-cef4ddd37140", "Book description13", 51.311348782572056m, 4, "https://ondigit.pp.ua/images/13.jpg", true, "Book13", 9.99m },
+                    { "7ed19017-cdde-4ba7-81ed-377665d15a07", "Book description9", 93.762391270185747m, 3, "https://ondigit.pp.ua/images/9.jpg", true, "Book9", 9.99m },
+                    { "9aec4194-8f88-4f89-80bf-63828f825b80", "Book description20", 22.850157141686718m, 14, "https://ondigit.pp.ua/images/20.jpg", true, "Book20", 9.99m }
                 });
 
             migrationBuilder.InsertData(
@@ -476,32 +498,10 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
                 values: new object[,]
                 {
-                    { "5b8360fb-b5ed-4899-ae1c-540406a87ec5", "Book description13", 9, "pack://application:,,,/Images/willbook.jpg", true, "Book13", 9.99m },
-                    { "5b970871-ce12-4cb6-ad7d-2ab891578594", "Book description9", 15, "pack://application:,,,/Images/willbook.jpg", true, "Book9", 9.99m },
-                    { "61389d2f-0770-4e62-8f6c-df9d6bf702f0", "Book description18", 1, "pack://application:,,,/Images/willbook.jpg", true, "Book18", 9.99m },
-                    { "641df715-63da-4daf-9c47-cce2a72fc2cc", "Book description14", 4, "pack://application:,,,/Images/willbook.jpg", true, "Book14", 9.99m },
-                    { "65597569-7489-4524-b7ae-13410a433b97", "Book description16", 3, "pack://application:,,,/Images/willbook.jpg", true, "Book16", 9.99m },
-                    { "7cf148bf-b5ce-4d4d-84be-e66758979e6b", "Book description11", 11, "pack://application:,,,/Images/willbook.jpg", true, "Book11", 9.99m },
-                    { "8b4ca4b2-6574-47a2-96be-7bb79c8dda46", "Book description5", 1, "pack://application:,,,/Images/willbook.jpg", true, "Book5", 9.99m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Id", "Description", "Discount", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
-                values: new object[] { "aae40b9b-48d8-4434-b25e-9ab651dd1f78", "Book description1", 46.761175283618191m, 13, "pack://application:,,,/Images/willbook.jpg", true, "Book1", 9.99m });
-
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Id", "Description", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
-                values: new object[] { "c1f1cada-6f61-4ac1-8c54-7da7b6c59273", "Book description19", 11, "pack://application:,,,/Images/willbook.jpg", true, "Book19", 9.99m });
-
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Id", "Description", "Discount", "GenreId", "ImageUri", "IsAvailable", "Name", "Price" },
-                values: new object[,]
-                {
-                    { "f41123d4-6d80-44f3-b3ac-32fc45c5908c", "Book description10", 90.758486602783916m, 6, "pack://application:,,,/Images/willbook.jpg", true, "Book10", 9.99m },
-                    { "fab4d71d-f373-4bc9-ba72-2d76db654eda", "Book description8", 55.725542727780803m, 3, "pack://application:,,,/Images/willbook.jpg", true, "Book8", 9.99m }
+                    { "9b6e8ff3-733a-42d8-b3d9-1071f09b6a81", "Book description11", 6, "https://ondigit.pp.ua/images/11.jpg", true, "Book11", 9.99m },
+                    { "b4da3536-ccef-4c14-86d6-947e02ebec2f", "Book description7", 3, "https://ondigit.pp.ua/images/7.jpg", true, "Book7", 9.99m },
+                    { "d78d2892-4dbd-4d32-b1bd-a85e3a3593ac", "Book description3", 3, "https://ondigit.pp.ua/images/3.jpg", true, "Book3", 9.99m },
+                    { "ed4e80bd-81ef-45a6-9676-723f56835355", "Book description15", 1, "https://ondigit.pp.ua/images/15.jpg", true, "Book15", 9.99m }
                 });
 
             migrationBuilder.InsertData(
@@ -509,26 +509,26 @@ namespace OnDigit.Infrastructure.Migrations
                 columns: new[] { "Id", "BookId", "Quantity", "WarehouseId" },
                 values: new object[,]
                 {
-                    { "03f52ced-cb27-4aa6-9abc-e29b845c1670", "2ad5afc3-8902-40ac-aaee-4c0d1474ad4f", 318, 1 },
-                    { "11659f1d-251a-4da8-b8d7-d0e44569d3b5", "0a3338aa-c487-4e35-867f-be50d0025ec5", 198, 2 },
-                    { "217ff197-8bda-486e-b48d-d9ec777f56a8", "c1f1cada-6f61-4ac1-8c54-7da7b6c59273", 296, 2 },
-                    { "2d3d143f-ab2b-4eb7-a1a9-80fcb9211f56", "61389d2f-0770-4e62-8f6c-df9d6bf702f0", 245, 2 },
-                    { "2db20c9d-26cd-4043-acf1-311b0be71a4d", "fab4d71d-f373-4bc9-ba72-2d76db654eda", 163, 1 },
-                    { "3120a7dc-c4c7-4360-82de-a9f9fd4f011d", "5b970871-ce12-4cb6-ad7d-2ab891578594", 271, 2 },
-                    { "31389067-7bc5-4a47-ace0-785dbd440217", "40502086-38c3-4b05-9d0c-521a41c0f457", 346, 1 },
-                    { "4407e6cc-3325-4879-aae0-c7d41e15a493", "5949da24-f013-4835-bb47-0e0d48f85acc", 150, 2 },
-                    { "4e2884c3-f298-4403-8aac-f437fc1f8738", "44c93cac-2919-475f-8a26-a0b3e0833b2d", 498, 2 },
-                    { "5c9bc3e0-fe08-433b-bd2d-552d7e754692", "65597569-7489-4524-b7ae-13410a433b97", 132, 1 },
-                    { "8bb4cc9f-ca88-4851-b7a7-5a508e1279d2", "641df715-63da-4daf-9c47-cce2a72fc2cc", 356, 1 },
-                    { "ae534b40-61d2-4864-94b0-5ff57fe22352", "5b8360fb-b5ed-4899-ae1c-540406a87ec5", 87, 2 },
-                    { "b40277f3-4fce-4639-b961-52dea978fd6d", "487d9911-f1cb-418a-9088-edf511048933", 251, 2 },
-                    { "b5dca308-b39c-4a0e-a399-3e4a7c552fa3", "7cf148bf-b5ce-4d4d-84be-e66758979e6b", 497, 2 },
-                    { "caa7f19c-ce84-4e2f-bfd2-901c37c251ce", "0b250c8e-5c5c-4775-bbf3-ff9d376bca57", 207, 1 },
-                    { "cb7c0527-c506-421c-b080-4c84df55199f", "aae40b9b-48d8-4434-b25e-9ab651dd1f78", 273, 2 },
-                    { "dcc391d3-22f1-4fef-9b1d-e2fe6e077d59", "f41123d4-6d80-44f3-b3ac-32fc45c5908c", 191, 1 },
-                    { "e1154206-eab2-48d7-8d85-e548486d3d29", "50cc784e-5544-4618-ae35-3f5f201716dc", 112, 1 },
-                    { "f8991fb3-a5bb-467a-852c-13c13e3a06df", "15ec26bf-7f6a-4413-9cc8-9d6f95c32a68", 286, 2 },
-                    { "ffe2c158-c2ed-4914-bba6-12bbda2599ae", "8b4ca4b2-6574-47a2-96be-7bb79c8dda46", 70, 1 }
+                    { "026c2772-df24-4c0d-a90a-7efcdb9a4ad3", "72274ab2-9040-487f-8b0d-cf3f57e506bd", 84, 1 },
+                    { "0e007779-bf77-4215-844a-78d4755e8f85", "7c9857ea-0caa-4778-b4cb-cef4ddd37140", 66, 2 },
+                    { "1322f2f3-a89b-4d93-ad86-01ca33a4e0f2", "ed4e80bd-81ef-45a6-9676-723f56835355", 377, 1 },
+                    { "24dfd26d-c952-4635-b22c-ab63592f6375", "4700dffa-1674-4f24-9dbc-f243e855f9f0", 292, 2 },
+                    { "2909d12d-fab3-4777-9fc7-73122041c624", "7ed19017-cdde-4ba7-81ed-377665d15a07", 499, 1 },
+                    { "2fb272f0-c927-41ca-8e4d-45bd6da2bd1f", "d78d2892-4dbd-4d32-b1bd-a85e3a3593ac", 68, 2 },
+                    { "3181d7ad-0f55-4d97-9056-82b034498f66", "754922c8-5650-4519-af56-551507d6f073", 150, 1 },
+                    { "329697d6-2945-409b-b3f5-e15d07d9755e", "9aec4194-8f88-4f89-80bf-63828f825b80", 36, 2 },
+                    { "47ad52a4-5052-43d3-9df8-dbee7002bcb0", "0ceb749d-8c2a-4322-b238-fd3a5fe0c61e", 322, 1 },
+                    { "80ac8266-6358-4a7b-9a6a-29e4b7d881b8", "5d722c96-b6f4-4bf8-835a-4eefdf4c5a3b", 462, 2 },
+                    { "831f62c3-164a-42ed-977e-57c743a8eca2", "297ba92e-ffab-4f95-aa46-e50551e954cd", 96, 2 },
+                    { "8903dcd8-6c92-40cb-a0cc-b10f7524e50e", "6e0c0aee-7f10-48d6-8e5f-36989df90eef", 328, 1 },
+                    { "a776eb13-9b20-48ba-934c-25c27ad0171c", "9b6e8ff3-733a-42d8-b3d9-1071f09b6a81", 211, 2 },
+                    { "aa82ba88-b2e8-4352-8ba2-1b9b5daa414a", "25fee052-f07b-46c4-8efb-f5a815bd54fa", 378, 2 },
+                    { "cbb6d249-f7f6-46d9-afb0-a20551b35526", "415f69e7-9574-4a00-8bc5-3161572d3791", 56, 2 },
+                    { "d18275a8-3f9f-4018-b7f9-2c5cd4f36b1b", "0ff6cbd4-6fe8-44dc-bafe-2ad3c20d823b", 262, 2 },
+                    { "dda6a3c9-14ac-493d-9656-01eccf1501ac", "b4da3536-ccef-4c14-86d6-947e02ebec2f", 380, 2 },
+                    { "f3e7bafb-88df-40a4-8fdd-684a660e5c93", "35a7800f-7235-4853-9818-63b56896647f", 4, 1 },
+                    { "fae55273-f0d1-4bc9-8717-733c84eddd5c", "3adc92f4-7ade-4249-9bab-524a63671bf9", 296, 2 },
+                    { "fd7c78d1-006a-49b4-8eb4-bf26b42e3562", "35d82638-cb15-45a6-a1cd-e17d29b80c78", 34, 2 }
                 });
 
             migrationBuilder.CreateIndex(

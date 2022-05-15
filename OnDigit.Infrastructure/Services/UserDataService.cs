@@ -89,12 +89,6 @@ namespace OnDigit.Infrastructure.Services
         public async Task<ICollection<User>> GetListBySpecAsync(ISpecification<User> specification) =>
             await ApplySpecification(specification).ToListAsync();
 
-        public async Task<ICollection<UserFavorite>> GetFavoriteBooksAsync(string userId)
-        {
-            using OnDigitDbContext context = _contextFactory.CreateDbContext();
-            return await context.UserFavorites.Where(x => x.UserId == userId).ToListAsync();
-        }
-
         public async Task<bool> AddNewCard(Wallet wallet)
         {
             using OnDigitDbContext context = _contextFactory.CreateDbContext();

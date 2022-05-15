@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 #nullable disable
 
@@ -16,12 +17,14 @@ namespace OnDigit.Client.UI.Shop.Controls
     {
         private readonly Book _book;
         private readonly MainWindow _mainWindow;
+        private readonly int _maxQuantity;
 
         public CartBookCard(MainWindow mainWindow, Book book, int quantity)
         {
             InitializeComponent();
             this.DataContext = this;
             _mainWindow = mainWindow;
+            _maxQuantity = book.Package.Quantity;
             _book = book;
             BookName = book.Name;
             Price = "$" + book.Price;
@@ -87,7 +90,7 @@ namespace OnDigit.Client.UI.Shop.Controls
         {
             var val = int.Parse(BookQuantity.Text);
 
-            if (val == 9999)
+            if (val == _maxQuantity)
                 return;
 
             _mainWindow.UserCart.TotalAmount -= _book.Price * val;
@@ -113,6 +116,38 @@ namespace OnDigit.Client.UI.Shop.Controls
             _mainWindow.UserCart.TotalAmount += _book.Price * val;
             _mainWindow.CartTotalPrice.Text = "$" + _mainWindow.UserCart.TotalAmount;
             _mainWindow.CartBooksCount.Text = _mainWindow.UserCart.Books.Sum(x => x.Value).ToString();
+        }
+
+        private void BookQuantity_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void BookQuantity_GotFocus(object sender, RoutedEventArgs e)
+        {
+            BookQuantity.CaretIndex = BookQuantity.Text.Length;
+        }
+
+        private void BookQuantity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (BookQuantity.Text.StartsWith('0') || BookQuantity.Text.Length == 0)
+            {
+                BookQuantity.Text = "1";
+                BookQuantity.CaretIndex = BookQuantity.Text.Length;
+            }
+
+            else if (int.Parse(BookQuantity.Text) > _maxQuantity)
+            {
+                BookQuantity.Text = _maxQuantity.ToString();
+                BookQuantity.CaretIndex = BookQuantity.Text.Length;
+            }
+
+            else if (int.Parse(BookQuantity.Text) < 1)
+            {
+                BookQuantity.Text = "1";
+                BookQuantity.CaretIndex = BookQuantity.Text.Length;
+            }
         }
     }
 }

@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <None Remove="Images\logo.png" />
-    <None Remove="Images\willbook.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,9 +31,6 @@
 
   <ItemGroup>
     <Resource Include="Images\logo.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\willbook.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
