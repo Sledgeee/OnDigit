@@ -338,6 +338,7 @@ namespace OnDigit.Client.UI.Shop.Controls
             OrderStatusBorder.Background = Brushes.Green;
             OrderStatusBorder.BorderBrush = Brushes.Green;
             _mainWindow.CurrentUser.Orders.First(x => x.Number == OrderNumber).PayStatus = PayStatus.Paid;
+            PStatus = "Paid";
             Paystatus.Text = "Paid";
             PayBorder.Visibility = Visibility.Collapsed;
 
