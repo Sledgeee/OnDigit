@@ -5,8 +5,10 @@
 <img src="https://user-images.githubusercontent.com/76629564/168480002-5ce67cf2-6c4c-4cca-a12c-954fa1e65e75.png">
 <h3>Sign up</h3>
 <img src="https://user-images.githubusercontent.com/76629564/168480026-580f863d-bf4f-47e2-90a3-dd2c98835936.png">
-<h3>Shop</h2>
+<h3>Shop</h3>
 <img src="https://user-images.githubusercontent.com/76629564/168478566-dca26d63-cc18-4323-afde-15a36cbac2da.png">
+<h4>On book click</h4>
+<img src="https://user-images.githubusercontent.com/76629564/169844542-07082bab-c24a-442d-a40d-6a66473424f5.png">
 <h3>User orders</h3>
 <img src="https://user-images.githubusercontent.com/76629564/168478636-ffdae677-03e8-4e87-8eb8-36c00cbfd3d9.png">
 <h3>User favorites</h3>
